@@ -1,0 +1,21 @@
+{
+  "name": "float-menu",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "^3.0.0-rc.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "@vue/compiler-sfc": "^3.0.0-rc.1",
+    "eslint": "^7.6.0",
+    "eslint-plugin-vue": "^7.0.0-beta.2",
+    "sass": "^1.26.10",
+    "typescript": "^3.9.7",
+    "vite": "^1.0.0-rc.1"
+  }
+}
