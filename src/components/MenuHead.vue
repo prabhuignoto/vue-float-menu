@@ -3,17 +3,38 @@
     class="menu-head-wrapper"
     :draggable="!fixed"
     :style="style || getInitStyle"
-    @mouseup="toggleMenu"
     @dragstart="handleDragStart"
     @dragend="handleDragEnd"
   >
-    <div class="menu-head" ref="menuHead" @mousedown="handleMouseDown" :class="{menuActive}">
+    <div
+      ref="menuHead"
+      class="menu-head"
+      :class="{menuActive}"
+      @mouseup="toggleMenu($event)"
+      @mousedown="handleMouseDown"
+    >
       <span class="icon">
-        <slot></slot>
+        <slot />
       </span>
-      <div class="menu-container" :class="{menuActive}" :style="menuStyle" ref="menuContainer">
-        <Menu />
-      </div>
+    </div>
+    <div
+      ref="menuContainer"
+      class="menu-container"
+      :class="{menuActive}"
+      :style="menuStyle"
+    >
+      <span
+        class="close-btn"
+        @click="handleMenuClose"
+      >
+        <XIcon />
+      </span>
+      <Menu
+        v-if="menuActive"
+        :data="menu"
+        :flip="flipMenu"
+        :on-selection="handleMenuItemSelection"
+      />
     </div>
   </div>
 </template>
@@ -28,6 +49,8 @@ import {
   computed,
 } from "vue";
 import Menu from "./Menu.vue";
+import { Menu as MenuModel, MenuItem } from "./Menu.vue";
+import XIcon from "./XIcon.vue";
 
 const MENU_SPACE = 10;
 
@@ -42,6 +65,7 @@ export default defineComponent({
   name: "MenuHead",
   components: {
     Menu,
+    XIcon,
   },
   props: {
     dimensions: {
@@ -63,16 +87,46 @@ export default defineComponent({
       type: String,
       default: "top",
     },
+    menuDimensions: {
+      type: Object as PropType<{ height: number; width: number }>,
+      default: {
+        height: 350,
+        width: 300,
+      },
+    },
+    menu: {
+      type: Object as PropType<MenuModel>,
+      default: {
+        items: [],
+      },
+    },
   },
   setup(props) {
+    // position of the circular menu head
     const position = ref<{ left: number; top: number }>(null);
+
+    // captures the actual mouse click inside the menu head. this is used to accurately position the menu head
     const relativePostion = ref<{ x: number; y: number }>({ x: 0, y: 0 });
+
+    // reference to the circular menu head
     const menuHead = ref(null);
+
+    // enables/disables menu
     const menuActive = ref(false);
+
+    // reference to the menu container
     const menuContainer = ref(null);
+
+    // generates style for the menu
     const menuStyle = ref(null);
+
+    // local reference of the menu direction
     const localMenuDirection = ref(props.menuDirection);
 
+    // flip menu content
+    const flipMenu = ref(false);
+
+    // sets the initial style
     const getInitStyle = computed(() => {
       let left = 0,
         top = 0;
@@ -102,6 +156,7 @@ export default defineComponent({
       };
     });
 
+    // compute the style
     const style = computed(() => {
       if (position.value) {
         const pos = unref(position);
@@ -114,9 +169,12 @@ export default defineComponent({
       }
     });
 
+    // manages the orientation of the menu (top or bottom)
+    // when enough space is not available on either top or bottom, the menu is automatically flipped
     const setupMenuOrientation = () => {
       const menuContDOM = menuContainer.value as HTMLElement;
       const menuHeadDOM = menuHead.value as HTMLElement;
+
       const { top, bottom } = menuHeadDOM.getBoundingClientRect();
       const {
         dimensions: { width, height },
@@ -125,6 +183,7 @@ export default defineComponent({
       const dir = unref(localMenuDirection);
       const menuHeight = menuContDOM.clientHeight;
 
+      // flip to bottom if there is not enough space on top
       if (dir === "top" && menuHeight > top) {
         menuStyle.value = {
           top: `${height + MENU_SPACE}px`,
@@ -136,6 +195,7 @@ export default defineComponent({
           bottom: `${height + MENU_SPACE}px`,
           left: `-${left}px`,
         };
+        // flip menu to top if there is no enough space at bottom
       } else if (dir === "bottom" && window.innerHeight - bottom < menuHeight) {
         menuStyle.value = {
           bottom: `${height + MENU_SPACE}px`,
@@ -150,15 +210,71 @@ export default defineComponent({
       }
     };
 
+    // this function repositions the menu head whenever it goes out of screen edges.
+    const adjustMenuHeadPosition = (element: HTMLElement) => {
+      const { top, bottom, left, right } = element.getBoundingClientRect();
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const positionValue = unref(position);
+      const menuContWidth = (menuContainer.value as HTMLElement).clientWidth;
+      const menuContHalfWidth = Math.ceil(menuContWidth / 2);
+
+      if (!positionValue) {
+        return;
+      }
+
+      flipMenu.value = false;
+
+      // resposition if the menuhead goes below the bottom of the viewport
+      if (bottom > screenHeight) {
+        position.value = {
+          left: positionValue.left,
+          top: positionValue.top - (bottom - screenHeight),
+        };
+      }
+
+      // resposition if the menuhead goes above the bottom of the viewport
+      if (top < 0) {
+        position.value = {
+          left: positionValue.left,
+          top: positionValue.top + Math.abs(top),
+        };
+      }
+
+      // resposition if the menuhead goes beyond the leftside of the viewport
+      if (left < 0 || left < menuContHalfWidth) {
+        position.value = {
+          left: menuContHalfWidth,
+          top: positionValue.top,
+        };
+      }
+
+      // resposition if the menuhead goes beyond the rightside of the viewport
+      if (right > screenWidth || screenWidth - right < menuContWidth) {
+        position.value = {
+          left: screenWidth - menuContWidth,
+          top: positionValue.top,
+        };
+        flipMenu.value = true;
+      }
+    };
+
     onMounted(() => {
+      // update the menuhead position on drag
       document.addEventListener("dragover", (event: DragEvent) => {
         const { pageX, pageY } = event;
         const relPosition = unref(relativePostion);
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        // update the menuhead position
         position.value = {
           left: pageX - relPosition.x,
           top: pageY - relPosition.y,
         };
       });
+
+      // adjust menu orientation on load
       setupMenuOrientation();
     });
 
@@ -176,8 +292,17 @@ export default defineComponent({
     };
 
     // toggles the menu
-    const toggleMenu = () => {
+    const toggleMenu = (event: MouseEvent) => {
+      const classes = Array.from((event.target as HTMLElement).classList);
+      if (classes.some((cls) => cls === "menu-list-item")) {
+        return;
+      }
+
       menuActive.value = !menuActive.value;
+    };
+
+    const handleMenuClose = () => {
+      menuActive.value = false;
     };
 
     // close the menu while dragging
@@ -185,8 +310,14 @@ export default defineComponent({
       menuActive.value = false;
     };
 
+    // re-adjust menuhead and the menu on drag end
     const handleDragEnd = (event: DragEvent) => {
       setupMenuOrientation();
+      adjustMenuHeadPosition(event.target as HTMLElement);
+    };
+
+    const handleMenuItemSelection = (id: string, name: string) => {
+      menuActive.value = false;
     };
 
     return {
@@ -201,6 +332,9 @@ export default defineComponent({
       style,
       toggleMenu,
       localMenuDirection,
+      handleMenuClose,
+      flipMenu,
+      handleMenuItemSelection
     };
   },
 });
@@ -243,15 +377,35 @@ export default defineComponent({
 
 .menu-container {
   border-radius: 0.45rem;
-  box-shadow: 2px 2px 12px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
   max-height: 600px;
   min-height: 350px;
   position: absolute;
   visibility: hidden;
   width: 250px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   &.menuActive {
     visibility: visible;
+    animation: show 0.1s ease-in;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: -2rem;
+  right: 0;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 </style>

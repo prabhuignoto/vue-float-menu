@@ -1,25 +1,58 @@
 <template>
-  <MenuHead :position="'bottom left'" :dimensions="{width: 50, height: 50}" menu-direction="bottom">
-    <HeartIcon />
+  <MenuHead
+    :position="'top left'"
+    :dimensions="{width: 50, height: 50}"
+    :menu="menu"
+    menu-direction="bottom"
+  >
+    <BoxIcon />
   </MenuHead>
 </template>
 
 <script lang="ts">
 import MenuHead from "./MenuHead.vue";
-import HeartIcon from "./HeartIcon.vue";
+import { Menu, MenuItem } from "./Menu.vue";
+
+import BoxIcon from "./BoxIcon.vue";
 
 export default {
   name: "HelloWorld",
   components: {
     MenuHead,
-    HeartIcon,
-  },
-  props: {
-    msg: String,
+    BoxIcon,
   },
   data() {
     return {
       count: 0,
+      menu: {
+        items: [
+          { name: "first" },
+          {
+            name: "second",
+            subMenu: {
+              name: "popo",
+              items: [{ name: "sdsd" }, { name: "ssdsd" }],
+            },
+          },
+          {
+            name: "third",
+            subMenu: {
+              name: "popo",
+              items: [
+                { name: "sdsd" },
+                { name: "ssdsd" },
+                {
+                  name: "multi",
+                  subMenu: {
+                    name: "popo",
+                    items: [{ name: "sdsd" }, { name: "ssdsd" }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      } as Menu,
     };
   },
 };
