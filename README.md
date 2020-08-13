@@ -30,7 +30,7 @@ float-menu has some great defaults to get you started quickly. Please check the 
 ```sh
   <MenuHead
     :position="'top left'"
-    :dimension="{width: 50, height: 50}"
+    :dimension="50"
     :menu="menu"
     menu-direction="bottom"
   >

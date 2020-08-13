@@ -12,72 +12,6 @@ $shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
   width: 100%;
 }
 
-.menu-list {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-
-  .menu-list-item {
-    align-items: center;
-    color: $black;
-    cursor: pointer;
-    display: flex;
-    font-size: 0.9rem;
-    height: 2.5rem;
-    justify-content: flex-start;
-    position: relative;
-    width: 100%;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid $light-gray;
-    }
-
-    &:first-child {
-      border-top-left-radius: 0.25rem;
-      border-top-right-radius: 0.25rem;
-    }
-
-    &.selected {
-      background: $blue;
-      color: $white;
-    }
-
-    &:hover:not(.selected) {
-      background: $light-gray;
-      color: $black;
-    }
-
-    &.flip {
-      .name {
-        margin-left: auto;
-        order: 2;
-        padding-left: 0;
-        padding-right: 0.5rem;
-      }
-
-      .chev-icon {
-        margin-left: 0;
-        order: 1;
-        transform: rotate(-180deg);
-      }
-
-      .sub-menu-wrapper {
-        left: auto;
-        right: 102%;
-      }
-    }
-  }
-
-  .name {
-    padding-left: .5rem;
-  }
-}
-
 .sub-menu-wrapper {
   animation: show 0.2s ease-in;
   background: $white;
@@ -91,6 +25,72 @@ $shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
 
 .chev-icon {
   margin-left: auto;
+}
+
+.menu-list {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  .name {
+    padding-left: 0.5rem;
+  }
+}
+
+.menu-list-item {
+  align-items: center;
+  color: $black;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.9rem;
+  height: 2.5rem;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $light-gray;
+  }
+
+  &:first-child {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
+
+  &.selected {
+    background: $blue;
+    color: $white;
+  }
+
+  &:hover:not(.selected) {
+    background: $light-gray;
+    color: $black;
+  }
+
+  &.flip {
+    .name {
+      margin-left: auto;
+      order: 2;
+      padding-left: 0;
+      padding-right: 0.5rem;
+    }
+
+    .chev-icon {
+      margin-left: 0;
+      order: 1;
+      transform: rotate(-180deg);
+    }
+
+    .sub-menu-wrapper {
+      left: auto;
+      right: 102%;
+    }
+  }
 }
 
 @keyframes show {
