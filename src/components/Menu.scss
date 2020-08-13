@@ -2,7 +2,7 @@ $black: #000;
 $blue: #0080ff;
 $white: #fff;
 $light-gray: #e5e5e5;
-$shadow: rgba(0, 0, 0, .2) 2px 2px 10px 2px;
+$shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
 
 .menu-wrapper {
   align-items: flex-start;
@@ -27,7 +27,7 @@ $shadow: rgba(0, 0, 0, .2) 2px 2px 10px 2px;
     color: $black;
     cursor: pointer;
     display: flex;
-    font-size: .9rem;
+    font-size: 0.9rem;
     height: 2.5rem;
     justify-content: flex-start;
     position: relative;
@@ -38,8 +38,8 @@ $shadow: rgba(0, 0, 0, .2) 2px 2px 10px 2px;
     }
 
     &:first-child {
-      border-top-left-radius: .25rem;
-      border-top-right-radius: .25rem;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
     }
 
     &.selected {
@@ -57,7 +57,7 @@ $shadow: rgba(0, 0, 0, .2) 2px 2px 10px 2px;
         margin-left: auto;
         order: 2;
         padding-left: 0;
-        padding-right: .5rem;
+        padding-right: 0.5rem;
       }
 
       .chev-icon {
@@ -79,9 +79,9 @@ $shadow: rgba(0, 0, 0, .2) 2px 2px 10px 2px;
 }
 
 .sub-menu-wrapper {
-  animation: show .2s ease-in;
+  animation: show 0.2s ease-in;
   background: $white;
-  border-radius: .45rem;
+  border-radius: 0.45rem;
   box-shadow: $shadow;
   left: 102%;
   min-width: 150px;
