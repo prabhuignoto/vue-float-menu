@@ -26,28 +26,39 @@ export default {
       count: 0,
       menu: {
         items: [
-          { name: "first" },
+          { name: "New" },
           {
-            name: "second",
+            name: "Edit",
             subMenu: {
-              name: "popo",
-              items: [{ name: "sdsd" }, { name: "ssdsd" }],
+              name: "edit-items",
+              items: [{ name: "Copy" }, { name: "Paste" }],
             },
           },
           {
-            name: "third",
+            name: "Open Recent",
             subMenu: {
-              name: "popo",
+              name: "recent-items",
+              items: [{ name: "Document 1" }, { name: "Document 2" }],
+            },
+          },
+          {
+            name: "Settings",
+            subMenu: {
+              name: "settings",
               items: [
-                { name: "sdsd" },
-                { name: "ssdsd" },
                 {
-                  name: "multi",
+                  name: "Themes",
                   subMenu: {
-                    name: "popo",
-                    items: [{ name: "sdsd" }, { name: "ssdsd" }],
+                    name: "sub-themes",
+                    items: [
+                      { name: "Dark" },
+                      { name: "Light" },
+                      { name: "Blue" },
+                      { name: "Green" },
+                    ],
                   },
                 },
+                { name: "Keymaps" },
               ],
             },
           },

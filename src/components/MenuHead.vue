@@ -4,14 +4,15 @@
     :draggable="!fixed"
     :style="style || getInitStyle"
     @dragstart="handleDragStart"
-    @dragend="handleDragEnd"
   >
     <div
       ref="menuHead"
+      tabindex="0"
       class="menu-head"
       :class="{menuActive}"
       @mouseup="toggleMenu($event)"
       @mousedown="handleMouseDown"
+      @blur="handleBlur($event)"
     >
       <span class="icon">
         <slot />
@@ -22,6 +23,7 @@
       class="menu-container"
       :class="{menuActive}"
       :style="menuStyle"
+      @mousedown="handleMenuClick($event)"
     >
       <span
         class="close-btn"
@@ -47,6 +49,7 @@ import {
   unref,
   PropType,
   computed,
+  nextTick,
 } from "vue";
 import Menu from "./Menu.vue";
 import { Menu as MenuModel, MenuItem } from "./Menu.vue";
@@ -90,8 +93,8 @@ export default defineComponent({
     menuDimensions: {
       type: Object as PropType<{ height: number; width: number }>,
       default: {
-        height: 350,
-        width: 300,
+        height: 250,
+        width: 250,
       },
     },
     menu: {
@@ -99,6 +102,10 @@ export default defineComponent({
       default: {
         items: [],
       },
+    },
+    useCustomContent: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props) {
@@ -132,15 +139,15 @@ export default defineComponent({
         top = 0;
       switch (props.position) {
         case "top left":
-          left = 0;
-          top = 0;
+          left = 20;
+          top = 20;
           break;
         case "top right":
           left = window.innerWidth - props.dimensions.width;
-          top = 0;
+          top = 20;
           break;
         case "bottom left":
-          left = 0;
+          left = 20;
           top = window.innerHeight - props.dimensions.height;
           break;
         case "bottom right":
@@ -183,38 +190,44 @@ export default defineComponent({
       const dir = unref(localMenuDirection);
       const menuHeight = menuContDOM.clientHeight;
 
+      let newMenuStyle = null;
+
       // flip to bottom if there is not enough space on top
       if (dir === "top" && menuHeight > top) {
-        menuStyle.value = {
+        newMenuStyle = {
           top: `${height + MENU_SPACE}px`,
           left: `-${left}px`,
         };
         localMenuDirection.value = "top";
       } else if (dir === "top") {
-        menuStyle.value = {
+        newMenuStyle = {
           bottom: `${height + MENU_SPACE}px`,
           left: `-${left}px`,
         };
         // flip menu to top if there is no enough space at bottom
       } else if (dir === "bottom" && window.innerHeight - bottom < menuHeight) {
-        menuStyle.value = {
+        newMenuStyle = {
           bottom: `${height + MENU_SPACE}px`,
           left: `-${left}px`,
         };
         localMenuDirection.value = "bottom";
       } else if (dir === "bottom") {
-        menuStyle.value = {
+        newMenuStyle = {
           top: `${height + MENU_SPACE}px`,
           left: `-${left}px`,
         };
       }
+
+      menuStyle.value = Object.assign({}, newMenuStyle, {
+        "min-height": `${props.menuDimensions.height}px`,
+        width: `${props.menuDimensions.width}px`,
+      });
     };
 
     // this function repositions the menu head whenever it goes out of screen edges.
     const adjustMenuHeadPosition = (element: HTMLElement) => {
       const { top, bottom, left, right } = element.getBoundingClientRect();
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
+      const { innerWidth: screenWidth, innerHeight: screenHeight } = window;
       const positionValue = unref(position);
       const menuContWidth = (menuContainer.value as HTMLElement).clientWidth;
       const menuContHalfWidth = Math.ceil(menuContWidth / 2);
@@ -276,6 +289,9 @@ export default defineComponent({
 
       // adjust menu orientation on load
       setupMenuOrientation();
+      adjustMenuHeadPosition(menuHead.value as HTMLElement);
+
+      nextTick(() => (menuHead.value as HTMLElement).focus());
     });
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -298,7 +314,14 @@ export default defineComponent({
         return;
       }
 
-      menuActive.value = !menuActive.value;
+      if (!menuActive.value) {
+        setupMenuOrientation();
+        adjustMenuHeadPosition(menuHead.value as HTMLElement);
+      }
+
+      nextTick(() => {
+        menuActive.value = !menuActive.value;
+      });
     };
 
     const handleMenuClose = () => {
@@ -310,102 +333,39 @@ export default defineComponent({
       menuActive.value = false;
     };
 
-    // re-adjust menuhead and the menu on drag end
-    const handleDragEnd = (event: DragEvent) => {
-      setupMenuOrientation();
-      adjustMenuHeadPosition(event.target as HTMLElement);
-    };
-
     const handleMenuItemSelection = (id: string, name: string) => {
       menuActive.value = false;
     };
 
+    const handleBlur = (event: MouseEvent) => {
+      menuActive.value = false;
+    };
+
+    const handleMenuClick = (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
     return {
+      flipMenu,
       getInitStyle,
-      handleDragEnd,
+      handleBlur,
       handleDragStart,
+      handleMenuClick,
+      handleMenuClose,
+      handleMenuItemSelection,
       handleMouseDown,
+      localMenuDirection,
       menuActive,
       menuContainer,
       menuHead,
       menuStyle,
       style,
       toggleMenu,
-      localMenuDirection,
-      handleMenuClose,
-      flipMenu,
-      handleMenuItemSelection
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
-.menu-head-wrapper {
-  position: fixed;
-}
-
-.menu-head {
-  align-items: center;
-  background: #0080ff;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-
-  &.menuActive {
-    box-shadow: inset 0px 0px 12px 4px rgba(0, 0, 0, 0.25);
-  }
-}
-
-.icon {
-  align-items: center;
-  color: #fff;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  width: 100%;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.menu-container {
-  border-radius: 0.45rem;
-  box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
-  max-height: 600px;
-  min-height: 350px;
-  position: absolute;
-  visibility: hidden;
-  width: 250px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  &.menuActive {
-    visibility: visible;
-    animation: show 0.1s ease-in;
-  }
-}
-
-.close-btn {
-  position: absolute;
-  top: -2rem;
-  right: 0;
-}
-
-@keyframes show {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
+<style lang="scss" scoped src="./MenuHead.scss">
 </style>
