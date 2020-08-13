@@ -9,8 +9,8 @@ Customizable Floating Menu for Vue 3
 
 ## Features
 
-- **Draggable Menu Handle** - Drag and easily place the Menu anywhere on the screen.
-- **Smart Menu** - Auto detects the top & bottom edges of the screen and flips the menu.
+- **Draggable Menu Handle** - Drag and easily place the Menu anywhere on screen.
+- **Smart Menu** - Detects the top & bottom edges of the screen and flips the menu automatically.
 - **Smart Placement** - The Menu head automatically adjusts itself and always stays inside the viewport.
 - **Nested Menus** - Support for Nested menus up to any levels. It is always advisable to keep the nesting to a Minimum to have a good UX.
 - **Composition API** - Built using the latest Composition API from Vue 3.
@@ -45,12 +45,12 @@ float-menu has some great defaults to get you started quickly. Please check the 
 
 | Prop              | Type     | Description                                                                                                                      |
 |-------------------|----------|----------------------------------------------------------------------------------------------------------------------------------|
-| dimension         | number   | dimension of the Menu Head.                                                                                                       |
+| dimension         | number   | dimension of the Menu Head.                                                                                                      |
 | position          | String   | Initial position of the Menu Head. can be any one of the following values "top left", "top right", "bottom left", "bottom right" |
-| fixed             | Boolean  | Disables dragging on the Menu Head.                                                                                               |
+| fixed             | Boolean  | Disables dragging on the Menu Head.                                                                                              |
 | menu-orientation  | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    |
 | menu-dimension    | Object   | prop to set the width and minimum height of the Menu.                                                                            |
-| menuData          | Object   | Array data to generate the nested menu.                                                                                           |
+| menu-data         | Object   | Array data to generate the nested menu.                                                                                          |
 | on-selected       | Function | Hook to call on selection.
 
 ### dimension
@@ -73,17 +73,17 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
 - `bottom right`
 
 ```sh
-  <MenuHead :dimension=50 :position="50">
+  <MenuHead :dimension=50 :position="'bottom right'">
     <BoxIcon />
   </MenuHead>
 ```
 
 ### fixed
 
-To disable dragging and make the Menu Head statically positioned set `fixed` to `true`. This prop is disabled by default.
+To disable dragging and make the Menu Head static, set `fixed` to `true`. This prop is disabled by default.
 
 ```sh
-  <MenuHead :dimension=50 :position="50" :fixed="true">
+  <MenuHead :dimension=50 :position="'bottom right'" :fixed="true">
     <BoxIcon />
   </MenuHead>
 ```
@@ -93,7 +93,7 @@ To disable dragging and make the Menu Head statically positioned set `fixed` to 
 sets the default menu orientation. can be set to either `top` or `bottom`.
 
 ```sh
-  <MenuHead :dimension=50 :position="50" :fixed="true" menu-orientation="bottom">
+  <MenuHead :dimension=50 :position="'bottom right'" menu-orientation="bottom">
     <BoxIcon />
   </MenuHead>
 ```
@@ -105,17 +105,16 @@ prop to set the `height` and `width` of the menu.
 ```sh
   <MenuHead
     :dimension=50
-    :position="50"
-    :fixed="true"
+    :position="'bottom right'"
     menu-orientation="bottom"
-    :menu-dimension="{height: 400, width: 300}"
+    :menu-dimension="{height: 400, width: 300}">
     <BoxIcon />
   </MenuHead>
 ```
 
 ### menu-data
 
-This prop is used to populate the nested menu structure. prop accepts an `Array` of type `MenuItem`
+This prop is used to create the nested menu structure. prop accepts an `Array` of type `MenuItem`
 
 `MenuItem type`
 
@@ -152,29 +151,47 @@ type Menu = {
 ```sh
   <MenuHead
     :dimension=50
-    :position="50"
-    :fixed="true"
+    :position="'bottom right'"
     :menu-dimension="{height: 400, width: 300}"
-    :menu-data="{items: [{name: 'File'}, {name: 'Open'}]}"
-    menu-orientation="bottom"
+    :menu-data="{ items: [{ name: 'File' }, { name: 'Open' }, { name: 'Themes', subMenu: { items: [{  name: 'Dark' }]}}]}"
+    menu-orientation="bottom">
     <BoxIcon />
   </MenuHead>
 ```
 
 ### on-select
 
-hook for `onSelection` event.
+hook for the menu item selection event.
 
 ```sh
   <MenuHead
     :dimension=50
-    :position="50"
-    :fixed="true"
+    :position="'bottom right'"
     :menu-dimension="{height: 400, width: 300}"
     :menu-data="{items: [{name: 'File'}, {name: 'Open'}]}"
     on-select="handleSelection"
-    menu-orientation="bottom"
+    menu-orientation="bottom">
     <BoxIcon />
+  </MenuHead>
+```
+
+### custom icon
+
+To customize the icon, simply pass any icon in between the `MenuHead` tags. The component internally uses a slot to insert the icon.
+
+```sh
+  <MenuHead
+    :dimension=50
+    menu-orientation="bottom">
+    <BoxIcon />
+  </MenuHead>
+```
+
+```sh
+  <MenuHead
+    :dimension=50
+    menu-orientation="bottom">
+    <HeartIcon />
   </MenuHead>
 ```
 
