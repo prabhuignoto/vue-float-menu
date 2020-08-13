@@ -4,12 +4,13 @@
     :draggable="!fixed"
     :style="style || getInitStyle"
     @dragstart="handleDragStart"
+    @dragend="handleDragEnd"
   >
     <div
       ref="menuHead"
       tabindex="0"
       class="menu-head"
-      :class="{menuActive}"
+      :class="{menuActive, dragActive}"
       @mouseup="toggleMenu($event)"
       @mousedown="handleMouseDown"
       @blur="handleBlur($event)"
@@ -133,6 +134,9 @@ export default defineComponent({
 
     // flip menu content
     const flipMenu = ref(false);
+
+    // drag active
+    const dragActive = ref(false);
 
     // sets the initial style
     const getInitStyle = computed(() => {
@@ -277,11 +281,14 @@ export default defineComponent({
         const { pageX, pageY } = event;
         const relPosition = unref(relativePostion);
 
-        // update the menuhead position
-        position.value = {
-          left: pageX - relPosition.x,
-          top: pageY - relPosition.y,
-        };
+        if(dragActive.value) {
+          // update the menuhead position
+          position.value = {
+            left: pageX - relPosition.x,
+            top: pageY - relPosition.y,
+          };
+        }
+
       });
 
       // adjust menu orientation on load
@@ -328,6 +335,11 @@ export default defineComponent({
     // close the menu while dragging
     const handleDragStart = () => {
       menuActive.value = false;
+      dragActive.value = true;
+    };
+
+    const handleDragEnd = () => {
+      dragActive.value = false;
     };
 
     const handleMenuItemSelection = (id: string, name: string) => {
@@ -348,6 +360,7 @@ export default defineComponent({
       flipMenu,
       getInitStyle,
       handleBlur,
+      handleDragEnd,
       handleDragStart,
       handleMenuClick,
       handleMenuClose,
@@ -360,6 +373,7 @@ export default defineComponent({
       menuStyle,
       style,
       toggleMenu,
+      dragActive,
     };
   },
 });

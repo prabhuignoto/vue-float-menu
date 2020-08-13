@@ -1,13 +1,15 @@
 <template>
-  <MenuHead
-    :position="'top left'"
-    :dimension="50"
-    :menu-data="menu"
-    :on-selected="handleSelection"
-    menu-orientation="bottom"
-  >
-    <BoxIcon />
-  </MenuHead>
+  <div>
+    <MenuHead
+      :position="'top left'"
+      :dimension="50"
+      :menu-data="menu"
+      :on-selected="handleSelection"
+      menu-orientation="bottom"
+    >
+      <BoxIcon />
+    </MenuHead>
+  </div>
 </template>
 
 <script lang="ts">
