@@ -33,7 +33,7 @@
       </span>
       <Menu
         v-if="menuActive"
-        :data="menu"
+        :data="menuData"
         :flip="flipMenu"
         :on-selection="handleMenuItemSelection"
       />
@@ -71,7 +71,7 @@ export default defineComponent({
     XIcon,
   },
   props: {
-    dimensions: {
+    dimension: {
       type: Object as PropType<{ width: number; height: number }>,
       default: {
         width: 3,
@@ -97,7 +97,7 @@ export default defineComponent({
         width: 250,
       },
     },
-    menu: {
+    menuData: {
       type: Object as PropType<MenuModel>,
       default: {
         items: [],
@@ -107,6 +107,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    // eslint-disable-next-line vue/require-default-prop
+    onSelected: {
+      type: Function as PropType<(val: string) => void>
+    }
   },
   setup(props) {
     // position of the circular menu head
@@ -143,23 +147,23 @@ export default defineComponent({
           top = 20;
           break;
         case "top right":
-          left = window.innerWidth - props.dimensions.width;
+          left = window.innerWidth - props.dimension.width;
           top = 20;
           break;
         case "bottom left":
           left = 20;
-          top = window.innerHeight - props.dimensions.height;
+          top = window.innerHeight - props.dimension.height;
           break;
         case "bottom right":
-          left = window.innerWidth - props.dimensions.width;
-          top = window.innerHeight - props.dimensions.height;
+          left = window.innerWidth - props.dimension.width;
+          top = window.innerHeight - props.dimension.height;
       }
 
       return {
         left: `${left}px`,
         top: `${top}px`,
-        width: `${props.dimensions.width}px`,
-        height: `${props.dimensions.height}px`,
+        width: `${props.dimension.width}px`,
+        height: `${props.dimension.height}px`,
       };
     });
 
@@ -170,8 +174,8 @@ export default defineComponent({
         return {
           left: `${pos.left}px`,
           top: `${pos.top}px`,
-          width: `${props.dimensions.width}px`,
-          height: `${props.dimensions.height}px`,
+          width: `${props.dimension.width}px`,
+          height: `${props.dimension.height}px`,
         };
       }
     });
@@ -184,7 +188,7 @@ export default defineComponent({
 
       const { top, bottom } = menuHeadDOM.getBoundingClientRect();
       const {
-        dimensions: { width, height },
+        dimension: { width, height },
       } = props;
       const left = Math.round((menuContDOM.clientWidth - width) / 2);
       const dir = unref(localMenuDirection);
@@ -333,6 +337,7 @@ export default defineComponent({
 
     const handleMenuItemSelection = (id: string, name: string) => {
       menuActive.value = false;
+      props.onSelected(name);
     };
 
     const handleBlur = (event: MouseEvent) => {

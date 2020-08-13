@@ -1,8 +1,9 @@
 <template>
   <MenuHead
     :position="'top left'"
-    :dimensions="{width: 50, height: 50}"
-    :menu="menu"
+    :dimension="{width: 50, height: 50}"
+    :menu-data="menu"
+    :on-selected="handleSelection"
     menu-direction="bottom"
   >
     <BoxIcon />
@@ -14,12 +15,22 @@ import MenuHead from "./MenuHead.vue";
 import { Menu } from "./Menu.vue";
 
 import BoxIcon from "./BoxIcon.vue";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "HelloWorld",
   components: {
     MenuHead,
     BoxIcon,
+  },
+  setup() {
+    const handleSelection = (name: string) => {
+      console.log(name);
+    };
+
+    return {
+      handleSelection,
+    };
   },
   data() {
     return {
@@ -66,7 +77,7 @@ export default {
       } as Menu,
     };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
