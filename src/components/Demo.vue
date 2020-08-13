@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import MenuHead from "./MenuHead.vue";
-import { Menu, MenuItem } from "./Menu.vue";
+import { Menu } from "./Menu.vue";
 
 import BoxIcon from "./BoxIcon.vue";
 
