@@ -106,8 +106,6 @@ export default defineComponent({
         });
       });
 
-      const selectedItem = menuItems;
-
       if (!subMenu) {
         props.onSelection(id, name);
       }

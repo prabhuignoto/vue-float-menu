@@ -52,7 +52,7 @@ import {
   nextTick,
 } from "vue";
 import Menu from "./Menu.vue";
-import { Menu as MenuModel, MenuItem } from "./Menu.vue";
+import { Menu as MenuModel } from "./Menu.vue";
 import XIcon from "./XIcon.vue";
 
 const MENU_SPACE = 10;
@@ -277,8 +277,6 @@ export default defineComponent({
       document.addEventListener("dragover", (event: DragEvent) => {
         const { pageX, pageY } = event;
         const relPosition = unref(relativePostion);
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
 
         // update the menuhead position
         position.value = {
