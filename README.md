@@ -10,10 +10,10 @@ Customizable Floating Menu for Vue 3
 
 ## Features
 
-- **Draggable Menu Handle** - The Menu head can be easily dragged and placed anywhere on the screen.
-- **Smart Menu** - The Menu is smart enough to detect the top & bottom edges of the screen and flip the menu depending on the position it is on.
+- **Draggable Menu Handle** - Drag and easily place the Menu anywhere on the screen.
+- **Smart Menu** - Auto detects the top & bottom edges of the screen and flips the menu.
 - **Smart Placement** - The Menu head automatically adjusts itself and always stays inside the viewport.
-- **Nested Menus** - Support for Nested menus up to any levels. Although it is advisable to keep the nesting to a Minimum to have a good UX.
+- **Nested Menus** - Support for Nested menus up to any levels. It is always advisable to keep the nesting to a Minimum to have a good UX.
 - **Composition API** - Built using the latest Composition API from Vue 3.
 - **Typescript** - Built with Typescript.
 
@@ -30,7 +30,7 @@ float-menu has some great defaults to get you started quickly. Please check the 
 ```sh
   <MenuHead
     :position="'top left'"
-    :dimensions="{width: 50, height: 50}"
+    :dimension="{width: 50, height: 50}"
     :menu="menu"
     menu-direction="bottom"
   >
@@ -44,15 +44,140 @@ float-menu has some great defaults to get you started quickly. Please check the 
 
 ## Props
 
-| Prop          | Type     | Description                                                                                                                      | Default                   |
-|---------------|----------|----------------------------------------------------------------------------------------------------------------------------------|---------------------------|
-| dimension     | Object   | dimension of the Menu Head                                                                                                       | {width: 3, height: 3}     |
-| position      | String   | Initial position of the Menu Head. can be any one of the following values "top left", "top right", "bottom left", "bottom right" | "top left"                |
-| fixed         | Boolean  | Disables dragging on the Menu Head                                                                                               | false                     |
-| menuDirection | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    | "top"                     |
-| menuDimension | Object   | prop to set the width and minimum height of the Menu.                                                                            | {width: 250, height: 250} |
-| menuData      | Object   | Array data to generate the nested menu                                                                                           | []                        |
-| on-selected   | Function | Hook to call on selection                                                                                                        |                           |
+| Prop              | Type     | Description                                                                                                                      |
+|-------------------|----------|----------------------------------------------------------------------------------------------------------------------------------|
+| dimension         | number   | dimension of the Menu Head.                                                                                                       |
+| position          | String   | Initial position of the Menu Head. can be any one of the following values "top left", "top right", "bottom left", "bottom right" |
+| fixed             | Boolean  | Disables dragging on the Menu Head.                                                                                               |
+| menu-orientation  | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    |
+| menu-dimension    | Object   | prop to set the width and minimum height of the Menu.                                                                            |
+| menuData          | Object   | Array data to generate the nested menu.                                                                                           |
+| on-selected       | Function | Hook to call on selection.
+
+### dimension
+
+`dimension` prop can be used to set the width and height of the menu head. The prop takes a single number value to set the height and width of the Menu Head.
+
+```sh
+  <MenuHead :dimension=50>
+    <BoxIcon />
+  </MenuHead>
+```
+
+### position
+
+The `position` prop can be used to set the initial position of the Menu Head. The prop can accept any one of the following values.
+
+- `top left` (default)
+- `top right`
+- `bottom left`
+- `bottom right`
+
+```sh
+  <MenuHead :dimension=50 :position="50">
+    <BoxIcon />
+  </MenuHead>
+```
+
+### fixed
+
+To disable dragging and make the Menu Head statically positioned set `fixed` to `true`. This prop is disabled by default.
+
+```sh
+  <MenuHead :dimension=50 :position="50" :fixed="true">
+    <BoxIcon />
+  </MenuHead>
+```
+
+### menu-orientation
+
+sets the default menu orientation. can be set to either `top` or `bottom`.
+
+```sh
+  <MenuHead :dimension=50 :position="50" :fixed="true" menu-orientation="bottom">
+    <BoxIcon />
+  </MenuHead>
+```
+
+### menu-dimension
+
+prop to set the `height` and `width` of the menu.
+
+```sh
+  <MenuHead
+    :dimension=50
+    :position="50"
+    :fixed="true"
+    menu-orientation="bottom"
+    :menu-dimension="{height: 400, width: 300}"
+    <BoxIcon />
+  </MenuHead>
+```
+
+### menu-data
+
+This prop is used to populate the nested menu structure. prop accepts an `Array` of type `MenuItem`
+
+`MenuItem type`
+
+```sh
+type MenuItem {
+  name: string;
+  subMenu?: `Menu`;
+  id?: string;
+  showSubMenu?: boolean;
+  selected?: boolean;
+}
+```
+
+| property    | description                                                           |
+|-------------|-----------------------------------------------------------------------|
+| name        | display name of the menu item.                                        |
+| id          | unique id of each menu item. this is auto generated by the component. |
+| selected    | flag to highlight a sub-menu selection.                               |
+| showSubMenu | flag to show/hide the sub-menu.                                       |
+| subMenu     | data for the sub-menu                                                 |
+
+`Menu type`
+
+```sh
+type Menu = {
+  items: MenuItem[];
+};
+```
+
+| property | description              |
+|----------|--------------------------|
+| items    | collection of menu items |
+
+```sh
+  <MenuHead
+    :dimension=50
+    :position="50"
+    :fixed="true"
+    :menu-dimension="{height: 400, width: 300}"
+    :menu-data="{items: [{name: 'File'}, {name: 'Open'}]}"
+    menu-orientation="bottom"
+    <BoxIcon />
+  </MenuHead>
+```
+
+### on-select
+
+hook for `onSelection` event.
+
+```sh
+  <MenuHead
+    :dimension=50
+    :position="50"
+    :fixed="true"
+    :menu-dimension="{height: 400, width: 300}"
+    :menu-data="{items: [{name: 'File'}, {name: 'Open'}]}"
+    on-select="handleSelection"
+    menu-orientation="bottom"
+    <BoxIcon />
+  </MenuHead>
+```
 
 ## Built with
 

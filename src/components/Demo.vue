@@ -1,10 +1,10 @@
 <template>
   <MenuHead
     :position="'top left'"
-    :dimension="{width: 50, height: 50}"
+    :dimension="50"
     :menu-data="menu"
     :on-selected="handleSelection"
-    menu-direction="bottom"
+    menu-orientation="bottom"
   >
     <BoxIcon />
   </MenuHead>

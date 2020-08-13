@@ -72,11 +72,8 @@ export default defineComponent({
   },
   props: {
     dimension: {
-      type: Object as PropType<{ width: number; height: number }>,
-      default: {
-        width: 3,
-        height: 3,
-      },
+      type: Number,
+      default: 3,
     },
     position: {
       type: String,
@@ -86,11 +83,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    menuDirection: {
+    menuOrientation: {
       type: String,
       default: "top",
     },
-    menuDimensions: {
+    menuDimension: {
       type: Object as PropType<{ height: number; width: number }>,
       default: {
         height: 250,
@@ -109,8 +106,8 @@ export default defineComponent({
     },
     // eslint-disable-next-line vue/require-default-prop
     onSelected: {
-      type: Function as PropType<(val: string) => void>
-    }
+      type: Function as PropType<(val: string) => void>,
+    },
   },
   setup(props) {
     // position of the circular menu head
@@ -132,7 +129,7 @@ export default defineComponent({
     const menuStyle = ref(null);
 
     // local reference of the menu direction
-    const localMenuDirection = ref(props.menuDirection);
+    const localMenuOrientation = ref(props.menuOrientation);
 
     // flip menu content
     const flipMenu = ref(false);
@@ -147,23 +144,23 @@ export default defineComponent({
           top = 20;
           break;
         case "top right":
-          left = window.innerWidth - props.dimension.width;
+          left = window.innerWidth - props.dimension;
           top = 20;
           break;
         case "bottom left":
           left = 20;
-          top = window.innerHeight - props.dimension.height;
+          top = window.innerHeight - props.dimension;
           break;
         case "bottom right":
-          left = window.innerWidth - props.dimension.width;
-          top = window.innerHeight - props.dimension.height;
+          left = window.innerWidth - props.dimension;
+          top = window.innerHeight - props.dimension;
       }
 
       return {
         left: `${left}px`,
         top: `${top}px`,
-        width: `${props.dimension.width}px`,
-        height: `${props.dimension.height}px`,
+        width: `${props.dimension}px`,
+        height: `${props.dimension}px`,
       };
     });
 
@@ -174,8 +171,8 @@ export default defineComponent({
         return {
           left: `${pos.left}px`,
           top: `${pos.top}px`,
-          width: `${props.dimension.width}px`,
-          height: `${props.dimension.height}px`,
+          width: `${props.dimension}px`,
+          height: `${props.dimension}px`,
         };
       }
     });
@@ -187,11 +184,9 @@ export default defineComponent({
       const menuHeadDOM = menuHead.value as HTMLElement;
 
       const { top, bottom } = menuHeadDOM.getBoundingClientRect();
-      const {
-        dimension: { width, height },
-      } = props;
-      const left = Math.round((menuContDOM.clientWidth - width) / 2);
-      const dir = unref(localMenuDirection);
+      const { dimension } = props;
+      const left = Math.round((menuContDOM.clientWidth - dimension) / 2);
+      const dir = unref(localMenuOrientation);
       const menuHeight = menuContDOM.clientHeight;
 
       let newMenuStyle = null;
@@ -199,32 +194,32 @@ export default defineComponent({
       // flip to bottom if there is not enough space on top
       if (dir === "top" && menuHeight > top) {
         newMenuStyle = {
-          top: `${height + MENU_SPACE}px`,
+          top: `${dimension + MENU_SPACE}px`,
           left: `-${left}px`,
         };
-        localMenuDirection.value = "top";
+        localMenuOrientation.value = "top";
       } else if (dir === "top") {
         newMenuStyle = {
-          bottom: `${height + MENU_SPACE}px`,
+          bottom: `${dimension + MENU_SPACE}px`,
           left: `-${left}px`,
         };
         // flip menu to top if there is no enough space at bottom
       } else if (dir === "bottom" && window.innerHeight - bottom < menuHeight) {
         newMenuStyle = {
-          bottom: `${height + MENU_SPACE}px`,
+          bottom: `${dimension + MENU_SPACE}px`,
           left: `-${left}px`,
         };
-        localMenuDirection.value = "bottom";
+        localMenuOrientation.value = "bottom";
       } else if (dir === "bottom") {
         newMenuStyle = {
-          top: `${height + MENU_SPACE}px`,
+          top: `${dimension + MENU_SPACE}px`,
           left: `-${left}px`,
         };
       }
 
       menuStyle.value = Object.assign({}, newMenuStyle, {
-        "min-height": `${props.menuDimensions.height}px`,
-        width: `${props.menuDimensions.width}px`,
+        "min-height": `${props.menuDimension}px`,
+        width: `${props.menuDimension}px`,
       });
     };
 
@@ -358,7 +353,7 @@ export default defineComponent({
       handleMenuClose,
       handleMenuItemSelection,
       handleMouseDown,
-      localMenuDirection,
+      localMenuOrientation,
       menuActive,
       menuContainer,
       menuHead,
