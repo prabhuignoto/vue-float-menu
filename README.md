@@ -51,7 +51,8 @@ float-menu has some great defaults to get you started quickly. Please check the 
 | menu-orientation  | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    |
 | menu-dimension    | Object   | prop to set the width and minimum height of the Menu.                                                                            |
 | menu-data         | Object   | Array data to generate the nested menu.                                                                                          |
-| on-selected       | Function | Hook to call on selection.
+| on-selected       | Function | Hook to call on selection.                                                                                                       |
+| flip-on-edges     | Boolean  | Flips the Menu content automatically, when there is no space to display nested menus.                                            |
 
 ### dimension
 
@@ -174,6 +175,23 @@ hook for the menu item selection event.
     <BoxIcon />
   </MenuHead>
 ```
+
+### flip-on-edges
+
+setting this prop flips the menu content on the right edges of the screen. This is useful you have nested menus of many levels.
+
+```sh
+  <MenuHead
+    :dimension=50
+    :position="'bottom right'"
+    :flip-on-edges="true"
+    on-select="handleSelection"
+    menu-orientation="bottom">
+    <BoxIcon />
+  </MenuHead>
+```
+
+![flip](flip.png)
 
 ### custom icon
 

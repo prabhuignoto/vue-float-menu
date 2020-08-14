@@ -41,7 +41,7 @@ import {
 } from "vue";
 import { nanoid } from "nanoid";
 import ChevRightIcon from "./ChevRightIcon.vue";
-const SubMenu = defineAsyncComponent(() => import("./Menu.vue"));
+const SubMenu: any = defineAsyncComponent(() => import("./Menu.vue"));
 
 export type Menu = {
   items: MenuItem[];
@@ -72,11 +72,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    // eslint-disable-next-line vue/require-default-prop
     onSelection: {
       type: Function as PropType<
         (id: string, name: string, parent?: string) => void
       >,
+      default: null
     },
   },
   setup(props) {
@@ -107,7 +107,7 @@ export default defineComponent({
       });
 
       if (!subMenu) {
-        props.onSelection(id, name);
+        props.onSelection && props.onSelection(id, name);
       }
     };
 

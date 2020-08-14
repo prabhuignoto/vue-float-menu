@@ -59,10 +59,10 @@ import XIcon from "./XIcon.vue";
 const MENU_SPACE = 10;
 
 interface HeadPosition {
-  "top left";
-  "top right";
-  "bottom left";
-  "bottom right";
+  "top left": "top left";
+  "top right": "top right";
+  "bottom left": "bottom left";
+  "bottom right": "bottom right";
 }
 
 export default defineComponent({
@@ -105,14 +105,18 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    // eslint-disable-next-line vue/require-default-prop
     onSelected: {
       type: Function as PropType<(val: string) => void>,
+      default: null,
     },
+    flipOnEdges: {
+      type: Boolean,
+      default: false,
+    }
   },
   setup(props) {
     // position of the circular menu head
-    const position = ref<{ left: number; top: number }>(null);
+    const position = ref<{ left: number; top: number }  | null>(null);
 
     // captures the actual mouse click inside the menu head. this is used to accurately position the menu head
     const relativePostion = ref<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -127,7 +131,7 @@ export default defineComponent({
     const menuContainer = ref(null);
 
     // generates style for the menu
-    const menuStyle = ref(null);
+    const menuStyle = ref<{"min-height": string; width: string} | null>(null);
 
     // local reference of the menu direction
     const localMenuOrientation = ref(props.menuOrientation);
@@ -172,20 +176,23 @@ export default defineComponent({
     const style = computed(() => {
       if (position.value) {
         const pos = unref(position);
-        return {
-          left: `${pos.left}px`,
-          top: `${pos.top}px`,
-          width: `${props.dimension}px`,
-          height: `${props.dimension}px`,
-        };
+
+        if(pos) {
+          return {
+            left: `${pos.left}px`,
+            top: `${pos.top}px`,
+            width: `${props.dimension}px`,
+            height: `${props.dimension}px`,
+          };
+        }
       }
     });
 
     // manages the orientation of the menu (top or bottom)
     // when enough space is not available on either top or bottom, the menu is automatically flipped
     const setupMenuOrientation = () => {
-      const menuContDOM = menuContainer.value as HTMLElement;
-      const menuHeadDOM = menuHead.value as HTMLElement;
+      const menuContDOM = menuContainer.value as unknown as HTMLElement;
+      const menuHeadDOM = menuHead.value as unknown as HTMLElement;
 
       const { top, bottom } = menuHeadDOM.getBoundingClientRect();
       const { dimension } = props;
@@ -232,14 +239,16 @@ export default defineComponent({
       const { top, bottom, left, right } = element.getBoundingClientRect();
       const { innerWidth: screenWidth, innerHeight: screenHeight } = window;
       const positionValue = unref(position);
-      const menuContWidth = (menuContainer.value as HTMLElement).clientWidth;
+      const menuContWidth = (menuContainer.value as unknown as HTMLElement).clientWidth;
       const menuContHalfWidth = Math.ceil(menuContWidth / 2);
 
       if (!positionValue) {
         return;
       }
 
-      flipMenu.value = false;
+      if(props.flipOnEdges) {
+        flipMenu.value = false;
+      }
 
       // resposition if the menuhead goes below the bottom of the viewport
       if (bottom > screenHeight) {
@@ -271,7 +280,10 @@ export default defineComponent({
           left: screenWidth - menuContWidth,
           top: positionValue.top,
         };
-        flipMenu.value = true;
+
+        if(props.flipOnEdges) {
+          flipMenu.value = true;
+        }
       }
     };
 
@@ -293,9 +305,9 @@ export default defineComponent({
 
       // adjust menu orientation on load
       setupMenuOrientation();
-      adjustMenuHeadPosition(menuHead.value as HTMLElement);
+      adjustMenuHeadPosition(menuHead.value as unknown as HTMLElement);
 
-      nextTick(() => (menuHead.value as HTMLElement).focus());
+      nextTick(() => (menuHead.value as unknown as HTMLElement).focus());
     });
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -320,7 +332,7 @@ export default defineComponent({
 
       if (!menuActive.value) {
         setupMenuOrientation();
-        adjustMenuHeadPosition(menuHead.value as HTMLElement);
+        adjustMenuHeadPosition(menuHead.value as unknown as HTMLElement);
       }
 
       nextTick(() => {
@@ -344,7 +356,7 @@ export default defineComponent({
 
     const handleMenuItemSelection = (id: string, name: string) => {
       menuActive.value = false;
-      props.onSelected(name);
+      props.onSelected && props.onSelected(name);
     };
 
     const handleBlur = (event: MouseEvent) => {

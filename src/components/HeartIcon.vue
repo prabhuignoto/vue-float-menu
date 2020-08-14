@@ -17,6 +17,8 @@
   </svg>
 </template>
 
-<script>
-export default { name: "HeartIcon" };
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({ name: "HeartIcon" });
 </script>

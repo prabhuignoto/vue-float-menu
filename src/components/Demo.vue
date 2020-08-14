@@ -5,6 +5,7 @@
       :dimension="50"
       :menu-data="menu"
       :on-selected="handleSelection"
+      :flip-on-edges="true"
       menu-orientation="bottom"
     >
       <BoxIcon />
@@ -75,6 +76,18 @@ export default defineComponent({
               ],
             },
           },
+          {
+            name: "Save"
+          },
+          {
+            name: "Save As"
+          },
+          {
+            name: "Close"
+          },
+          {
+            name: "Exit"
+          }
         ],
       } as Menu,
     };
