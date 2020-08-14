@@ -66,7 +66,7 @@ interface HeadPosition {
 }
 
 export default defineComponent({
-  name: "MenuHead",
+  name: "FloatMenu",
   components: {
     Menu,
     XIcon,
@@ -112,11 +112,11 @@ export default defineComponent({
     flipOnEdges: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   setup(props) {
     // position of the circular menu head
-    const position = ref<{ left: number; top: number }  | null>(null);
+    const position = ref<{ left: number; top: number } | null>(null);
 
     // captures the actual mouse click inside the menu head. this is used to accurately position the menu head
     const relativePostion = ref<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -131,7 +131,7 @@ export default defineComponent({
     const menuContainer = ref(null);
 
     // generates style for the menu
-    const menuStyle = ref<{"min-height": string; width: string} | null>(null);
+    const menuStyle = ref<{ "min-height": string; width: string } | null>(null);
 
     // local reference of the menu direction
     const localMenuOrientation = ref(props.menuOrientation);
@@ -177,7 +177,7 @@ export default defineComponent({
       if (position.value) {
         const pos = unref(position);
 
-        if(pos) {
+        if (pos) {
           return {
             left: `${pos.left}px`,
             top: `${pos.top}px`,
@@ -191,8 +191,8 @@ export default defineComponent({
     // manages the orientation of the menu (top or bottom)
     // when enough space is not available on either top or bottom, the menu is automatically flipped
     const setupMenuOrientation = () => {
-      const menuContDOM = menuContainer.value as unknown as HTMLElement;
-      const menuHeadDOM = menuHead.value as unknown as HTMLElement;
+      const menuContDOM = (menuContainer.value as unknown) as HTMLElement;
+      const menuHeadDOM = (menuHead.value as unknown) as HTMLElement;
 
       const { top, bottom } = menuHeadDOM.getBoundingClientRect();
       const { dimension } = props;
@@ -235,18 +235,19 @@ export default defineComponent({
     };
 
     // this function repositions the menu head whenever it goes out of screen edges.
-    const adjustMenuHeadPosition = (element: HTMLElement) => {
+    const adjustFloatMenuPosition = (element: HTMLElement) => {
       const { top, bottom, left, right } = element.getBoundingClientRect();
       const { innerWidth: screenWidth, innerHeight: screenHeight } = window;
       const positionValue = unref(position);
-      const menuContWidth = (menuContainer.value as unknown as HTMLElement).clientWidth;
+      const menuContWidth = ((menuContainer.value as unknown) as HTMLElement)
+        .clientWidth;
       const menuContHalfWidth = Math.ceil(menuContWidth / 2);
 
       if (!positionValue) {
         return;
       }
 
-      if(props.flipOnEdges) {
+      if (props.flipOnEdges) {
         flipMenu.value = false;
       }
 
@@ -281,7 +282,7 @@ export default defineComponent({
           top: positionValue.top,
         };
 
-        if(props.flipOnEdges) {
+        if (props.flipOnEdges) {
           flipMenu.value = true;
         }
       }
@@ -293,21 +294,20 @@ export default defineComponent({
         const { pageX, pageY } = event;
         const relPosition = unref(relativePostion);
 
-        if(dragActive.value) {
+        if (dragActive.value) {
           // update the menuhead position
           position.value = {
             left: pageX - relPosition.x,
             top: pageY - relPosition.y,
           };
         }
-
       });
 
       // adjust menu orientation on load
       setupMenuOrientation();
-      adjustMenuHeadPosition(menuHead.value as unknown as HTMLElement);
+      adjustFloatMenuPosition((menuHead.value as unknown) as HTMLElement);
 
-      nextTick(() => (menuHead.value as unknown as HTMLElement).focus());
+      nextTick(() => ((menuHead.value as unknown) as HTMLElement).focus());
     });
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -332,7 +332,7 @@ export default defineComponent({
 
       if (!menuActive.value) {
         setupMenuOrientation();
-        adjustMenuHeadPosition(menuHead.value as unknown as HTMLElement);
+        adjustFloatMenuPosition((menuHead.value as unknown) as HTMLElement);
       }
 
       nextTick(() => {
@@ -391,5 +391,5 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped src="./MenuHead.scss">
+<style lang="scss" scoped src="./index.scss">
 </style>

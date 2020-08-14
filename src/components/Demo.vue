@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MenuHead
+    <FloatMenu
       :position="'top left'"
       :dimension="50"
       :menu-data="menu"
@@ -9,12 +9,12 @@
       menu-orientation="bottom"
     >
       <BoxIcon />
-    </MenuHead>
+    </FloatMenu>
   </div>
 </template>
 
 <script lang="ts">
-import MenuHead from "./MenuHead.vue";
+import FloatMenu from "./index.vue";
 import { Menu } from "./Menu.vue";
 
 import BoxIcon from "./BoxIcon.vue";
@@ -23,7 +23,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "HelloWorld",
   components: {
-    MenuHead,
+    FloatMenu,
     BoxIcon,
   },
   setup() {
@@ -77,17 +77,17 @@ export default defineComponent({
             },
           },
           {
-            name: "Save"
+            name: "Save",
           },
           {
-            name: "Save As"
+            name: "Save As",
           },
           {
-            name: "Close"
+            name: "Close",
           },
           {
-            name: "Exit"
-          }
+            name: "Exit",
+          },
         ],
       } as Menu,
     };

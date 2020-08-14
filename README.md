@@ -28,14 +28,14 @@ yarn run install && yarn run dev
 float-menu has some great defaults to get you started quickly. Please check the props list for details on all available options.
 
 ```sh
-  <MenuHead
+  <FloatMenu
     :position="'top left'"
     :dimension="50"
     :menu="menu"
     menu-direction="bottom"
   >
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ## Demo
@@ -44,25 +44,25 @@ float-menu has some great defaults to get you started quickly. Please check the 
 
 ## Props
 
-| Prop              | Type     | Description                                                                                                                      |
-|-------------------|----------|----------------------------------------------------------------------------------------------------------------------------------|
-| dimension         | number   | dimension of the Menu Head.                                                                                                      |
-| position          | String   | Initial position of the Menu Head. can be any one of the following values "top left", "top right", "bottom left", "bottom right" |
-| fixed             | Boolean  | Disables dragging on the Menu Head.                                                                                              |
-| menu-orientation  | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    |
-| menu-dimension    | Object   | prop to set the width and minimum height of the Menu.                                                                            |
-| menu-data         | Object   | Array data to generate the nested menu.                                                                                          |
-| on-selected       | Function | Hook to call on selection.                                                                                                       |
-| flip-on-edges     | Boolean  | Flips the Menu content automatically, when there is no space to display nested menus.                                            |
+| Prop             | Type     | Description                                                                                                                      |
+| ---------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| dimension        | number   | dimension of the Menu Head.                                                                                                      |
+| position         | String   | Initial position of the Menu Head. can be any one of the following values "top left", "top right", "bottom left", "bottom right" |
+| fixed            | Boolean  | Disables dragging on the Menu Head.                                                                                              |
+| menu-orientation | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    |
+| menu-dimension   | Object   | prop to set the width and minimum height of the Menu.                                                                            |
+| menu-data        | Object   | Array data to generate the nested menu.                                                                                          |
+| on-selected      | Function | Hook to call on selection.                                                                                                       |
+| flip-on-edges    | Boolean  | Flips the Menu content automatically, when there is no space to display nested menus.                                            |
 
 ### dimension
 
 `dimension` prop can be used to set the width and height of the menu head. The prop takes a single number value to set the height and width of the Menu Head.
 
 ```sh
-  <MenuHead :dimension=50>
+  <FloatMenu :dimension=50>
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ### position
@@ -75,9 +75,9 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
 - `bottom right`
 
 ```sh
-  <MenuHead :dimension=50 :position="'bottom right'">
+  <FloatMenu :dimension=50 :position="'bottom right'">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ### fixed
@@ -85,9 +85,9 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
 To disable dragging and make the Menu Head static, set `fixed` to `true`. This prop is disabled by default.
 
 ```sh
-  <MenuHead :dimension=50 :position="'bottom right'" :fixed="true">
+  <FloatMenu :dimension=50 :position="'bottom right'" :fixed="true">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ### menu-orientation
@@ -95,9 +95,9 @@ To disable dragging and make the Menu Head static, set `fixed` to `true`. This p
 sets the default menu orientation. can be set to either `top` or `bottom`.
 
 ```sh
-  <MenuHead :dimension=50 :position="'bottom right'" menu-orientation="bottom">
+  <FloatMenu :dimension=50 :position="'bottom right'" menu-orientation="bottom">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ### menu-dimension
@@ -105,13 +105,13 @@ sets the default menu orientation. can be set to either `top` or `bottom`.
 prop to set the `height` and `width` of the menu.
 
 ```sh
-  <MenuHead
+  <FloatMenu
     :dimension=50
     :position="'bottom right'"
     menu-orientation="bottom"
     :menu-dimension="{height: 400, width: 300}">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ### menu-data
@@ -131,7 +131,7 @@ type MenuItem {
 ```
 
 | property    | description                                                           |
-|-------------|-----------------------------------------------------------------------|
+| ----------- | --------------------------------------------------------------------- |
 | name        | display name of the menu item.                                        |
 | id          | unique id of each menu item. this is auto generated by the component. |
 | selected    | flag to highlight a sub-menu selection.                               |
@@ -147,18 +147,18 @@ type Menu = {
 ```
 
 | property | description              |
-|----------|--------------------------|
+| -------- | ------------------------ |
 | items    | collection of menu items |
 
 ```sh
-  <MenuHead
+  <FloatMenu
     :dimension=50
     :position="'bottom right'"
     :menu-dimension="{height: 400, width: 300}"
     :menu-data="{ items: [{ name: 'File' }, { name: 'Open' }, { name: 'Themes', subMenu: { items: [{  name: 'Dark' }]}}]}"
     menu-orientation="bottom">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ### on-select
@@ -166,7 +166,7 @@ type Menu = {
 hook for the menu item selection event.
 
 ```sh
-  <MenuHead
+  <FloatMenu
     :dimension=50
     :position="'bottom right'"
     :menu-dimension="{height: 400, width: 300}"
@@ -174,7 +174,7 @@ hook for the menu item selection event.
     on-select="handleSelection"
     menu-orientation="bottom">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ### flip-on-edges
@@ -182,36 +182,36 @@ hook for the menu item selection event.
 setting this prop flips the menu content on the right edges of the screen. This is useful you have nested menus of many levels.
 
 ```sh
-  <MenuHead
+  <FloatMenu
     :dimension=50
     :position="'bottom right'"
     :flip-on-edges="true"
     on-select="handleSelection"
     menu-orientation="bottom">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ![flip](flip.png)
 
 ### custom icon
 
-To customize the icon, simply pass any icon in between the `MenuHead` tags. The component internally uses a slot to insert the icon.
+To customize the icon, simply pass any icon in between the `FloatMenu` tags. The component internally uses a slot to insert the icon.
 
 ```sh
-  <MenuHead
+  <FloatMenu
     :dimension=50
     menu-orientation="bottom">
     <BoxIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ```sh
-  <MenuHead
+  <FloatMenu
     :dimension=50
     menu-orientation="bottom">
     <HeartIcon />
-  </MenuHead>
+  </FloatMenu>
 ```
 
 ## Built with
