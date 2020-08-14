@@ -17,7 +17,7 @@
 import FloatMenu from "./index.vue";
 import { Menu } from "./Menu.vue";
 
-import BoxIcon from "./BoxIcon.vue";
+import BoxIcon from "./icons/BoxIcon.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({

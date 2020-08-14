@@ -54,7 +54,7 @@ import {
 } from "vue";
 import Menu from "./Menu.vue";
 import { Menu as MenuModel } from "./Menu.vue";
-import XIcon from "./XIcon.vue";
+import XIcon from "./icons/XIcon.vue";
 
 const MENU_SPACE = 10;
 
