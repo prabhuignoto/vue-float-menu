@@ -40,7 +40,7 @@ import {
   unref,
 } from "vue";
 import { nanoid } from "nanoid";
-import ChevRightIcon from "./ChevRightIcon.vue";
+import ChevRightIcon from "./icons/ChevRightIcon.vue";
 const SubMenu: any = defineAsyncComponent(() => import("./Menu.vue"));
 
 export type Menu = {

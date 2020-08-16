@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FloatMenu
+    <float-menu
       :position="'top left'"
       :dimension="50"
       :menu-data="menu"
@@ -9,7 +9,7 @@
       menu-orientation="bottom"
     >
       <BoxIcon />
-    </FloatMenu>
+    </float-menu>
   </div>
 </template>
 

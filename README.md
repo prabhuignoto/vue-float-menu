@@ -28,14 +28,14 @@ yarn run install && yarn run dev
 float-menu has some great defaults to get you started quickly. Please check the props list for details on all available options.
 
 ```sh
-  <FloatMenu
+  <float-menu
     :position="'top left'"
     :dimension="50"
     :menu="menu"
     menu-direction="bottom"
   >
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ## Demo
@@ -60,9 +60,9 @@ float-menu has some great defaults to get you started quickly. Please check the 
 `dimension` prop can be used to set the width and height of the menu head. The prop takes a single number value to set the height and width of the Menu Head.
 
 ```sh
-  <FloatMenu :dimension=50>
+  <float-menu :dimension=50>
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ### position
@@ -75,9 +75,9 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
 - `bottom right`
 
 ```sh
-  <FloatMenu :dimension=50 :position="'bottom right'">
+  <float-menu :dimension=50 :position="'bottom right'">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ### fixed
@@ -85,9 +85,9 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
 To disable dragging and make the Menu Head static, set `fixed` to `true`. This prop is disabled by default.
 
 ```sh
-  <FloatMenu :dimension=50 :position="'bottom right'" :fixed="true">
+  <float-menu :dimension=50 :position="'bottom right'" :fixed="true">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ### menu-orientation
@@ -95,9 +95,9 @@ To disable dragging and make the Menu Head static, set `fixed` to `true`. This p
 sets the default menu orientation. can be set to either `top` or `bottom`.
 
 ```sh
-  <FloatMenu :dimension=50 :position="'bottom right'" menu-orientation="bottom">
+  <float-menu :dimension=50 :position="'bottom right'" menu-orientation="bottom">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ### menu-dimension
@@ -105,13 +105,13 @@ sets the default menu orientation. can be set to either `top` or `bottom`.
 prop to set the `height` and `width` of the menu.
 
 ```sh
-  <FloatMenu
+  <float-menu
     :dimension=50
     :position="'bottom right'"
     menu-orientation="bottom"
     :menu-dimension="{height: 400, width: 300}">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ### menu-data
@@ -151,14 +151,14 @@ type Menu = {
 | items    | collection of menu items |
 
 ```sh
-  <FloatMenu
+  <float-menu
     :dimension=50
     :position="'bottom right'"
     :menu-dimension="{height: 400, width: 300}"
     :menu-data="{ items: [{ name: 'File' }, { name: 'Open' }, { name: 'Themes', subMenu: { items: [{  name: 'Dark' }]}}]}"
     menu-orientation="bottom">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ### on-select
@@ -166,7 +166,7 @@ type Menu = {
 hook for the menu item selection event.
 
 ```sh
-  <FloatMenu
+  <float-menu
     :dimension=50
     :position="'bottom right'"
     :menu-dimension="{height: 400, width: 300}"
@@ -174,7 +174,7 @@ hook for the menu item selection event.
     on-select="handleSelection"
     menu-orientation="bottom">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ### flip-on-edges
@@ -182,36 +182,36 @@ hook for the menu item selection event.
 setting this prop flips the menu content on the right edges of the screen. This is useful you have nested menus of many levels.
 
 ```sh
-  <FloatMenu
+  <float-menu
     :dimension=50
     :position="'bottom right'"
     :flip-on-edges="true"
     on-select="handleSelection"
     menu-orientation="bottom">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ![flip](flip.png)
 
 ### custom icon
 
-To customize the icon, simply pass any icon in between the `FloatMenu` tags. The component internally uses a slot to insert the icon.
+To customize the icon, simply pass any icon in between the `float-menu` tags. The component internally uses a slot to insert the icon.
 
 ```sh
-  <FloatMenu
+  <float-menu
     :dimension=50
     menu-orientation="bottom">
     <BoxIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ```sh
-  <FloatMenu
+  <float-menu
     :dimension=50
     menu-orientation="bottom">
     <HeartIcon />
-  </FloatMenu>
+  </float-menu>
 ```
 
 ## Built with

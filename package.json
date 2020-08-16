@@ -14,7 +14,7 @@
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
     "@vue/compiler-sfc": "^3.0.0-rc.5",
-    "eslint": "^7.6.0",
+    "eslint": "^7.7.0",
     "eslint-plugin-vue": "^7.0.0-beta.2",
     "sass": "^1.26.10",
     "stylelint": "^13.6.1",
