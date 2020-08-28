@@ -7,16 +7,17 @@
   },
   "dependencies": {
     "nanoid": "^3.1.12",
-    "vue": "^3.0.0-rc.8"
+    "vue": "^3.0.0-rc.9"
   },
   "devDependencies": {
     "@types/nanoid": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
-    "@vue/compiler-sfc": "^3.0.0-rc.8",
+    "@vue/compiler-sfc": "^3.0.0-rc.9",
     "eslint": "^7.7.0",
     "eslint-plugin-vue": "^7.0.0-beta.2",
     "sass": "^1.26.10",
+    "sass-loader": "^10.0.1",
     "stylelint": "^13.6.1",
     "stylelint-config-standard": "^20.0.0",
     "typescript": "^4.0.2",
