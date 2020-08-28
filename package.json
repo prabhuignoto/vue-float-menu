@@ -1,6 +1,6 @@
 {
   "name": "vue-float-menu",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "smart floating menu for Vue 3",
   "license": "MIT",
   "scripts": {
