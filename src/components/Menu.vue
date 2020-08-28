@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="menu-wrapper"
-  >
+  <div class="menu-wrapper">
     <ul class="menu-list">
       <li
         v-for="item of menuItems"
@@ -76,7 +74,7 @@ export default defineComponent({
       type: Function as PropType<
         (id: string, name: string, parent?: string) => void
       >,
-      default: null
+      default: null,
     },
   },
   setup(props) {

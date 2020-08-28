@@ -1,6 +1,5 @@
 import sucrase from "@rollup/plugin-sucrase";
 import scss from "rollup-plugin-scss";
-// import typescript from "@rollup/plugin-typescript";
 import vue from "rollup-plugin-vue";
 import pkg from "./package.json";
 import common from "rollup-plugin-commonjs";

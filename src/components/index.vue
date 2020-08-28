@@ -58,13 +58,6 @@ import XIcon from "./icons/XIcon.vue";
 
 const MENU_SPACE = 10;
 
-interface HeadPosition {
-  "top left": "top left";
-  "top right": "top right";
-  "bottom left": "bottom left";
-  "bottom right": "bottom right";
-}
-
 export default defineComponent({
   name: "FloatMenu",
   components: {
