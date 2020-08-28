@@ -2,8 +2,8 @@ import sucrase from "@rollup/plugin-sucrase";
 import scss from "rollup-plugin-scss";
 import vue from "rollup-plugin-vue";
 import pkg from "./package.json";
-import common from "rollup-plugin-commonjs";
-import buble from "rollup-plugin-buble";
+// import common from "rollup-plugin-commonjs";
+// import buble from "rollup-plugin-buble";
 const beep = require("@rollup/plugin-beep");
 
 const banner = `/*
@@ -53,8 +53,8 @@ export default {
       exclude: ["node_modules/**"],
       transforms: ["typescript"],
     }),
-    common(),
-    buble(),
+    // common(),
+    // buble(),
     beep()
   ],
   external: ["vue", "nanoid"],
