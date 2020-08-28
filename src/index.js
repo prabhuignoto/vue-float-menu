@@ -1,5 +1,5 @@
 // Import vue component
-import component from "./components/index.vue";
+import FloatMenu from "./components/index.vue";
 
 // Declare install function executed by Vue.use()
 export function install(Vue) {
@@ -25,4 +25,4 @@ if (GlobalVue) {
 }
 
 // To allow use as module (npm/webpack/etc.) export component
-export { component };
+export default FloatMenu;
