@@ -5,6 +5,7 @@
     "strict": true,
     "declaration": true,
     "declarationDir": "dist",
+    "outDir": "dist",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importHelpers": true,
@@ -32,6 +33,9 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
-  ]
+    "dist",
+    "rollup.config.js"
+  ],
+  "include": ["src"],
+  "files": ["src/index.js"]
 }
