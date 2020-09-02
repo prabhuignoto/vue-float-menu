@@ -3,7 +3,7 @@
     <float-menu
       :position="'top left'"
       :dimension="50"
-      :menu-data="menu"
+      :menu-data="menu.items"
       :on-selected="handleSelection"
       :flip-on-edges="true"
       menu-orientation="bottom"
@@ -14,10 +14,10 @@
 </template>
 
 <script lang="ts">
-import FloatMenu from "./index.vue";
-import { Menu } from "./Menu.vue";
+import FloatMenu from "../components/index.vue";
+import { Menu } from "../components/Menu.vue";
 
-import BoxIcon from "./icons/BoxIcon.vue";
+import BoxIcon from "../components/icons/BoxIcon.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({

@@ -33,7 +33,7 @@
         <XIcon />
       </span>
       <Menu
-        v-if="menuActive"
+        v-show="menuActive"
         :data="menuData"
         :flip="flipMenu"
         :on-selection="handleMenuItemSelection"
@@ -52,8 +52,7 @@ import {
   computed,
   nextTick,
 } from "vue";
-import Menu from "./Menu.vue";
-import { Menu as MenuModel } from "./Menu.vue";
+import Menu, { MenuItem } from "./Menu.vue";
 import XIcon from "./icons/XIcon.vue";
 
 const MENU_SPACE = 10;
@@ -89,10 +88,8 @@ export default defineComponent({
       },
     },
     menuData: {
-      type: Object as PropType<MenuModel>,
-      default: {
-        items: [],
-      },
+      type: Array as PropType<MenuItem[]>,
+      default: [],
     },
     useCustomContent: {
       type: Boolean,

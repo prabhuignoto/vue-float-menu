@@ -9,20 +9,15 @@
         @mousedown="handleMenuItemClick($event, item.id, item.name, item.subMenu)"
       >
         <span class="name">{{ item.name }}</span>
-        <span
-          v-if="item.subMenu"
-          class="chev-icon"
-        >
+        <span v-if="item.subMenu" class="chev-icon">
           <ChevRightIcon />
         </span>
-        <span
-          v-if="item.subMenu && item.showSubMenu"
-          class="sub-menu-wrapper"
-        >
-          <SubMenu
-            :data="item.subMenu"
+        <span v-if="item.subMenu && item.showSubMenu" class="sub-menu-wrapper">
+          <component
+            v-bind:is="SubMenuComponent"
+            :data="item.subMenu.items"
             :on-selection="onSelection"
-          />
+          ></component>
         </span>
       </li>
     </ul>
@@ -30,16 +25,9 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  PropType,
-  ref,
-  defineAsyncComponent,
-  unref,
-} from "vue";
+import { defineComponent, PropType, ref, resolveComponent } from "vue";
 import { nanoid } from "nanoid";
 import ChevRightIcon from "./icons/ChevRightIcon.vue";
-const SubMenu: any = defineAsyncComponent(() => import("./Menu.vue"));
 
 export type Menu = {
   items: MenuItem[];
@@ -56,15 +44,12 @@ export type MenuItem = {
 export default defineComponent({
   name: "Menu",
   components: {
-    SubMenu,
     ChevRightIcon,
   },
   props: {
     data: {
-      type: Object as PropType<Menu>,
-      default: {
-        items: [],
-      },
+      type: Array as PropType<MenuItem[]>,
+      default: [],
     },
     flip: {
       type: Boolean,
@@ -79,13 +64,15 @@ export default defineComponent({
   },
   setup(props) {
     const menuItems = ref<MenuItem[]>(
-      props.data.items.map((item) =>
+      props.data.map((item) =>
         Object.assign({}, item, {
           id: nanoid(),
           showSubMenu: false,
         })
       )
     );
+
+    const SubMenuComponent = resolveComponent("Menu");
 
     const handleMenuItemClick = (
       event: MouseEvent,
@@ -96,7 +83,7 @@ export default defineComponent({
       event.stopPropagation();
       event.preventDefault();
 
-      menuItems.value = unref(menuItems).map((item) => {
+      menuItems.value = menuItems.value.map((item) => {
         const active = item.id === id && item.subMenu && !item.selected;
         return Object.assign({}, item, {
           showSubMenu: active,
@@ -112,6 +99,7 @@ export default defineComponent({
     return {
       menuItems,
       handleMenuItemClick,
+      SubMenuComponent,
     };
   },
 });
