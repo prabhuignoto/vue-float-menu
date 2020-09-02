@@ -33,7 +33,7 @@
         <XIcon />
       </span>
       <Menu
-        v-show="menuActive"
+        v-if="menuActive"
         :data="menuData"
         :flip="flipMenu"
         :on-selection="handleMenuItemSelection"

@@ -44,6 +44,7 @@
   position: absolute;
   visibility: hidden;
   width: 250px;
+  background: #fff;
 
   &.menuActive {
     animation: show 0.1s ease-in;
