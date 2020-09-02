@@ -15,12 +15,11 @@
 - **Smart Placement** - The Menu head automatically adjusts itself and always stays inside the viewport.
 - **Nested Menus** - Support for Nested menus up to any levels. It is always advisable to keep the nesting to a Minimum to have a good UX.
 - **Composition API** - Built using the latest Composition API from Vue 3.
-- **Typescript** - Built with Typescript.
 
 ## Installation
 
 ```sh
-yarn run install && yarn run dev
+yarn install vue-float-menu
 ```
 
 ## Getting Started
@@ -47,7 +46,7 @@ float-menu has some great defaults to get you started quickly. Please check the 
 | Prop             | Type     | Description                                                                                                                      |
 | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | dimension        | number   | dimension of the Menu Head.                                                                                                      |
-| position         | String   | Initial position of the Menu Head. can be any one of the following values "top left", "top right", "bottom left", "bottom right" |
+| position         | String   | Initial position of the Menu Head. can be any one of the following values `top left`, `top right`, `bottom left`, `bottom right` |
 | fixed            | Boolean  | Disables dragging on the Menu Head.                                                                                              |
 | menu-orientation | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    |
 | menu-dimension   | Object   | prop to set the width and minimum height of the Menu.                                                                            |
@@ -196,7 +195,7 @@ setting this prop flips the menu content on the right edges of the screen. This 
 
 ### custom icon
 
-To customize the icon, simply pass any icon in between the `float-menu` tags. The component internally uses a slot to insert the icon.
+To customize the Menu Icon, simply pass any valid content in between the `float-menu` tags.
 
 ```sh
   <float-menu
@@ -210,7 +209,7 @@ To customize the icon, simply pass any icon in between the `float-menu` tags. Th
   <float-menu
     :dimension=50
     menu-orientation="bottom">
-    <HeartIcon />
+    Click Me
   </float-menu>
 ```
 
