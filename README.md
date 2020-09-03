@@ -53,7 +53,7 @@ float-menu has some great defaults to get you started quickly. Please check the 
 | menu-orientation | String   | prop to set the Menu's orientation. can accept top or bottom.                                                                    |
 | menu-dimension   | Object   | prop to set the width and minimum height of the Menu.                                                                            |
 | menu-data        | Object   | Array data to generate the nested menu.                                                                                          |
-| on-selected      | Function | Hook to call on selection.                                                                                                       |
+| on-selected      | Function | Hook that is called on selection.                                                                                                       |
 | flip-on-edges    | Boolean  | Flips the Menu content automatically, when there is no space to display nested menus.                                            |
 
 ### dimension
@@ -109,8 +109,8 @@ prop to set the `height` and `width` of the menu.
   <float-menu
     :dimension=50
     :position="'bottom right'"
-    menu-orientation="bottom"
     :menu-dimension="{height: 400, width: 300}">
+    menu-orientation="bottom"
     <BoxIcon />
   </float-menu>
 ```
