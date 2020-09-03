@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "npm": "rimraf ./dist && rollup -c"
+    "rollup": "rimraf ./dist && rollup -c",
+    "lint:css": "stylelint src/**/*.vue"
   },
   "dependencies": {
     "nanoid": "^3.1.12",
