@@ -9,15 +9,21 @@
         @mousedown="handleMenuItemClick($event, item.id, item.name, item.subMenu)"
       >
         <span class="name">{{ item.name }}</span>
-        <span v-if="item.subMenu" class="chev-icon">
+        <span
+          v-if="item.subMenu"
+          class="chev-icon"
+        >
           <ChevRightIcon />
         </span>
-        <span v-if="item.subMenu && item.showSubMenu" class="sub-menu-wrapper">
+        <span
+          v-if="item.subMenu && item.showSubMenu"
+          class="sub-menu-wrapper"
+        >
           <component
-            v-bind:is="SubMenuComponent"
+            :is="SubMenuComponent"
             :data="item.subMenu.items"
             :on-selection="onSelection"
-          ></component>
+          />
         </span>
       </li>
     </ul>
@@ -57,7 +63,7 @@ export default defineComponent({
     },
     onSelection: {
       type: Function as PropType<
-        (id: string, name: string, parent?: string) => void
+        (name: string, parent?: string) => void
       >,
       default: null,
     },
@@ -92,7 +98,7 @@ export default defineComponent({
       });
 
       if (!subMenu) {
-        props.onSelection && props.onSelection(id, name);
+        props.onSelection && props.onSelection(name);
       }
     };
 

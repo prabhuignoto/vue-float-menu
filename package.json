@@ -22,7 +22,7 @@
     "@typescript-eslint/parser": "^4.0.1",
     "@vue/compiler-sfc": "^3.0.0-rc.9",
     "eslint": "^7.8.1",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vue": "^7.0.0-beta.3",
     "rollup": "^2.26.9",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-commonjs": "^10.1.0",

@@ -1617,14 +1617,15 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
-eslint-plugin-vue@^6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-6.2.2.tgz#27fecd9a3a24789b0f111ecdd540a9e56198e0fe"
-  integrity sha512-Nhc+oVAHm0uz/PkJAWscwIT4ijTrK5fqNqz9QB1D35SbbuMG1uB6Yr5AJpvPSWg+WOw7nYNswerYh0kOk64gqQ==
+eslint-plugin-vue@^7.0.0-beta.3:
+  version "7.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-7.0.0-beta.3.tgz#37a4fedf46db74cdb3be268390b4541eb7a810b7"
+  integrity sha512-/p23IRPN9gFNN7dzesrctt06Kvs9E3VRB8BGIAPSEaQNk5yhlKUzntPARjUpsTWW+DQg0mqglZptfkUJK4+4EQ==
   dependencies:
+    eslint-utils "^2.1.0"
     natural-compare "^1.4.0"
-    semver "^5.6.0"
-    vue-eslint-parser "^7.0.0"
+    semver "^7.3.2"
+    vue-eslint-parser "^7.1.0"
 
 eslint-scope@^5.0.0, eslint-scope@^5.1.0:
   version "5.1.0"
@@ -4058,7 +4059,7 @@ selfsigned@^1.10.7:
   dependencies:
     node-forge "0.9.0"
 
-"semver@2 || 3 || 4 || 5", semver@^5.4.1, semver@^5.6.0:
+"semver@2 || 3 || 4 || 5", semver@^5.4.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
@@ -4891,7 +4892,7 @@ vite@^1.0.0-rc.4:
     vue "^3.0.0-rc.5"
     ws "^7.2.3"
 
-vue-eslint-parser@^7.0.0:
+vue-eslint-parser@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.1.0.tgz#9cdbcc823e656b087507a1911732b867ac101e83"
   integrity sha512-Kr21uPfthDc63nDl27AGQEhtt9VrZ9nkYk/NTftJ2ws9XiJwzJJCnCr3AITQ2jpRMA0XPGDECxYH8E027qMK9Q==

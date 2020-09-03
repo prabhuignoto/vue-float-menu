@@ -11,12 +11,13 @@
       tabindex="0"
       class="menu-head"
       :class="{menuActive, dragActive}"
-      @mouseup="toggleMenu($event)"
+      @mouseup="toggleMenu"
       @mousedown="handleMouseDown"
-      @blur="handleBlur($event)"
+      @blur="handleBlur"
     >
       <span class="icon">
         <slot />
+        <BoxIcon v-if="isSlotEmpty" />
       </span>
     </div>
     <div
@@ -24,7 +25,7 @@
       class="menu-container"
       :class="{menuActive}"
       :style="menuStyle"
-      @mousedown="handleMenuClick($event)"
+      @mousedown="handleMenuClick"
     >
       <span
         class="close-btn"
@@ -54,6 +55,7 @@ import {
 } from "vue";
 import Menu, { MenuItem } from "./Menu.vue";
 import XIcon from "./icons/XIcon.vue";
+import BoxIcon from "./icons/BoxIcon.vue";
 
 const MENU_SPACE = 10;
 
@@ -62,6 +64,7 @@ export default defineComponent({
   components: {
     Menu,
     XIcon,
+    BoxIcon,
   },
   props: {
     dimension: {
@@ -104,7 +107,7 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
+  setup(props, { slots }) {
     // position of the circular menu head
     const position = ref<{ left: number; top: number } | null>(null);
 
@@ -112,7 +115,7 @@ export default defineComponent({
     const relativePostion = ref<{ x: number; y: number }>({ x: 0, y: 0 });
 
     // reference to the circular menu head
-    const menuHead = ref(null);
+    const menuHead = ref<HTMLElement>();
 
     // enables/disables menu
     const menuActive = ref(false);
@@ -295,9 +298,9 @@ export default defineComponent({
 
       // adjust menu orientation on load
       setupMenuOrientation();
-      adjustFloatMenuPosition((menuHead.value as unknown) as HTMLElement);
+      adjustFloatMenuPosition(menuHead.value as HTMLElement);
 
-      nextTick(() => ((menuHead.value as unknown) as HTMLElement).focus());
+      nextTick(() => (menuHead.value as HTMLElement).focus());
     });
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -344,12 +347,12 @@ export default defineComponent({
       dragActive.value = false;
     };
 
-    const handleMenuItemSelection = (id: string, name: string) => {
+    const handleMenuItemSelection = (name: string) => {
       menuActive.value = false;
       props.onSelected && props.onSelected(name);
     };
 
-    const handleBlur = (event: MouseEvent) => {
+    const handleBlur = () => {
       menuActive.value = false;
     };
 
@@ -376,6 +379,7 @@ export default defineComponent({
       style,
       toggleMenu,
       dragActive,
+      isSlotEmpty: slots && !slots.default,
     };
   },
 });
