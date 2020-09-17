@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "nanoid": "^3.1.12",
-    "vue": "^3.0.0-rc.10"
+    "vue": "^3.0.0-rc.12"
   },
   "devDependencies": {
     "@rollup/plugin-beep": "^0.2.0",
@@ -19,12 +19,12 @@
     "@rollup/plugin-sucrase": "^3.1.0",
     "@rollup/plugin-typescript": "^6.0.0",
     "@types/nanoid": "^2.1.0",
-    "@typescript-eslint/eslint-plugin": "^4.1.0",
-    "@typescript-eslint/parser": "^4.1.0",
-    "@vue/compiler-sfc": "^3.0.0-rc.10",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "@vue/compiler-sfc": "^3.0.0-rc.12",
     "eslint": "^7.9.0",
     "eslint-plugin-vue": "^7.0.0-beta.3",
-    "rollup": "^2.26.11",
+    "rollup": "^2.27.0",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-scss": "^2.6.0",
