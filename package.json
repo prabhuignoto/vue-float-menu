@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "nanoid": "^3.1.12",
-    "vue": "^3.0.0-rc.13"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-beep": "^0.2.0",
@@ -21,7 +21,7 @@
     "@types/nanoid": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
-    "@vue/compiler-sfc": "^3.0.0-rc.13",
+    "@vue/compiler-sfc": "^3.0.0",
     "eslint": "^7.9.0",
     "eslint-plugin-vue": "^7.0.0-beta.3",
     "rollup": "^2.27.1",
