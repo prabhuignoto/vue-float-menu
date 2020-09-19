@@ -5,6 +5,7 @@ import pkg from "./package.json";
 import common from "rollup-plugin-commonjs";
 import buble from "rollup-plugin-buble";
 import beep from "@rollup/plugin-beep";
+import resolve from "@rollup/plugin-node-resolve";
 
 const banner = `/*
  * ${pkg.name}
@@ -54,9 +55,10 @@ export default {
       exclude: ["node_modules/**"],
       transforms: ["typescript"],
     }),
+    beep(),
     common(),
     buble(),
-    beep()
+    resolve()
   ],
   external: ["vue", "nanoid"],
 };
