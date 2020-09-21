@@ -3,7 +3,7 @@
     <float-menu
       :position="'top left'"
       :dimension="50"
-      :menu-data="menu.items"
+      :menu-data="items"
       :on-selected="handleSelection"
       :flip-on-edges="true"
       menu-orientation="bottom"
@@ -15,7 +15,6 @@
 
 <script lang="ts">
 import FloatMenu from "../components/index.vue";
-import { Menu } from "../components/Menu.vue";
 
 import BoxIcon from "../components/icons/BoxIcon.vue";
 import { defineComponent } from "vue";
@@ -38,58 +37,56 @@ export default defineComponent({
   data() {
     return {
       count: 0,
-      menu: {
-        items: [
-          { name: "New" },
-          {
-            name: "Edit",
-            subMenu: {
-              name: "edit-items",
-              items: [{ name: "Copy" }, { name: "Paste" }],
-            },
+      items: [
+        { name: "New" },
+        {
+          name: "Edit",
+          subMenu: {
+            name: "edit-items",
+            items: [{ name: "Copy" }, { name: "Paste" }],
           },
-          {
-            name: "Open Recent",
-            subMenu: {
-              name: "recent-items",
-              items: [{ name: "Document 1" }, { name: "Document 2" }],
-            },
+        },
+        {
+          name: "Open Recent",
+          subMenu: {
+            name: "recent-items",
+            items: [{ name: "Document 1" }, { name: "Document 2" }],
           },
-          {
-            name: "Settings",
-            subMenu: {
-              name: "settings",
-              items: [
-                {
-                  name: "Themes",
-                  subMenu: {
-                    name: "sub-themes",
-                    items: [
-                      { name: "Dark" },
-                      { name: "Light" },
-                      { name: "Blue" },
-                      { name: "Green" },
-                    ],
-                  },
+        },
+        {
+          name: "Settings",
+          subMenu: {
+            name: "settings",
+            items: [
+              {
+                name: "Themes",
+                subMenu: {
+                  name: "sub-themes",
+                  items: [
+                    { name: "Dark" },
+                    { name: "Light" },
+                    { name: "Blue" },
+                    { name: "Green" },
+                  ],
                 },
-                { name: "Keymaps" },
-              ],
-            },
+              },
+              { name: "Keymaps" },
+            ],
           },
-          {
-            name: "Save",
-          },
-          {
-            name: "Save As",
-          },
-          {
-            name: "Close",
-          },
-          {
-            name: "Exit",
-          },
-        ],
-      } as Menu,
+        },
+        {
+          name: "Save",
+        },
+        {
+          name: "Save As",
+        },
+        {
+          name: "Close",
+        },
+        {
+          name: "Exit",
+        },
+      ],
     };
   },
 });
