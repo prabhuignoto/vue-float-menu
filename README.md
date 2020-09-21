@@ -9,7 +9,7 @@
 
 >Customizable Floating Menu for Vue 3
 
-![app-home](app-home.png)
+![app-home](./src/readme-assets/app-home.png)
 
 ⚡ [Edit on Stackblitz](https://stackblitz.com/edit/vue-mkrnwq?file=src/App.vue)
 
@@ -50,7 +50,7 @@ The following snippet sets the default position of the menu as `top left` and de
 
 ## 📺 Demo
 
-![demo](demo.gif)
+![demo](./src/readme-assets/demo.gif)
 
 ## Props
 
@@ -204,7 +204,7 @@ setting this prop `flips` the menu content on the right edges of the screen. Thi
   </float-menu>
 ```
 
-![flip](flip.png)
+![flip](./src/readme-assets/flip.png)
 
 ### Custom icon
 
