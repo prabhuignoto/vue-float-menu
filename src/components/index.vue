@@ -1,6 +1,7 @@
 <template>
   <div
     class="menu-head-wrapper"
+    :class="{dragActive}"
     :draggable="!fixed"
     :style="style || getInitStyle"
     @dragstart="handleDragStart"
@@ -115,13 +116,13 @@ export default defineComponent({
     const relativePostion = ref<{ x: number; y: number }>({ x: 0, y: 0 });
 
     // reference to the circular menu head
-    const menuHead = ref<HTMLElement>();
+    const menuHead = ref<HTMLDivElement>();
 
     // enables/disables menu
     const menuActive = ref(false);
 
     // reference to the menu container
-    const menuContainer = ref(null);
+    const menuContainer = ref<HTMLDivElement>();
 
     // generates style for the menu
     const menuStyle = ref<{ "min-height": string; width: string } | null>(null);
@@ -184,8 +185,8 @@ export default defineComponent({
     // manages the orientation of the menu (top or bottom)
     // when enough space is not available on either top or bottom, the menu is automatically flipped
     const setupMenuOrientation = () => {
-      const menuContDOM = (menuContainer.value as unknown) as HTMLElement;
-      const menuHeadDOM = (menuHead.value as unknown) as HTMLElement;
+      const menuContDOM = menuContainer.value as HTMLElement;
+      const menuHeadDOM = menuHead.value as HTMLElement;
 
       const { top, bottom } = menuHeadDOM.getBoundingClientRect();
       const { dimension } = props;
@@ -325,7 +326,7 @@ export default defineComponent({
 
       if (!menuActive.value) {
         setupMenuOrientation();
-        adjustFloatMenuPosition((menuHead.value as unknown) as HTMLElement);
+        adjustFloatMenuPosition(menuHead.value as HTMLElement);
       }
 
       nextTick(() => {

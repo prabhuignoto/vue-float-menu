@@ -5,11 +5,11 @@
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/prabhuignoto/float-menu)
 [![Depfu](https://badges.depfu.com/badges/3597df88718d346a7b41f08e31fe1331/overview.svg)](https://depfu.com/github/prabhuignoto/float-menu?project_id=15010)
 
-![logo](./src/readme-assets/logo.png)
+![logo](./readme-assets/logo.png)
 
 >Customizable Floating Menu for Vue 3
 
-![app-home](./src/readme-assets/app-home.png)
+![app-home](./readme-assets/app-home.png)
 
 ⚡ [Edit on Stackblitz](https://stackblitz.com/edit/vue-mkrnwq?file=src/App.vue)
 
@@ -50,7 +50,7 @@ The following snippet sets the default position of the menu as `top left` and de
 
 ## 📺 Demo
 
-![demo](./src/readme-assets/demo.gif)
+![demo](./readme-assets/demo.gif)
 
 ## Props
 
@@ -171,7 +171,7 @@ const menuData = [
   </float-menu>
 ```
 
-![example1](./src/readme-assets/example1.png)
+![example1](./readme-assets/example1.png)
 
 ### on-select
 
@@ -204,7 +204,7 @@ setting this prop `flips` the menu content on the right edges of the screen. Thi
   </float-menu>
 ```
 
-![flip](./src/readme-assets/flip.png)
+![flip](./readme-assets/flip.png)
 
 ### Custom icon
 
@@ -230,7 +230,7 @@ and here we render a custom text inside the Menu handle
   </float-menu>
 ```
 
-![example2](./src/readme-assets/example2.png)
+![example2](./readme-assets/example2.png)
 
 ## 🔨 Built with
 

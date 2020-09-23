@@ -1,5 +1,11 @@
+$cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
 .menu-head-wrapper {
   position: fixed;
+
+  &:not(.dragActive) {
+    transition: left 0.2s $cubic, right 0.2s $cubic, top 0.2s $cubic, bottom 0.2s $cubic;
+  }
 }
 
 .menu-head {
@@ -47,7 +53,7 @@
   background: #fff;
 
   &.menuActive {
-    animation: show 0.1s ease-in;
+    animation: show 0.15s $cubic;
     visibility: visible;
   }
 }
@@ -61,9 +67,11 @@
 @keyframes show {
   0% {
     opacity: 0;
+    transform: scale(0.95);
   }
 
   100% {
     opacity: 1;
+    transform: scale(1);
   }
 }
