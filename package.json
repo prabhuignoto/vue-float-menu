@@ -1,9 +1,13 @@
 {
   "name": "vue-float-menu",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "smart floating menu for Vue 3",
   "license": "MIT",
-  "keywords": ["menu", "float-menu", "vue-menu"],
+  "keywords": [
+    "menu",
+    "float-menu",
+    "vue-menu"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/prabhuignoto/vue-float-menu"
