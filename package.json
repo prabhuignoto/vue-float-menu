@@ -3,6 +3,16 @@
   "version": "1.1.8",
   "description": "smart floating menu for Vue 3",
   "license": "MIT",
+  "keywords": ["menu", "float-menu", "vue-menu"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prabhuignoto/vue-float-menu"
+  },
+  "author": {
+    "name": "Prabhu Murthy",
+    "url": "https://www.prabhumurthy.com",
+    "email": "prabhu.m.murthy@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
