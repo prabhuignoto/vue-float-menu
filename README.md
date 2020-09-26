@@ -41,7 +41,7 @@ The following snippet sets the default position of the menu as `top left` and de
   <float-menu
     position="top left"
     :dimension="50"
-    :menu="menuData"
+    :menu-data="menuData"
     menu-direction="bottom"
   >
     <BoxIcon />
