@@ -36,7 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "eslint": "^7.9.0",
+    "eslint": "^7.10.0",
     "eslint-plugin-vue": "^7.0.0-beta.4",
     "rollup": "^2.28.1",
     "rollup-plugin-buble": "^0.19.8",
