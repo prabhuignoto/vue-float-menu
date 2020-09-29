@@ -4962,6 +4962,14 @@ vue-eslint-parser@^7.1.0:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
+vue-float-menu@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/vue-float-menu/-/vue-float-menu-1.1.10.tgz#6765b1ddeb23b5e2f340ccfdeaf624236e3fc1ac"
+  integrity sha512-pbpM3jCYHpQGwdaOq1xDr8n7KDeorfPivU1/OJYY+Xoc1UevGZEjbVkrI1jswx95m+w5YqYVD/QbN0XG2KUtMA==
+  dependencies:
+    nanoid "^3.1.12"
+    vue "^3.0.0"
+
 vue@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.0.0.tgz#cfb5df5c34efce319b113a1667d12b74dcfd9c90"
