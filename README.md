@@ -11,19 +11,17 @@
 
 ![app-home](./readme-assets/app-home.png)
 
-⚡ [Edit on Stackblitz](https://stackblitz.com/edit/vue-mkrnwq?file=src/App.vue)
+[![Edit vue-float-menu](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-float-menu-e09z4?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Features
 
-✅ **Draggable Menu Handle** - Drag and easily place the Menu anywhere on screen.
+✅ **Draggable Menu Handle** - Drag and easily place the menu anywhere on screen.
 
 ✅ **Smart Menu** - Detects the top & bottom edges of the screen and flips the menu automatically.
 
 ✅ **Smart Placement** - The Menu head automatically adjusts itself and always stays inside the viewport.
 
-✅ **Nested Menus** - Support for Nested menus up to any levels.
-
-✅ **Composition API** - Built using the latest Composition API from Vue 3.
+✅ **Nested Menus** - Support for Nested menus.
 
 ## ⚙ Installation
 
@@ -38,14 +36,56 @@ float-menu has some great defaults. Please check the props list for details on a
 The following snippet sets the default position of the menu as `top left` and default menu direction as `bottom`.
 
 ```sh
+<template>
   <float-menu
-    position="top left"
+    :position="'top left'"
     :dimension="50"
-    :menu-data="menuData"
-    menu-direction="bottom"
+    :menu-data="items"
+    :on-selected="handleSelection"
+    menu-orientation="bottom"
   >
-    <BoxIcon />
+    Drag
   </float-menu>
+</template>
+
+<script>
+import { FloatMenu } from "vue-float-menu";
+import "vue-float-menu/dist/vue-float-menu.css";
+
+export default {
+  components: {
+    FloatMenu,
+  },
+  setup() {
+    const handleSelection = (selectedItem: string) => {
+      console.log(selectedItem);
+    };
+    return {
+      handleSelection,
+    };
+  },
+  data() {
+    return {
+      items: [
+        { name: "New" },
+        {
+          name: "Edit",
+          subMenu: {
+            name: "edit-items",
+            items: [{ name: "Copy" }, { name: "Paste" }],
+          },
+        },
+        {
+          name: "Open Recent"
+        },
+        {
+          name: "Save",
+        }
+      ],
+    };
+  },
+};
+</script>
 ```
 
 ## 📺 Demo
@@ -128,7 +168,7 @@ prop to set the `height` and `width` of the menu.
 
 Use the `menu-data` prop to create Simple or Nested menus of your liking. `menu-data` takes an array of `MenuItem` type
 
-**List of MenuItem properties**
+MenuItem properties
 
 | property    | description                                                           |
 | ----------- | --------------------------------------------------------------------- |
@@ -189,7 +229,7 @@ hook for the menu item selection event.
   </float-menu>
 ```
 
-### Auto flip on edges
+### Flip on edges
 
 setting this prop `flips` the menu content on the right edges of the screen. This is useful you have nested menus of many levels.
 
@@ -231,6 +271,30 @@ and here we render a custom text inside the Menu handle
 ```
 
 ![example2](./readme-assets/example2.png)
+
+## Build Setup
+
+``` bash
+# install dependencies
+yarn install
+
+# start dev
+yarn run dev
+
+# run css linting
+yarn run lint:css
+
+# package lib
+npm run rollup
+```
+
+## Contributing
+
+1. Fork it ( [https://github.com/prabhuignoto/vue-float-menu/fork](https://github.com/prabhuignoto/vue-float-menu/fork) )
+2. Create your feature branch (`git checkout -b new-feature`)
+3. Commit your changes (`git commit -am 'Add feature'`)
+4. Push to the branch (`git push origin new-feature`)
+5. Create a new Pull Request
 
 ## 🔨 Built with
 
