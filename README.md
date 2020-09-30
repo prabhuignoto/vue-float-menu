@@ -1,5 +1,5 @@
+[![Build Status](https://dev.azure.com/prabhummurthy/float-menu/_apis/build/status/prabhuignoto.vue-float-menu?branchName=master)](https://dev.azure.com/prabhummurthy/float-menu/_build/latest?definitionId=9&branchName=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a591487451582a389126/maintainability)](https://codeclimate.com/github/prabhuignoto/float-menu/maintainability)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/499d76a8a8904a628827f937c6b57268)](https://www.codacy.com/manual/prabhuignoto/float-menu?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=prabhuignoto/float-menu&amp;utm_campaign=Badge_Grade)
 [![DeepScan grade](https://deepscan.io/api/teams/10074/projects/13372/branches/223016/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=10074&pid=13372&bid=223016)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/prabhuignoto/float-menu.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/prabhuignoto/float-menu/context:javascript)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/prabhuignoto/float-menu)
@@ -11,7 +11,7 @@
 
 [![Edit vue-float-menu](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-float-menu-e09z4?fontsize=14&hidenavigation=1&theme=dark)
 
-## Features
+<h2>Features</h2>
 
 ✅ **Draggable Menu Handle** - Drag and easily place the menu anywhere on screen.
 
@@ -21,6 +21,28 @@
 
 ✅ **Nested Menus** - Support for Nested menus.
 
+<h2>Table of Contents</h2>
+
+- [⚙ Installation](#-installation)
+- [🚀 Getting Started](#-getting-started)
+- [Demo](#demo)
+- [Props](#props)
+  - [Dimension](#dimension)
+  - [Position](#position)
+  - [Fixed position](#fixed-position)
+  - [Menu orientation](#menu-orientation)
+  - [Menu head dimension](#menu-head-dimension)
+  - [Populating Menu](#populating-menu)
+  - [on-select](#on-select)
+  - [Flip on edges](#flip-on-edges)
+  - [🎨 Custom icon](#-custom-icon)
+  - [🌈 Theme](#-theme)
+- [⚙ Build Setup](#-build-setup)
+- [Contributing](#contributing)
+- [🔨 Built with](#-built-with)
+- [Notes](#notes)
+- [Meta](#meta)
+
 ## ⚙ Installation
 
 ```sh
@@ -29,9 +51,9 @@ yarn install vue-float-menu
 
 ## 🚀 Getting Started
 
-float-menu has some great defaults. Please check the props list for details on all available options.
+float-menu has some great defaults. Please check the [props](#props) section for all available options.
 
-The following snippet sets the default position of the menu as `top left` and default menu direction as `bottom`.
+Here is a basic example that sets the default position of the menu as `top left` and menu orientation to `bottom`.
 
 ```sh
 <template>
@@ -86,7 +108,7 @@ export default {
 </script>
 ```
 
-## 📺 Demo
+## Demo
 
 ![demo](./readme-assets/demo.gif)
 
@@ -249,7 +271,7 @@ setting this prop `flips` the menu content on the right edges of the screen. Thi
 
 ![flip](./readme-assets/flip.png)
 
-### Custom icon
+### 🎨 Custom icon
 
 To customize the Menu Icon, simply pass any content in between the `float-menu` tags. Here we render a custom icon.
 
@@ -277,7 +299,7 @@ and here we render a text `Click` inside the Menu handle
 
 ![example2](./readme-assets/example2.png)
 
-### Theme
+### 🌈 Theme
 
 Customize the color schemes with the `theme` prop.
 
@@ -298,7 +320,7 @@ Customize the color schemes with the `theme` prop.
 
 ![theme](./readme-assets/theme.png)
 
-## Build Setup
+## ⚙ Build Setup
 
 ``` bash
 # install dependencies
@@ -326,7 +348,7 @@ npm run rollup
 
 - [Vue.JS](vue) - The Component is written in Vue + [Typescript](typescript).
 
-## 📄 Notes
+## Notes
 
 - The project uses [vite](vite) instead of @vue/cli. I choose vite for speed and i also believe [vite](vite) will be the future.
 
