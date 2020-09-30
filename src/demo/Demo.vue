@@ -6,6 +6,12 @@
       :menu-data="items"
       :on-selected="handleSelection"
       :flip-on-edges="true"
+      :theme="{
+        primary: '#00539C',
+        textColor: '#000',
+        menuBgColor: '#fff',
+        textSelectedColor: '#fff',
+      }"
       menu-orientation="bottom"
     >
       <BoxIcon />

@@ -106,9 +106,19 @@ export default defineComponent({
       default: false,
     },
     theme: {
-      type: Object as PropType<{ primary: string }>,
+      type: Object as PropType<{
+        primary: string;
+        textColor: string;
+        menuBgColor: string;
+        textSelectedColor: string;
+      }>,
       required: false,
-      default: { primary: "#0080ff" },
+      default: {
+        primary: "#0080ff",
+        textColor: "#000",
+        menuBgColor: "#fff",
+        textSelectedColor: "#fff",
+      },
     },
   },
   setup(props, { slots }) {

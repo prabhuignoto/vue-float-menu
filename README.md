@@ -5,9 +5,7 @@
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/prabhuignoto/float-menu)
 [![Depfu](https://badges.depfu.com/badges/3597df88718d346a7b41f08e31fe1331/overview.svg)](https://depfu.com/github/prabhuignoto/float-menu?project_id=15010)
 
-![logo](./readme-assets/logo.png)
-
->Customizable Floating Menu for Vue 3
+![logo](./readme-assets/social-media-logo-small.png)
 
 ![app-home](./readme-assets/app-home.png)
 
@@ -104,6 +102,7 @@ export default {
 | menu-data        | Object   | Array data to generate the nested menu's.                                                                                        |
 | on-selected      | Function | Hook that is called on selection.                                                                                                |
 | flip-on-edges    | Boolean  | Flips the Menu content automatically, when there is no space to display nested menus.                                            |
+| theme            | Object   | prop to customize the color schemes. refer [theme](#theme) for usage.                                                            |
 
 ### Dimension
 
@@ -160,6 +159,7 @@ prop to set the `height` and `width` of the menu.
     :menu-dimension="{height: 400, width: 300}"
     position="bottom right"
     menu-orientation="bottom"
+  >
     <BoxIcon />
   </float-menu>
 ```
@@ -206,7 +206,8 @@ const menuData = [
     :menu-dimension="{height: 400, width: 300}"
     :menu-data="menuData"
     position="bottom right"
-    menu-orientation="bottom">
+    menu-orientation="bottom"
+  >
     <BoxIcon />
   </float-menu>
 ```
@@ -224,7 +225,8 @@ hook for the menu item selection event.
     :menu-dimension="{height: 400, width: 300}"
     :menu-data="{items: [{name: 'File'}, {name: 'Open'}]}"
     on-select="handleSelection"
-    menu-orientation="bottom">
+    menu-orientation="bottom"
+  >
     <BoxIcon />
   </float-menu>
 ```
@@ -239,7 +241,8 @@ setting this prop `flips` the menu content on the right edges of the screen. Thi
     position="bottom right"
     flip-on-edges
     on-select="handleSelection"
-    menu-orientation="bottom">
+    menu-orientation="bottom"
+  >
     <BoxIcon />
   </float-menu>
 ```
@@ -254,23 +257,46 @@ To customize the Menu Icon, simply pass any content in between the `float-menu` 
   <float-menu
     :dimension=50
     :menu-data="menuData"
-    menu-orientation="bottom">
+    menu-orientation="bottom"
+  >
     <BoxIcon />
   </float-menu>
 ```
 
-and here we render a custom text inside the Menu handle
+and here we render a text `Click` inside the Menu handle
 
 ```sh
   <float-menu
     :dimension=50
     :menu-data="menuData"
-    menu-orientation="bottom">
-    Click Me
+    menu-orientation="bottom"
+  >
+    Click
   </float-menu>
 ```
 
 ![example2](./readme-assets/example2.png)
+
+### Theme
+
+Customize the color schemes with the `theme` prop.
+
+```sh
+  <float-menu
+    :dimension=50
+    :theme="{
+      primary: '#00539C',
+      textColor: '#000',
+      menuBgColor: '#fff',
+      textSelectedColor: '#fff',
+    }"
+    menu-orientation="bottom"
+  >
+    Click
+  </float-menu>
+```
+
+![theme](./readme-assets/theme.png)
 
 ## Build Setup
 

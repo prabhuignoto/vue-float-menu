@@ -1,0 +1,20 @@
+<svg width="1280" height="640" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="#fff" id="canvas_background" height="642" width="1282" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path fill-opacity="0.3" id="svg_1" d="m0.5,-0.54688l-0.5,255.54688l255,-255l-254.5,-0.54688z" stroke-width="0" stroke="#000" fill="#dda0dd"/>
+  <path id="svg_3" d="m-0.5,-0.54688l0.5,120.54688l123,-120l-123.5,-0.54688z" fill-opacity="0.2" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#9370db"/>
+  <path transform="rotate(179.88941955566406 1151.5,511.22656250000006) " fill-opacity="0.3" id="svg_4" d="m1024.5,383.45312l-0.5,255.54688l255,-255l-254.5,-0.54688z" stroke-width="0" stroke="#000" fill="#dda0dd"/>
+  <path stroke="#000" transform="rotate(179.71957397460938 1218.2500000000002,579.7265625) " id="svg_5" d="m1156.5,519.45312l0.5,120.54688l123,-120l-123.5,-0.54688z" fill-opacity="0.2" stroke-opacity="null" stroke-width="0" fill="#9370db"/>
+  <path id="svg_6" d="m-81.5,638.45313l568.5,-639.45313l245,-1l-526,642l-287.5,-1.54687z" fill-opacity="0.05" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#0c3299"/>
+  <text font-weight="normal" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="65" id="svg_8" y="297.45313" x="792.5" fill-opacity="0.8" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">vue-float-menu</text>
+  <text style="cursor: move;" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="28" id="svg_11" y="352.45313" x="916.5" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">draggable menu for Vue</text>
+ </g>
+</svg>

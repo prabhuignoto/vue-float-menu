@@ -1,6 +1,11 @@
 <template>
-  <div class="menu-wrapper">
-    <ul class="menu-list">
+  <div
+    class="menu-wrapper"
+  >
+    <ul
+      class="menu-list"
+      :style="getTheme"
+    >
       <li
         v-for="item of menuItems"
         :key="item.id"
@@ -13,18 +18,20 @@
         <span class="name">{{ item.name }}</span>
         <span
           v-if="item.subMenu"
-          class="chev-icon"
+          class="chev-icon" 
         >
           <ChevRightIcon />
         </span>
         <span
           v-if="item.subMenu && item.showSubMenu"
           class="sub-menu-wrapper"
+          :style="getTheme"
         >
           <component
             :is="SubMenuComponent"
             :data="item.subMenu.items"
             :on-selection="onSelection"
+            :theme="theme"
           />
         </span>
       </li>
@@ -74,9 +81,19 @@ export default defineComponent({
       default: null,
     },
     theme: {
-      type: Object as PropType<{ primary: string }>,
+      type: Object as PropType<{
+        primary: string;
+        textColor: string;
+        menuBgColor: string;
+        textSelectedColor: string;
+      }>,
       required: false,
-      default: { primary: "#0080ff" },
+      default: {
+        primary: "#0080ff",
+        textColor: "#000",
+        menuBgColor: "#fff",
+        textSelectedColor: "#fff",
+      },
     },
   },
   setup(props) {
@@ -115,6 +132,9 @@ export default defineComponent({
 
     const getTheme = computed(() => ({
       "--background": props.theme.primary,
+      "--menu-background": props.theme.menuBgColor,
+      "--menu-text-color": props.theme.textColor,
+      "--text-selected-color": props.theme.textSelectedColor,
     }));
 
     return {

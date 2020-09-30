@@ -1,5 +1,4 @@
 $black: #000;
-$blue: #0080ff;
 $white: #fff;
 $light-gray: #e5e5e5;
 $shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
@@ -14,8 +13,7 @@ $shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
 
 .sub-menu-wrapper {
   animation: show 0.2s ease-in;
-  background: $white;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   box-shadow: $shadow;
   left: 102%;
   min-width: 150px;
@@ -44,7 +42,7 @@ $shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
 
 .menu-list-item {
   align-items: center;
-  color: $black;
+  color: var(--menu-text-color);
   cursor: pointer;
   display: flex;
   font-size: 0.9rem;
@@ -52,23 +50,29 @@ $shadow: rgba(0, 0, 0, 0.2) 2px 2px 10px 2px;
   justify-content: flex-start;
   position: relative;
   width: 100%;
+  background: var(--menu-background);
 
   &:not(:last-child) {
     border-bottom: 1px solid $light-gray;
   }
 
   &:first-child {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
   }
 
   &.selected {
     background: var(--background);
-    color: $white;
+    color: var(--text-selected-color);
   }
 
   &:hover:not(.selected) {
-    background: $light-gray;
+    background: rgba(0, 0, 0, 0.1);
     color: $black;
   }
 
