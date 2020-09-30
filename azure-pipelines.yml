@@ -25,5 +25,9 @@ steps:
   displayName: 'Rollup build'
 
 - script: |
+    npm run lint:css
+  displayName: 'lint styles' 
+
+- script: |
     npm run lint
-  displayName: 'style lint' 
+  displayName: 'lint typescript' 
