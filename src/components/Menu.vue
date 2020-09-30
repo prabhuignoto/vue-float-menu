@@ -4,9 +4,11 @@
       <li
         v-for="item of menuItems"
         :key="item.id"
-        class="menu-list-item"
-        :class="{selected: item.selected, flip}"
-        @mousedown="handleMenuItemClick($event, item.id, item.name, item.subMenu)"
+        :class="[{ selected: item.selected, flip }, 'menu-list-item']"
+        :style="getTheme"
+        @mousedown="
+          handleMenuItemClick($event, item.id, item.name, item.subMenu)
+        "
       >
         <span class="name">{{ item.name }}</span>
         <span
@@ -31,7 +33,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, resolveComponent } from "vue";
+import {
+  defineComponent,
+  PropType,
+  ref,
+  resolveComponent,
+  computed,
+} from "vue";
 import { nanoid } from "nanoid";
 import ChevRightIcon from "./icons/ChevRightIcon.vue";
 
@@ -62,10 +70,13 @@ export default defineComponent({
       default: false,
     },
     onSelection: {
-      type: Function as PropType<
-        (name: string, parent?: string) => void
-      >,
+      type: Function as PropType<(name: string, parent?: string) => void>,
       default: null,
+    },
+    theme: {
+      type: Object as PropType<{ primary: string }>,
+      required: false,
+      default: { primary: "#0080ff" },
     },
   },
   setup(props) {
@@ -102,10 +113,15 @@ export default defineComponent({
       }
     };
 
+    const getTheme = computed(() => ({
+      "--background": props.theme.primary,
+    }));
+
     return {
       menuItems,
       handleMenuItemClick,
       SubMenuComponent,
+      getTheme,
     };
   },
 });

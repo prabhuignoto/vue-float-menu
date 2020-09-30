@@ -1,7 +1,6 @@
 <template>
   <div
-    class="menu-head-wrapper"
-    :class="{dragActive}"
+    :class="[{ dragActive }, 'menu-head-wrapper']"
     :draggable="!fixed"
     :style="style || getInitStyle"
     @dragstart="handleDragStart"
@@ -10,8 +9,8 @@
     <div
       ref="menuHead"
       tabindex="0"
-      class="menu-head"
-      :class="{menuActive, dragActive}"
+      :class="[{ menuActive, dragActive }, 'menu-head']"
+      :style="getTheme"
       @mouseup="toggleMenu"
       @mousedown="handleMouseDown"
       @blur="handleBlur"
@@ -23,8 +22,7 @@
     </div>
     <div
       ref="menuContainer"
-      class="menu-container"
-      :class="{menuActive}"
+      :class="[{ menuActive }, 'menu-container']"
       :style="menuStyle"
       @mousedown="handleMenuClick"
     >
@@ -39,6 +37,7 @@
         :data="menuData"
         :flip="flipMenu"
         :on-selection="handleMenuItemSelection"
+        :theme="theme"
       />
     </div>
   </div>
@@ -57,8 +56,7 @@ import {
 import Menu, { MenuItem } from "./Menu.vue";
 import XIcon from "./icons/XIcon.vue";
 import BoxIcon from "./icons/BoxIcon.vue";
-
-const MENU_SPACE = 10;
+import utils from "../utils";
 
 export default defineComponent({
   name: "FloatMenu",
@@ -107,6 +105,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    theme: {
+      type: Object as PropType<{ primary: string }>,
+      required: false,
+      default: { primary: "#0080ff" },
+    },
   },
   setup(props, { slots }) {
     // position of the circular menu head
@@ -138,32 +141,8 @@ export default defineComponent({
 
     // sets the initial style
     const getInitStyle = computed(() => {
-      let left = 0,
-        top = 0;
-      switch (props.position) {
-        case "top left":
-          left = 20;
-          top = 20;
-          break;
-        case "top right":
-          left = window.innerWidth - props.dimension;
-          top = 20;
-          break;
-        case "bottom left":
-          left = 20;
-          top = window.innerHeight - props.dimension;
-          break;
-        case "bottom right":
-          left = window.innerWidth - props.dimension;
-          top = window.innerHeight - props.dimension;
-      }
-
-      return {
-        left: `${left}px`,
-        top: `${top}px`,
-        width: `${props.dimension}px`,
-        height: `${props.dimension}px`,
-      };
+      const position = utils.setupInitStyle(props.position, props.dimension);
+      return position;
     });
 
     // compute the style
@@ -187,97 +166,39 @@ export default defineComponent({
     const setupMenuOrientation = () => {
       const menuContDOM = menuContainer.value as HTMLElement;
       const menuHeadDOM = menuHead.value as HTMLElement;
-
-      const { top, bottom } = menuHeadDOM.getBoundingClientRect();
       const { dimension } = props;
-      const left = Math.round((menuContDOM.clientWidth - dimension) / 2);
       const dir = unref(localMenuOrientation);
-      const menuHeight = menuContDOM.clientHeight;
+      const newStyle = utils.setupMenuOrientation(
+        menuHeadDOM,
+        menuContDOM,
+        dimension,
+        dir,
+        props.menuDimension
+      );
 
-      let newMenuStyle = null;
-
-      // flip to bottom if there is not enough space on top
-      if (dir === "top" && menuHeight > top) {
-        newMenuStyle = {
-          top: `${dimension + MENU_SPACE}px`,
-          left: `-${left}px`,
-        };
-        localMenuOrientation.value = "top";
-      } else if (dir === "top") {
-        newMenuStyle = {
-          bottom: `${dimension + MENU_SPACE}px`,
-          left: `-${left}px`,
-        };
-        // flip menu to top if there is no enough space at bottom
-      } else if (dir === "bottom" && window.innerHeight - bottom < menuHeight) {
-        newMenuStyle = {
-          bottom: `${dimension + MENU_SPACE}px`,
-          left: `-${left}px`,
-        };
-        localMenuOrientation.value = "bottom";
-      } else if (dir === "bottom") {
-        newMenuStyle = {
-          top: `${dimension + MENU_SPACE}px`,
-          left: `-${left}px`,
-        };
-      }
-
-      menuStyle.value = Object.assign({}, newMenuStyle, {
-        "min-height": `${props.menuDimension}px`,
-        width: `${props.menuDimension}px`,
-      });
+      localMenuOrientation.value = newStyle.newOrientation;
+      menuStyle.value = newStyle;
     };
 
     // this function repositions the menu head whenever it goes out of screen edges.
     const adjustFloatMenuPosition = (element: HTMLElement) => {
-      const { top, bottom, left, right } = element.getBoundingClientRect();
-      const { innerWidth: screenWidth, innerHeight: screenHeight } = window;
-      const positionValue = unref(position);
-      const menuContWidth = ((menuContainer.value as unknown) as HTMLElement)
-        .clientWidth;
-      const menuContHalfWidth = Math.ceil(menuContWidth / 2);
+      const positionRef = unref(position);
 
-      if (!positionValue) {
+      if (!positionRef) {
         return;
       }
 
-      if (props.flipOnEdges) {
-        flipMenu.value = false;
-      }
+      if (menuContainer.value) {
+        const newPosition = utils.setupMenuPosition(
+          element,
+          positionRef,
+          props.flipOnEdges,
+          menuContainer.value
+        );
+        flipMenu.value = newPosition.flip;
 
-      // resposition if the menuhead goes below the bottom of the viewport
-      if (bottom > screenHeight) {
-        position.value = {
-          left: positionValue.left,
-          top: positionValue.top - (bottom - screenHeight),
-        };
-      }
-
-      // resposition if the menuhead goes above the bottom of the viewport
-      if (top < 0) {
-        position.value = {
-          left: positionValue.left,
-          top: positionValue.top + Math.abs(top),
-        };
-      }
-
-      // resposition if the menuhead goes beyond the leftside of the viewport
-      if (left < 0 || left < menuContHalfWidth) {
-        position.value = {
-          left: menuContHalfWidth,
-          top: positionValue.top,
-        };
-      }
-
-      // resposition if the menuhead goes beyond the rightside of the viewport
-      if (right > screenWidth || screenWidth - right < menuContWidth) {
-        position.value = {
-          left: screenWidth - menuContWidth,
-          top: positionValue.top,
-        };
-
-        if (props.flipOnEdges) {
-          flipMenu.value = true;
+        if (newPosition.position) {
+          position.value = newPosition.position;
         }
       }
     };
@@ -334,9 +255,8 @@ export default defineComponent({
       });
     };
 
-    const handleMenuClose = () => {
-      menuActive.value = false;
-    };
+    const handleMenuClose = () => (menuActive.value = false);
+    const handleBlur = () => (menuActive.value = false);
 
     // close the menu while dragging
     const handleDragStart = () => {
@@ -344,23 +264,23 @@ export default defineComponent({
       dragActive.value = true;
     };
 
-    const handleDragEnd = () => {
-      dragActive.value = false;
-    };
+    // set drag active to false
+    const handleDragEnd = () => (dragActive.value = false);
 
+    // handler for selection
     const handleMenuItemSelection = (name: string) => {
       menuActive.value = false;
       props.onSelected && props.onSelected(name);
-    };
-
-    const handleBlur = () => {
-      menuActive.value = false;
     };
 
     const handleMenuClick = (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
     };
+
+    const getTheme = computed(() => ({
+      "--background": props.theme.primary,
+    }));
 
     return {
       flipMenu,
@@ -380,6 +300,7 @@ export default defineComponent({
       style,
       toggleMenu,
       dragActive,
+      getTheme,
       isSlotEmpty: slots && !slots.default,
     };
   },
