@@ -2,6 +2,7 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .menu-head-wrapper {
   position: fixed;
+  // z-index: 9999;
 
   &:not(.dragActive) {
     transition: left 0.2s $cubic, right 0.2s $cubic, top 0.2s $cubic, bottom 0.2s $cubic;
@@ -25,7 +26,7 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-.icon {
+.menu-head-icon {
   align-items: center;
   color: #fff;
   display: flex;

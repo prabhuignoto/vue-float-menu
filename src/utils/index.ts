@@ -50,7 +50,7 @@ const utils: UtilsType = {
     const left = Math.round((content.clientWidth - headDimension) / 2);
     const menuHeight = content.clientHeight;
     let newOrientation = 'bottom';
-    const MENU_SPACING = 10;
+    const MENU_SPACING = 15;
     let newMenuStyle = null;
 
     // flip to bottom if there is not enough space on top

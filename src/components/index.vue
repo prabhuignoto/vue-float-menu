@@ -13,9 +13,12 @@
       :style="getTheme"
       @mouseup="toggleMenu"
       @mousedown="handleMouseDown"
-      @blur="handleBlur"
+      @keyup="$event.keyCode === 13 && toggleMenu($event)"
     >
-      <span class="icon">
+      <span
+        class="menu-head-icon"
+        @click="$event.stopPropagation()"
+      >
         <slot />
         <BoxIcon v-if="isSlotEmpty" />
       </span>
@@ -38,6 +41,7 @@
         :flip="flipMenu"
         :on-selection="handleMenuItemSelection"
         :theme="theme"
+        :on-close="handleMenuClose"
       />
     </div>
   </div>
@@ -49,14 +53,15 @@ import {
   onMounted,
   ref,
   unref,
-  PropType,
   computed,
   nextTick,
+  onUnmounted,
 } from "vue";
-import Menu, { MenuItem } from "./Menu.vue";
+import Menu from "./Menu.vue";
 import XIcon from "./icons/XIcon.vue";
 import BoxIcon from "./icons/BoxIcon.vue";
 import utils from "../utils";
+import Props from "./props";
 
 export default defineComponent({
   name: "FloatMenu",
@@ -65,62 +70,7 @@ export default defineComponent({
     XIcon,
     BoxIcon,
   },
-  props: {
-    dimension: {
-      type: Number,
-      default: 3,
-    },
-    position: {
-      type: String,
-      default: "bottom right",
-    },
-    fixed: {
-      type: Boolean,
-      default: false,
-    },
-    menuOrientation: {
-      type: String,
-      default: "top",
-    },
-    menuDimension: {
-      type: Object as PropType<{ height: number; width: number }>,
-      default: {
-        height: 250,
-        width: 250,
-      },
-    },
-    menuData: {
-      type: Array as PropType<MenuItem[]>,
-      default: [],
-    },
-    useCustomContent: {
-      type: Boolean,
-      default: false,
-    },
-    onSelected: {
-      type: Function as PropType<(val: string) => void>,
-      default: null,
-    },
-    flipOnEdges: {
-      type: Boolean,
-      default: false,
-    },
-    theme: {
-      type: Object as PropType<{
-        primary: string;
-        textColor: string;
-        menuBgColor: string;
-        textSelectedColor: string;
-      }>,
-      required: false,
-      default: {
-        primary: "#0080ff",
-        textColor: "#000",
-        menuBgColor: "#fff",
-        textSelectedColor: "#fff",
-      },
-    },
-  },
+  props: Props,
   setup(props, { slots }) {
     // position of the circular menu head
     const position = ref<{ left: number; top: number } | null>(null);
@@ -213,20 +163,34 @@ export default defineComponent({
       }
     };
 
+    const dragOver = (event: DragEvent) => {
+      const { pageX, pageY } = event;
+      const relPosition = unref(relativePostion);
+
+      if (dragActive.value) {
+        // update the menuhead position
+        position.value = {
+          left: pageX - relPosition.x,
+          top: pageY - relPosition.y,
+        };
+      }
+    };
+
+    const closeMenu = (event: MouseEvent) => {
+      const classes = Array.from((event.target as HTMLElement).classList);
+
+      if (classes.some((cls) => cls === "sub-menu")) {
+        return;
+      }
+
+      menuActive.value = false;
+    };
+
     onMounted(() => {
       // update the menuhead position on drag
-      document.addEventListener("dragover", (event: DragEvent) => {
-        const { pageX, pageY } = event;
-        const relPosition = unref(relativePostion);
+      document.addEventListener("dragover", dragOver);
 
-        if (dragActive.value) {
-          // update the menuhead position
-          position.value = {
-            left: pageX - relPosition.x,
-            top: pageY - relPosition.y,
-          };
-        }
-      });
+      window.addEventListener("click", closeMenu);
 
       // adjust menu orientation on load
       setupMenuOrientation();
@@ -235,11 +199,18 @@ export default defineComponent({
       nextTick(() => (menuHead.value as HTMLElement).focus());
     });
 
+    onUnmounted(() => {
+      document.removeEventListener("dragover", dragOver);
+      window.removeEventListener("click", closeMenu);
+    });
+
     const handleMouseDown = (event: MouseEvent) => {
       const target = event.currentTarget as HTMLElement;
       const classList = Array.from(target.classList);
 
-      if (classList.some((cls) => cls === "menu-head" || cls === "icon")) {
+      if (
+        classList.some((cls) => cls === "menu-head" || cls === "menu-head-icon")
+      ) {
         const rect = target.getBoundingClientRect();
         relativePostion.value = {
           x: event.clientX - rect.x,
@@ -265,8 +236,18 @@ export default defineComponent({
       });
     };
 
-    const handleMenuClose = () => (menuActive.value = false);
-    const handleBlur = () => (menuActive.value = false);
+    const handleMenuClose = (keyCode?: number) => {
+      if (keyCode === 37 || keyCode === 39) {
+        return;
+      }
+
+      menuActive.value = false;
+
+      nextTick(() => {
+        menuHead.value?.focus();
+      });
+    };
+    // const handleBlur = () => (menuActive.value = false);
 
     // close the menu while dragging
     const handleDragStart = () => {
@@ -295,7 +276,6 @@ export default defineComponent({
     return {
       flipMenu,
       getInitStyle,
-      handleBlur,
       handleDragEnd,
       handleDragStart,
       handleMenuClick,
