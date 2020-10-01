@@ -11,21 +11,21 @@
 
 [![Edit vue-float-menu](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-float-menu-e09z4?fontsize=14&hidenavigation=1&theme=dark)
 
-<h2>Features</h2>
+<h2>✨ Features</h2>
 
-✅ **Draggable Menu Handle** - Drag and easily place the menu anywhere on screen.
-
-✅ **Smart Menu** - Detects the top & bottom edges of the screen and flips the menu automatically.
-
-✅ **Smart Placement** - The Menu head automatically adjusts itself and always stays inside the viewport.
-
-✅ **Nested Menus** - Support for Nested menus.
+- 👌 &nbsp;[Drag](#-demo) and easily place the menu anywhere on screen.
+- 👓 The smart menu system detects the edges of the screen and flips the menu automatically.
+- 👍 Support for nested menus.
+- ⌨ Keyboard Accessibile.
+- 🌈 Support for custom [themes](#-theme).
+- 💪 Built with [Typescript](https://www.typescriptlang.org/).
+- 🌠 Built with the all new [Vue 3](https://v3.vuejs.org/).
 
 <h2>Table of Contents</h2>
 
-- [⚙ Installation](#-installation)
+- [⚡ Installation](#-installation)
 - [🚀 Getting Started](#-getting-started)
-- [Demo](#demo)
+- [🍬 Demo](#-demo)
 - [Props](#props)
   - [Dimension](#dimension)
   - [Position](#position)
@@ -37,13 +37,13 @@
   - [Flip on edges](#flip-on-edges)
   - [🎨 Custom icon](#-custom-icon)
   - [🌈 Theme](#-theme)
-- [⚙ Build Setup](#-build-setup)
-- [Contributing](#contributing)
-- [🔨 Built with](#-built-with)
+- [📦 Build Setup](#-build-setup)
+- [🔨 Contributing](#-contributing)
+- [Built with](#built-with)
 - [Notes](#notes)
 - [Meta](#meta)
 
-## ⚙ Installation
+## ⚡ Installation
 
 ```sh
 yarn install vue-float-menu
@@ -108,7 +108,7 @@ export default {
 </script>
 ```
 
-## Demo
+## 🍬 Demo
 
 ![demo](./readme-assets/demo.gif)
 
@@ -320,7 +320,7 @@ Customize the color schemes with the `theme` prop.
 
 ![theme](./readme-assets/theme.png)
 
-## ⚙ Build Setup
+## 📦 Build Setup
 
 ``` bash
 # install dependencies
@@ -336,7 +336,7 @@ yarn run lint:css
 npm run rollup
 ```
 
-## Contributing
+## 🔨 Contributing
 
 1. Fork it ( [https://github.com/prabhuignoto/vue-float-menu/fork](https://github.com/prabhuignoto/vue-float-menu/fork) )
 2. Create your feature branch (`git checkout -b new-feature`)
@@ -344,7 +344,7 @@ npm run rollup
 4. Push to the branch (`git push origin new-feature`)
 5. Create a new Pull Request
 
-## 🔨 Built with
+## Built with
 
 - [Vue.JS](vue) - The Component is written in Vue + [Typescript](typescript).
 
