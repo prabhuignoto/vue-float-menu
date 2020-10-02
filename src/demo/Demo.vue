@@ -66,6 +66,7 @@ export default defineComponent({
             items: [
               {
                 name: "Themes",
+                disabled: true,
                 subMenu: {
                   name: "sub-themes",
                   items: [
@@ -82,9 +83,11 @@ export default defineComponent({
         },
         {
           name: "Save",
+          disabled: true
         },
         {
           name: "Save As",
+          disabled: true
         },
         {
           name: "Close",

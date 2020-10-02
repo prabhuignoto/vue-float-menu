@@ -43,7 +43,6 @@
         :on-selection="handleMenuItemSelection"
         :theme="theme"
         :on-close="handleMenuClose"
-        :device-type="deviceType"
       />
     </div>
   </div>
@@ -106,8 +105,6 @@ export default defineComponent({
       const position = utils.setupInitStyle(props.position, props.dimension);
       return position;
     });
-
-    const deviceType = ref<string>();
 
     // compute the style
     const style = computed(() => {
@@ -181,7 +178,7 @@ export default defineComponent({
     };
 
     const onTouchMove = (event: TouchEvent) => {
-      const {pageX, pageY} = event.targetTouches[0];
+      const { pageX, pageY } = event.targetTouches[0];
 
       const relPosition = unref(relativePostion);
 
@@ -192,19 +189,17 @@ export default defineComponent({
           top: pageY - relPosition.y,
         };
       }
-
-    }
+    };
 
     const onCloseMenu = (event: MouseEvent) => {
       const classes = Array.from((event.target as HTMLElement).classList);
-      if (classes.some((cls) => cls === "sub-menu")) {
+      if (classes.some((cls) => cls === "sub-menu" || cls === "disabled")) {
         return;
       }
       menuActive.value = false;
     };
 
     const onWindowResize = () => {
-      deviceType.value = utils.detectDeviceType();
       adjustFloatMenuPosition(menuHead.value as HTMLElement);
     };
 
@@ -219,9 +214,6 @@ export default defineComponent({
       setupMenuOrientation();
       adjustFloatMenuPosition(menuHead.value as HTMLElement);
       nextTick(() => (menuHead.value as HTMLElement).focus());
-      
-      deviceType.value = utils.detectDeviceType();
-
     });
 
     // liecycle on destroy
@@ -268,9 +260,7 @@ export default defineComponent({
       if (keyCode === 37 || keyCode === 39) {
         return;
       }
-
       menuActive.value = false;
-
       nextTick(() => {
         menuHead.value?.focus();
       });
@@ -281,7 +271,7 @@ export default defineComponent({
     const handleDragStart = () => {
       menuActive.value = false;
       dragActive.value = true;
-    }
+    };
 
     // set drag active to false
     const handleDragEnd = () => (dragActive.value = false);
@@ -302,14 +292,17 @@ export default defineComponent({
     }));
 
     return {
+      dragActive,
       flipMenu,
       getInitStyle,
+      getTheme,
       handleDragEnd,
       handleDragStart,
       handleMenuClick,
       handleMenuClose,
       handleMenuItemSelection,
       handleMouseDown,
+      isSlotEmpty: slots && !slots.default,
       localMenuOrientation,
       menuActive,
       menuContainer,
@@ -317,10 +310,6 @@ export default defineComponent({
       menuStyle,
       style,
       toggleMenu,
-      dragActive,
-      getTheme,
-      deviceType,
-      isSlotEmpty: slots && !slots.default,
     };
   },
 });

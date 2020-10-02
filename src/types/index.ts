@@ -8,6 +8,7 @@ export type MenuItem = {
   id?: string;
   showSubMenu?: boolean;
   selected?: boolean;
+  disabled?: boolean;
 };
 
 export type Position = {

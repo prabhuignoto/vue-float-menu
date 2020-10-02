@@ -10,29 +10,31 @@
       :style="getTheme"
     >
       <li
-        v-for="({ id, selected, name, subMenu, showSubMenu },
+        v-for="({ id, selected, name, subMenu, showSubMenu, disabled },
                 index) of menuItems"
         :key="id"
         :class="[
-          { selected: selected, flip, 'sub-menu': subMenu },
+          { 'sub-menu': subMenu, selected, disabled, flip },
           'menu-list-item',
         ]"
         :style="getTheme"
-        @mousedown="handleMenuItemClick($event, id, name, subMenu, index)"
+        @mousedown="
+          handleMenuItemClick($event, id, name, subMenu, index, disabled)
+        "
       >
         <span
-          class="name"
+          :class="['name', { disabled }]"
           @click="$event.stopPropagation()"
         >{{ name }}</span>
         <span
           v-if="subMenu"
-          class="chev-icon"
+          :class="['chev-icon', { disabled }]"
           @click="$event.stopPropagation()"
         >
           <ChevRightIcon />
         </span>
         <span
-          v-if="subMenu && showSubMenu"
+          v-if="!disabled && showSubMenu"
           class="sub-menu-wrapper"
           :style="getTheme"
         >
@@ -125,8 +127,8 @@ export default defineComponent({
     const SubMenuComponent = resolveComponent("Menu");
 
     const selectMenuItem = (
-      id: string,
       name: string,
+      id?: string,
       subMenu?: boolean,
       selectFirstItem?: boolean
     ) => {
@@ -138,7 +140,7 @@ export default defineComponent({
     };
 
     // expands the submenu
-    const expandMenu = (id: string, selectFirstItem?: boolean) => {
+    const expandMenu = (id?: string, selectFirstItem?: boolean) => {
       menuItems.value = menuItems.value.map((item) =>
         Object.assign({}, item, {
           showSubMenu: item.id === id,
@@ -161,14 +163,19 @@ export default defineComponent({
       id: string,
       name: string,
       subMenu: boolean,
-      index: number
+      index: number,
+      disabled: boolean
     ) => {
       event.stopPropagation();
       event.preventDefault();
 
+      if (disabled) {
+        return;
+      }
+
       activeIndex.value = index;
 
-      selectMenuItem(id, name, subMenu, false);
+      selectMenuItem(name, id, subMenu, false);
     };
 
     // gets theme colors
@@ -219,21 +226,19 @@ export default defineComponent({
         if (!props.flip) {
           props.onClose(keyCode);
         } else {
-          item && item.id && item.subMenu && expandMenu(item.id, true);
+          expandMenu(item.id, true);
         }
         // handle enter
       } else if (keyCode === 13) {
-        if (item && item.subMenu && item.id) {
+        if (item.subMenu) {
           expandMenu(item.id, true);
-        } else if (item.id) {
-          selectMenuItem(item.id, item.name, !!item.subMenu);
+        } else {
+          selectMenuItem(item.name, item.id, !!item.subMenu);
         }
         // handle right arrow
       } else if (keyCode === 39) {
         if (!props.flip) {
-          if (item && item.id && item.subMenu) {
-            expandMenu(item.id, true);
-          }
+          expandMenu(item.id, true);
         } else {
           props.onClose(keyCode);
         }

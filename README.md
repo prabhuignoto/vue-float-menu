@@ -13,12 +13,13 @@
 
 <h2>✨ Features</h2>
 
-- 👌 &nbsp;[Drag](#-demo) and easily place the menu anywhere on screen.
+- 👌 &nbsp;[Drag](#-demo) and place the menu anywhere on screen.
 - 👓 The smart menu system detects the edges of the screen and flips the menu automatically.
 - 👍 Support for nested menus.
-- ⌨ Keyboard Accessibile.
+- ⌨ Keyboard Accessible.
 - 🌈 Support for custom [themes](#-theme).
 - 💪 Built with [Typescript](https://www.typescriptlang.org/).
+- 🧰 Intuitive [API](#props) with data driven behavior.
 - 🌠 Built with the all new [Vue 3](https://v3.vuejs.org/).
 
 <h2>Table of Contents</h2>
@@ -27,14 +28,14 @@
 - [🚀 Getting Started](#-getting-started)
 - [🍬 Demo](#-demo)
 - [Props](#props)
-  - [Dimension](#dimension)
   - [Position](#position)
-  - [Fixed position](#fixed-position)
   - [Menu orientation](#menu-orientation)
   - [Menu head dimension](#menu-head-dimension)
-  - [Populating Menu](#populating-menu)
+  - [Menu dimension](#menu-dimension)
+  - [Populating the Menu](#populating-the-menu)
   - [on-select](#on-select)
   - [Flip on edges](#flip-on-edges)
+  - [Fixed Menu](#fixed-menu)
   - [🎨 Custom icon](#-custom-icon)
   - [🌈 Theme](#-theme)
 - [📦 Build Setup](#-build-setup)
@@ -51,7 +52,9 @@ yarn install vue-float-menu
 
 ## 🚀 Getting Started
 
-float-menu has some great defaults. Please check the [props](#props) section for all available options.
+vue-float-menu has some great defaults. Please check the [props](#props) section for all available options.
+
+`vue-float-menu` finds the optimal menu orientation depending on the position of the menu. for e.g if the menu is placed at the bottom edge and the orientation set to `bottom`, the component will automatically flip the orientation to `top`. If you want to disable this behavior, set [flip-on-edges](#flip-on-edges) to false.
 
 Here is a basic example that sets the default position of the menu as `top left` and menu orientation to `bottom`.
 
@@ -117,24 +120,14 @@ export default {
 | Prop             | Type     | Description                                                                                                                      |
 | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | dimension        | number   | dimension of the Menu Head `width x height` in pixels.                                                                           |
-| position         | String   | Initial position of the Menu Head. can be any one of the values `top left`, `top right`, `bottom left`, `bottom right`           |
-| fixed            | Boolean  | Disables dragging and the Menu will be fixed. use the `position` prop to fix the menu position                                   |
-| menu-orientation | String   | Set's the Menu's orientation. can be `top` or `bottom`.                                                                          |
-| menu-dimension   | Object   | Set's the `width` and `minimum` height of the Menu.                                                                              |
-| menu-data        | Object   | Array data to generate the nested menu's.                                                                                        |
-| on-selected      | Function | Hook that is called on selection.                                                                                                |
-| flip-on-edges    | Boolean  | Flips the Menu content automatically, when there is no space to display nested menus.                                            |
+| position         | String   | initial position of the Menu Head. can be any one of the values `top left`, `top right`, `bottom left`, `bottom right`           |
+| fixed            | Boolean  | disables dragging and the menu will be fixed. use the `position` prop to fix the menu position                                   |
+| menu-orientation | String   | sets the Menu's orientation. can be `top` or `bottom`.                                                                           |
+| menu-dimension   | Object   | sets the `width` and `minimum` height of the Menu.                                                                               |
+| menu-data        | Object   | data to generate the menu. refer to [populating the menu](#populating-the-menu) for usage details.                               |
+| on-selected      | Function | hook that is called on selection.                                                                                                |
+| flip-on-edges    | Boolean  | flips the menu content on the right edges of the screen.                                                                         |
 | theme            | Object   | prop to customize the color schemes. refer [theme](#theme) for usage.                                                            |
-
-### Dimension
-
-`dimension` prop can be used to set the width and height of the menu head. The prop takes a single number value to set the height and width of the Menu Head.
-
-```sh
-  <float-menu :dimension=50>
-    <BoxIcon />
-  </float-menu>
-```
 
 ### Position
 
@@ -151,16 +144,6 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
   </float-menu>
 ```
 
-### Fixed position
-
-To disable dragging and to fix the position statically, set `fixed` to `true`. This prop is disabled by default. Use this prop along with the `position` prop to set the desired position.
-
-```sh
-  <float-menu :dimension=50 position="bottom right" fixed>
-    <BoxIcon />
-  </float-menu>
-```
-
 ### Menu orientation
 
 sets the default orientation of the menu. can be set to either `top` or `bottom`.
@@ -172,6 +155,16 @@ sets the default orientation of the menu. can be set to either `top` or `bottom`
 ```
 
 ### Menu head dimension
+
+`dimension` prop can be used to set the width and height of the menu head. The prop takes a single number value to set the height and width of the Menu Head.
+
+```sh
+  <float-menu :dimension=50>
+    <BoxIcon />
+  </float-menu>
+```
+
+### Menu dimension
 
 prop to set the `height` and `width` of the menu.
 
@@ -186,19 +179,17 @@ prop to set the `height` and `width` of the menu.
   </float-menu>
 ```
 
-### Populating Menu
+### Populating the Menu
 
-Use the `menu-data` prop to create Simple or Nested menus of your liking. `menu-data` takes an array of `MenuItem` type
+Use the `menu-data` prop to create simple or nested menus of your liking. `menu-data` takes an array of `MenuItem` type
 
 MenuItem properties
 
 | property    | description                                                           |
 | ----------- | --------------------------------------------------------------------- |
 | name        | display name of the menu item.                                        |
-| id          | unique id of each menu item. this is auto generated by the component. |
-| selected    | flag to highlight a sub-menu selection.                               |
-| showSubMenu | flag to show/hide the sub-menu.                                       |
 | subMenu     | data for the sub-menu                                                 |
+| disabled    | disables the menu item                                                |
 
 Here we create a simple Menu structure with 3 Menu items with no sub menus.
 
@@ -209,7 +200,7 @@ const menuData = [
     name: "Edit",
     subMenu: {
       name: "edit-items",
-      items: [{ name: "Copy" }, { name: "Paste" }],
+      items: [{ name: "Copy" }, { name: "Paste", disabled: true }],
     },
   },
   {
@@ -255,7 +246,7 @@ hook for the menu item selection event.
 
 ### Flip on edges
 
-setting this prop `flips` the menu content on the right edges of the screen. This is useful you have nested menus of many levels.
+setting this prop `flips` the menu content on the right edges of the screen.
 
 ```sh
   <float-menu
@@ -270,6 +261,16 @@ setting this prop `flips` the menu content on the right edges of the screen. Thi
 ```
 
 ![flip](./readme-assets/flip.png)
+
+### Fixed Menu
+
+To disable dragging and to fix the position statically, set `fixed` to `true`. This prop is disabled by default. Use this prop along with the `position` prop to set the desired position.
+
+```sh
+  <float-menu :dimension=50 position="bottom right" fixed>
+    <BoxIcon />
+  </float-menu>
+```
 
 ### 🎨 Custom icon
 
