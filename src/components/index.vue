@@ -4,6 +4,7 @@
     :draggable="!fixed"
     :style="style || getInitStyle"
     @dragstart="handleDragStart"
+    @touchmove="handleDragStart"
     @dragend="handleDragEnd"
   >
     <div
@@ -42,6 +43,7 @@
         :on-selection="handleMenuItemSelection"
         :theme="theme"
         :on-close="handleMenuClose"
+        :device-type="deviceType"
       />
     </div>
   </div>
@@ -105,6 +107,8 @@ export default defineComponent({
       return position;
     });
 
+    const deviceType = ref<string>();
+
     // compute the style
     const style = computed(() => {
       if (position.value) {
@@ -163,7 +167,7 @@ export default defineComponent({
       }
     };
 
-    const dragOver = (event: DragEvent) => {
+    const onDragOver = (event: DragEvent) => {
       const { pageX, pageY } = event;
       const relPosition = unref(relativePostion);
 
@@ -176,32 +180,56 @@ export default defineComponent({
       }
     };
 
-    const closeMenu = (event: MouseEvent) => {
-      const classes = Array.from((event.target as HTMLElement).classList);
+    const onTouchMove = (event: TouchEvent) => {
+      const {pageX, pageY} = event.targetTouches[0];
 
+      const relPosition = unref(relativePostion);
+
+      if (dragActive.value) {
+        // update the menuhead position
+        position.value = {
+          left: pageX - relPosition.x,
+          top: pageY - relPosition.y,
+        };
+      }
+
+    }
+
+    const onCloseMenu = (event: MouseEvent) => {
+      const classes = Array.from((event.target as HTMLElement).classList);
       if (classes.some((cls) => cls === "sub-menu")) {
         return;
       }
-
       menuActive.value = false;
+    };
+
+    const onWindowResize = () => {
+      deviceType.value = utils.detectDeviceType();
+      adjustFloatMenuPosition(menuHead.value as HTMLElement);
     };
 
     onMounted(() => {
       // update the menuhead position on drag
-      document.addEventListener("dragover", dragOver);
-
-      window.addEventListener("click", closeMenu);
+      document.addEventListener("dragover", onDragOver);
+      document.addEventListener("touchmove", onTouchMove);
+      window.addEventListener("click", onCloseMenu);
+      window.addEventListener("resize", onWindowResize);
 
       // adjust menu orientation on load
       setupMenuOrientation();
       adjustFloatMenuPosition(menuHead.value as HTMLElement);
-
       nextTick(() => (menuHead.value as HTMLElement).focus());
+      
+      deviceType.value = utils.detectDeviceType();
+
     });
 
+    // liecycle on destroy
     onUnmounted(() => {
-      document.removeEventListener("dragover", dragOver);
-      window.removeEventListener("click", closeMenu);
+      document.removeEventListener("dragover", onDragOver);
+      document.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("click", onCloseMenu);
+      window.removeEventListener("resize", onWindowResize);
     });
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -253,7 +281,7 @@ export default defineComponent({
     const handleDragStart = () => {
       menuActive.value = false;
       dragActive.value = true;
-    };
+    }
 
     // set drag active to false
     const handleDragEnd = () => (dragActive.value = false);
@@ -291,6 +319,7 @@ export default defineComponent({
       toggleMenu,
       dragActive,
       getTheme,
+      deviceType,
       isSlotEmpty: slots && !slots.default,
     };
   },

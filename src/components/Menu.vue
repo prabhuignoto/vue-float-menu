@@ -63,7 +63,7 @@ import {
 } from "vue";
 import { nanoid } from "nanoid";
 import ChevRightIcon from "./icons/ChevRightIcon.vue";
-import { MenuItem } from "./types";
+import { MenuItem } from "../types";
 
 export default defineComponent({
   name: "Menu",

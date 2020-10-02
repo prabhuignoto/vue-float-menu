@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { MenuItem } from './types';
+import { MenuItem } from '../types';
 
 export default {
   dimension: {

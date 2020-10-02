@@ -1,41 +1,4 @@
-type Position = {
-  left: number;
-  top: number;
-}
-
-type SetupOrientation = (
-  head: HTMLElement,
-  content: HTMLElement,
-  headDimension: number,
-  dir: string,
-  menuDimension: { height: number, width: number }) =>
-  ({
-    "min-height": string;
-    width: string;
-    newOrientation: string;
-  })
-
-type SetupMenuPosition = (
-  element: HTMLElement,
-  position: Position,
-  flipOnEdges: boolean,
-  menuContainer: HTMLElement) => ({
-    position: Position | null;
-    flip: boolean;
-  })
-
-type SetupInitStyle = (dockPosition: string, dimension: number) => ({
-  left: string;
-  top: string;
-  width: string;
-  height: string;
-})
-
-type UtilsType = {
-  setupMenuOrientation: SetupOrientation;
-  setupMenuPosition: SetupMenuPosition;
-  setupInitStyle: SetupInitStyle;
-}
+import { Position, UtilsType } from "../types/index";
 
 const utils: UtilsType = {
   setupMenuOrientation: (
@@ -93,7 +56,7 @@ const utils: UtilsType = {
     const menuContHalfWidth = Math.ceil(menuContWidth / 2);
     let newPosition: Position | null = null;
 
-    let flipMenu = false; 
+    let flipMenu = false;
 
     if (flipOnEdges) {
       flipMenu = false;
@@ -169,6 +132,13 @@ const utils: UtilsType = {
       width: `${dimension}px`,
       height: `${dimension}px`,
     };
+  },
+  detectDeviceType: () => {
+    const screenWidth = screen.width;
+    if(screenWidth <= 768) {
+      return "mobile"
+    }
+    return "desktop"
   }
 }
 
