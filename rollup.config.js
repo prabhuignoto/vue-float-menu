@@ -49,8 +49,8 @@ export default {
     },
   ],
   plugins: [
-    vue(),
     scss(),
+    vue(),
     sucrase({
       exclude: ["node_modules/**"],
       transforms: ["typescript"],
