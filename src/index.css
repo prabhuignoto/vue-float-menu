@@ -1,8 +1,13 @@
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Nunito,  Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+body {
+  min-height: 980px;
+  background-image: linear-gradient( 109.6deg,  rgba(204,228,247,1) 11.2%, rgba(237,246,250,1) 100.2% );
 }

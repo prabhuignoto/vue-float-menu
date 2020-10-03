@@ -1,35 +1,81 @@
 <template>
-  <div>
-    <float-menu
-      :position="'top left'"
-      :dimension="50"
-      :menu-data="items"
-      :on-selected="handleSelection"
-      :flip-on-edges="true"
-      :theme="{
-        primary: '#00539C',
-        textColor: '#000',
-        menuBgColor: '#fff',
-        textSelectedColor: '#fff',
-      }"
-      menu-orientation="bottom"
-    >
-      <BoxIcon />
-    </float-menu>
+  <div class="home-main">
+    <Menus />
+    <div class="hero">
+      <img src="public/social-media-logo-small.png">
+      <div class="github">
+        <!-- Place this tag where you want the button to render. -->
+        <iframe
+          src="https://ghbtns.com/github-btn.html?user=prabhuignoto&repo=vue-float-menu&type=star&count=true&size=large"
+          frameborder="0"
+          scrolling="0"
+          width="150"
+          height="30"
+          title="GitHub"
+        />
+        <iframe
+          src="https://ghbtns.com/github-btn.html?user=prabhuignoto&repo=vue-float-menu&type=fork&count=true&size=large"
+          frameborder="0"
+          scrolling="0"
+          width="170"
+          height="30"
+          title="GitHub"
+        />
+      </div>
+      <div class="feature-set">
+        <ul>
+          <li>
+            <span class="icon">👌</span>&nbsp;
+            <span class="name">Drag and place anywhere on screen.</span>
+          </li>
+          <li>
+            <span class="icon">👓</span>
+            <span class="name">Optimal menu orientation.</span>
+          </li>
+          <li>
+            <span class="icon">👍</span>
+            <span class="name">Support for nested menus.</span>
+          </li>
+          <li>
+            <span class="icon">⌨</span>
+            <span class="name">Keyboard Accessible.</span>
+          </li>
+          <li>
+            <span class="icon">🌈</span>
+            <span class="name">Support for custom themes.</span>
+          </li>
+          <li>
+            <span class="icon">💪</span>
+            <span class="name">Built with Typescript.</span>
+          </li>
+          <li>
+            <span class="icon">🧰</span>
+            <span class="name">Intuitive API with data driven behavior.</span>
+          </li>
+          <li>
+            <span class="icon">🌠</span>
+            <span class="name">Built with the all new Vue 3.</span>
+          </li>
+        </ul>
+      </div>
+      <footer>
+        <a
+          href="https://www.prabhumurthy.com"
+          target="_new"
+        >&copy; {{ new Date().getFullYear() }} www.prabhumurthy.com</a>
+      </footer>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import FloatMenu from "../components/index.vue";
-
-import BoxIcon from "../components/icons/BoxIcon.vue";
+import Menus from "./Menus.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "HelloWorld",
   components: {
-    FloatMenu,
-    BoxIcon,
+    Menus,
   },
   setup() {
     const handleSelection = (name: string) => {
@@ -40,64 +86,6 @@ export default defineComponent({
       handleSelection,
     };
   },
-  data() {
-    return {
-      count: 0,
-      items: [
-        { name: "New" },
-        {
-          name: "Edit",
-          subMenu: {
-            name: "edit-items",
-            items: [{ name: "Copy" }, { name: "Paste" }],
-          },
-        },
-        {
-          name: "Open Recent",
-          subMenu: {
-            name: "recent-items",
-            items: [{ name: "Document 1" }, { name: "Document 2" }],
-          },
-        },
-        {
-          name: "Settings",
-          subMenu: {
-            name: "settings",
-            items: [
-              {
-                name: "Themes",
-                disabled: true,
-                subMenu: {
-                  name: "sub-themes",
-                  items: [
-                    { name: "Dark" },
-                    { name: "Light" },
-                    { name: "Blue" },
-                    { name: "Green" },
-                  ],
-                },
-              },
-              { name: "Keymaps" },
-            ],
-          },
-        },
-        {
-          name: "Save",
-          disabled: true
-        },
-        {
-          name: "Save As",
-          disabled: true
-        },
-        {
-          name: "Close",
-        },
-        {
-          name: "Exit",
-        },
-      ],
-    };
-  },
 });
 </script>
 
@@ -105,5 +93,73 @@ export default defineComponent({
 img {
   width: 100%;
   height: 100%;
+  border-radius: 8px;
+}
+
+.home-main {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.hero {
+  width: 650px;
+
+  img {
+    filter: drop-shadow(2px 2px 60px rgba(0, 0, 0, 0.25));
+  }
+}
+
+.github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.feature-set {
+  font-size: 0.95rem;
+  margin-top: 1rem;
+
+  ul {
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 1rem 0;
+      flex-basis: 47%;
+      text-align: left;
+      background: #fff;
+      height: 4rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0.5rem 0;
+    }
+
+    .icon {
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+      margin-right: 0.3rem;
+    }
+
+    .name {
+      flex: auto;
+    }
+  }
+}
+
+footer {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -8,7 +8,6 @@ const utils: UtilsType = {
     dir,
     menuDimension
   ) => {
-
     const { top, bottom } = head.getBoundingClientRect();
     const left = Math.round((content.clientWidth - headDimension) / 2);
     const menuHeight = content.clientHeight;
@@ -49,7 +48,6 @@ const utils: UtilsType = {
     });
   },
   setupMenuPosition: (element, position, flipOnEdges, menuContainer) => {
-
     const { top, bottom, left, right } = element.getBoundingClientRect();
     const { innerWidth: screenWidth, innerHeight: screenHeight } = window;
     const menuContWidth = menuContainer.clientWidth;
@@ -104,26 +102,26 @@ const utils: UtilsType = {
     }
   },
   setupInitStyle: (position: string, dimension: number) => {
-    const MENU_HEAD_SPACING = 10;
+    const MENU_HEAD_SPACING = 15;
 
-    let left = 0,
-      top = 0;
+    let left = MENU_HEAD_SPACING,
+      top = MENU_HEAD_SPACING;
     switch (position) {
       case "top left":
         left = MENU_HEAD_SPACING;
         top = MENU_HEAD_SPACING;
         break;
       case "top right":
-        left = window.innerWidth - dimension;
+        left = (window.innerWidth - dimension) - MENU_HEAD_SPACING;
         top = MENU_HEAD_SPACING;
         break;
       case "bottom left":
         left = MENU_HEAD_SPACING;
-        top = window.innerHeight - dimension;
+        top = (window.innerHeight - dimension) - MENU_HEAD_SPACING;
         break;
       case "bottom right":
-        left = window.innerWidth - dimension;
-        top = window.innerHeight - dimension;
+        left = (window.innerWidth - dimension) - MENU_HEAD_SPACING;
+        top = (window.innerHeight - dimension) - MENU_HEAD_SPACING;
     }
 
     return {

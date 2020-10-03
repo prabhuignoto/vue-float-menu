@@ -2,7 +2,7 @@
   <div
     :class="[{ dragActive }, 'menu-head-wrapper']"
     :draggable="!fixed"
-    :style="style || getInitStyle"
+    :style="style"
     @dragstart="handleDragStart"
     @touchmove="handleDragStart"
     @dragend="handleDragEnd"
@@ -16,10 +16,7 @@
       @mousedown="handleMouseDown"
       @keyup="$event.keyCode === 13 && toggleMenu($event)"
     >
-      <span
-        class="menu-head-icon"
-        @click="$event.stopPropagation()"
-      >
+      <span class="menu-head-icon" @click="$event.stopPropagation()">
         <slot />
         <BoxIcon v-if="isSlotEmpty" />
       </span>
@@ -30,10 +27,7 @@
       :style="menuStyle"
       @mousedown="handleMenuClick"
     >
-      <span
-        class="close-btn"
-        @click="handleMenuClose"
-      >
+      <span class="close-btn" @click="handleMenuClose">
         <XIcon />
       </span>
       <Menu
@@ -200,20 +194,27 @@ export default defineComponent({
     };
 
     const onWindowResize = () => {
-      adjustFloatMenuPosition(menuHead.value as HTMLElement);
+      const intialStyle = utils.setupInitStyle(props.position, props.dimension);
+
+      position.value = {
+        left: +intialStyle.left.replace(/px/gi, ""),
+        top: +intialStyle.top.replace(/px/gi, ""),
+      };
     };
 
     onMounted(() => {
+      const intialStyle = utils.setupInitStyle(props.position, props.dimension);
+
+      position.value = {
+        left: +intialStyle.left.replace(/px/gi, ""),
+        top: +intialStyle.top.replace(/px/gi, ""),
+      };
+
       // update the menuhead position on drag
       document.addEventListener("dragover", onDragOver);
       document.addEventListener("touchmove", onTouchMove);
       window.addEventListener("click", onCloseMenu);
       window.addEventListener("resize", onWindowResize);
-
-      // adjust menu orientation on load
-      setupMenuOrientation();
-      adjustFloatMenuPosition(menuHead.value as HTMLElement);
-      nextTick(() => (menuHead.value as HTMLElement).focus());
     });
 
     // liecycle on destroy
