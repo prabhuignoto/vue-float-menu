@@ -2,7 +2,7 @@
   <div class="home-main">
     <Menus />
     <div class="hero">
-      <img src="public/social-media-logo-small.png">
+      <img src="/social-media-logo-small.png">
       <div class="github">
         <!-- Place this tag where you want the button to render. -->
         <iframe
@@ -91,8 +91,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
   border-radius: 8px;
 }
 
