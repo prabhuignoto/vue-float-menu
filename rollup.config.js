@@ -24,7 +24,7 @@ export default {
       exports: "named",
       strict: true,
       banner,
-      sourcemap: true
+      sourcemap: true,
     },
     {
       file: pkg.module,
@@ -32,7 +32,7 @@ export default {
       exports: "named",
       strict: true,
       banner,
-      sourcemap: true
+      sourcemap: true,
     },
     {
       file: pkg.umd,
@@ -45,6 +45,7 @@ export default {
       globals: {
         vue: "vue",
         nanoid: "nanoid",
+        interactjs: "interactjs"
       },
     },
   ],
@@ -58,7 +59,7 @@ export default {
     beep(),
     common(),
     buble(),
-    resolve()
+    resolve(),
   ],
   external: ["vue", "nanoid", "interactjs"],
 };
