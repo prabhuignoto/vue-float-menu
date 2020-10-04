@@ -18,6 +18,7 @@
   min-width: 150px;
   position: absolute;
   top: 0;
+  background: var(--menu-background);
 }
 
 .chev-icon {
@@ -42,7 +43,7 @@
     padding-left: 0.5rem;
 
     &.disabled {
-      opacity: 0.45;
+      filter: opacity(0.45);
     }
   }
 }

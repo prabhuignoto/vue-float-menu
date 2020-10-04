@@ -23,6 +23,7 @@
       ref="menuContainer"
       :class="[{ menuActive }, 'menu-container']"
       :style="menuStyle"
+      draggable="false"
     >
       <span
         class="close-btn"
@@ -211,21 +212,20 @@ export default defineComponent({
               }
             },
             end() {
-              dragActive.value = false;
-              menuActive.value = true;
+              setTimeout(() => {
+                dragActive.value = false;
+              }, 100);
             },
           },
         });
       }
     });
 
-    // liecycle on destroy
     onUnmounted(() => {
       window.removeEventListener("click", onCloseMenu);
       window.removeEventListener("resize", onWindowResize);
     });
 
-    // toggles the menu
     const toggleMenu = (event: MouseEvent) => {
       if (dragActive.value) {
         return;
