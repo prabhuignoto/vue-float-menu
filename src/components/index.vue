@@ -1,22 +1,20 @@
 <template>
   <div
+    ref="menuHeadContainer"
     :class="[{ dragActive }, 'menu-head-wrapper']"
-    :draggable="!fixed"
     :style="style"
-    @dragstart="handleDragStart"
-    @touchmove="handleDragStart"
-    @dragend="handleDragEnd"
+    :draggable="!fixed"
+    @click="toggleMenu"
   >
     <div
       ref="menuHead"
       tabindex="0"
       :class="[{ menuActive, dragActive }, 'menu-head']"
       :style="getTheme"
-      @mouseup="toggleMenu"
-      @mousedown="handleMouseDown"
+      draggable="false"
       @keyup="$event.keyCode === 13 && toggleMenu($event)"
     >
-      <span class="menu-head-icon" @click="$event.stopPropagation()">
+      <span class="menu-head-icon">
         <slot />
         <BoxIcon v-if="isSlotEmpty" />
       </span>
@@ -25,9 +23,11 @@
       ref="menuContainer"
       :class="[{ menuActive }, 'menu-container']"
       :style="menuStyle"
-      @mousedown="handleMenuClick"
     >
-      <span class="close-btn" @click="handleMenuClose">
+      <span
+        class="close-btn"
+        @mousedown="$event.stopPropagation() && handleMenuClose()"
+      >
         <XIcon />
       </span>
       <Menu
@@ -57,6 +57,7 @@ import XIcon from "./icons/XIcon.vue";
 import BoxIcon from "./icons/BoxIcon.vue";
 import utils from "../utils";
 import Props from "./props";
+import interact from "interactjs";
 
 export default defineComponent({
   name: "FloatMenu",
@@ -70,23 +71,22 @@ export default defineComponent({
     // position of the circular menu head
     const position = ref<{ left: number; top: number } | null>(null);
 
-    // captures the actual mouse click inside the menu head. this is used to accurately position the menu head
-    const relativePostion = ref<{ x: number; y: number }>({ x: 0, y: 0 });
-
     // reference to the circular menu head
-    const menuHead = ref<HTMLDivElement>();
+    const menuHead = ref<HTMLElement>();
+
+    const menuHeadContainer = ref<HTMLElement>();
 
     // enables/disables menu
     const menuActive = ref(false);
 
     // reference to the menu container
-    const menuContainer = ref<HTMLDivElement>();
+    const menuContainer = ref<HTMLElement>();
 
     // generates style for the menu
     const menuStyle = ref<{ "min-height": string; width: string } | null>(null);
 
     // local reference of the menu direction
-    const localMenuOrientation = ref(props.menuOrientation);
+    const localMenuOrientation = ref("top");
 
     // flip menu content
     const flipMenu = ref(false);
@@ -119,15 +119,18 @@ export default defineComponent({
     // manages the orientation of the menu (top or bottom)
     // when enough space is not available on either top or bottom, the menu is automatically flipped
     const setupMenuOrientation = () => {
-      const menuContDOM = menuContainer.value as HTMLElement;
-      const menuHeadDOM = menuHead.value as HTMLElement;
+      const menuContDOM = menuContainer.value;
+      const menuHeadDOM = menuHeadContainer.value;
       const { dimension } = props;
-      const dir = unref(localMenuOrientation);
+
+      if (!menuContDOM || !menuHeadDOM) {
+        return;
+      }
+
       const newStyle = utils.setupMenuOrientation(
         menuHeadDOM,
         menuContDOM,
         dimension,
-        dir,
         props.menuDimension
       );
 
@@ -158,39 +161,14 @@ export default defineComponent({
       }
     };
 
-    const onDragOver = (event: DragEvent) => {
-      const { pageX, pageY } = event;
-      const relPosition = unref(relativePostion);
-
-      if (dragActive.value) {
-        // update the menuhead position
-        position.value = {
-          left: pageX - relPosition.x,
-          top: pageY - relPosition.y,
-        };
+    const onCloseMenu = (event: MouseEvent | TouchEvent) => {
+      if (menuActive.value) {
+        const classes = Array.from((event.target as HTMLElement).classList);
+        if (classes.some((cls) => cls === "sub-menu" || cls === "disabled")) {
+          return;
+        }
+        menuActive.value = false;
       }
-    };
-
-    const onTouchMove = (event: TouchEvent) => {
-      const { pageX, pageY } = event.targetTouches[0];
-
-      const relPosition = unref(relativePostion);
-
-      if (dragActive.value) {
-        // update the menuhead position
-        position.value = {
-          left: pageX - relPosition.x,
-          top: pageY - relPosition.y,
-        };
-      }
-    };
-
-    const onCloseMenu = (event: MouseEvent) => {
-      const classes = Array.from((event.target as HTMLElement).classList);
-      if (classes.some((cls) => cls === "sub-menu" || cls === "disabled")) {
-        return;
-      }
-      menuActive.value = false;
     };
 
     const onWindowResize = () => {
@@ -210,38 +188,52 @@ export default defineComponent({
         top: +intialStyle.top.replace(/px/gi, ""),
       };
 
-      // update the menuhead position on drag
-      document.addEventListener("dragover", onDragOver);
-      document.addEventListener("touchmove", onTouchMove);
       window.addEventListener("click", onCloseMenu);
+      window.addEventListener("touchmove", onCloseMenu);
       window.addEventListener("resize", onWindowResize);
+
+      if (menuHeadContainer.value) {
+        interact(menuHeadContainer.value).draggable({
+          listeners: {
+            start() {
+              dragActive.value = true;
+              menuActive.value = false;
+            },
+            move(event) {
+              const { pageX, pageY } = event;
+
+              if (menuHeadContainer.value && menuContainer.value) {
+                // update the menuhead position
+                position.value = {
+                  left: pageX - Math.round(props.dimension / 2),
+                  top: pageY - Math.round(props.dimension / 2),
+                };
+              }
+            },
+            end() {
+              dragActive.value = false;
+              menuActive.value = true;
+            },
+          },
+        });
+      }
     });
 
     // liecycle on destroy
     onUnmounted(() => {
-      document.removeEventListener("dragover", onDragOver);
-      document.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("click", onCloseMenu);
       window.removeEventListener("resize", onWindowResize);
     });
 
-    const handleMouseDown = (event: MouseEvent) => {
-      const target = event.currentTarget as HTMLElement;
-      const classList = Array.from(target.classList);
-
-      if (
-        classList.some((cls) => cls === "menu-head" || cls === "menu-head-icon")
-      ) {
-        const rect = target.getBoundingClientRect();
-        relativePostion.value = {
-          x: event.clientX - rect.x,
-          y: event.clientY - rect.y,
-        };
-      }
-    };
-
     // toggles the menu
     const toggleMenu = (event: MouseEvent) => {
+      if (dragActive.value) {
+        return;
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+
       const classes = Array.from((event.target as HTMLElement).classList);
       if (classes.some((cls) => cls === "menu-list-item")) {
         return;
@@ -266,26 +258,11 @@ export default defineComponent({
         menuHead.value?.focus();
       });
     };
-    // const handleBlur = () => (menuActive.value = false);
-
-    // close the menu while dragging
-    const handleDragStart = () => {
-      menuActive.value = false;
-      dragActive.value = true;
-    };
-
-    // set drag active to false
-    const handleDragEnd = () => (dragActive.value = false);
 
     // handler for selection
     const handleMenuItemSelection = (name: string) => {
       menuActive.value = false;
       props.onSelected && props.onSelected(name);
-    };
-
-    const handleMenuClick = (event: MouseEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
     };
 
     const getTheme = computed(() => ({
@@ -297,12 +274,8 @@ export default defineComponent({
       flipMenu,
       getInitStyle,
       getTheme,
-      handleDragEnd,
-      handleDragStart,
-      handleMenuClick,
       handleMenuClose,
       handleMenuItemSelection,
-      handleMouseDown,
       isSlotEmpty: slots && !slots.default,
       localMenuOrientation,
       menuActive,
@@ -311,6 +284,7 @@ export default defineComponent({
       menuStyle,
       style,
       toggleMenu,
+      menuHeadContainer,
     };
   },
 });

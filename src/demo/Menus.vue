@@ -2,7 +2,6 @@
   <div>
     <float-menu
       :position="'top left'"
-      :dimension="55"
       :menu-data="items"
       :on-selected="handleSelection"
       :flip-on-edges="true"
@@ -28,7 +27,6 @@
         menuBgColor: '#fff',
         textSelectedColor: '#fff',
       }"
-      menu-orientation="bottom"
     >
       <heart-icon />
     </float-menu>
@@ -44,7 +42,6 @@
         menuBgColor: '#fff',
         textSelectedColor: '#fff',
       }"
-      menu-orientation="bottom"
     >
       <heart-icon />
     </float-menu>
@@ -60,7 +57,6 @@
         menuBgColor: '#fff',
         textSelectedColor: '#fff',
       }"
-      menu-orientation="bottom"
     >
       <menu-icon />
     </float-menu>

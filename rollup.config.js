@@ -60,5 +60,5 @@ export default {
     buble(),
     resolve()
   ],
-  external: ["vue", "nanoid"],
+  external: ["vue", "nanoid", "interactjs"],
 };

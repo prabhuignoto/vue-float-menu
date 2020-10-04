@@ -5,7 +5,6 @@ const utils: UtilsType = {
     head,
     content,
     headDimension,
-    dir,
     menuDimension
   ) => {
     const { top, bottom } = head.getBoundingClientRect();
@@ -16,29 +15,24 @@ const utils: UtilsType = {
     let newMenuStyle = null;
 
     // flip to bottom if there is not enough space on top
-    if (dir === "top" && menuHeight > top) {
+    if (menuHeight > top) {
       newMenuStyle = {
         top: `${headDimension + MENU_SPACING}px`,
         left: `-${left}px`,
       };
       newOrientation = "top";
-    } else if (dir === "top") {
-      newMenuStyle = {
-        bottom: `${headDimension + MENU_SPACING}px`,
-        left: `-${left}px`,
-      };
-      // flip menu to top if there is no enough space at bottom
-    } else if (dir === "bottom" && window.innerHeight - bottom < menuHeight) {
+    } else if (window.innerHeight - bottom < menuHeight) {
       newMenuStyle = {
         bottom: `${headDimension + MENU_SPACING}px`,
         left: `-${left}px`,
       };
       newOrientation = "bottom";
-    } else if (dir === "bottom") {
+    } else {
       newMenuStyle = {
         top: `${headDimension + MENU_SPACING}px`,
         left: `-${left}px`,
       };
+      newOrientation = "top";
     }
 
     return Object.assign({}, newMenuStyle, {

@@ -3,6 +3,7 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 .menu-head-wrapper {
   position: fixed;
   z-index: 9999;
+  touch-action: none;
 
   &:not(.dragActive) {
     transition: left 0.2s $cubic, right 0.2s $cubic, top 0.2s $cubic, bottom 0.2s $cubic;
@@ -20,6 +21,7 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   outline: 0;
   position: relative;
   width: 100%;
+  pointer-events: none;
 
   &.menuActive {
     box-shadow: inset 0 0 12px 4px rgba(0, 0, 0, 0.25);

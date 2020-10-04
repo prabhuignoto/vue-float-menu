@@ -2,7 +2,9 @@
   <div class="home-main">
     <Menus />
     <div class="hero">
-      <img src="/social-media-logo-small.png">
+      <img
+        src="/social-media-logo-small.png"
+      >
       <div class="github">
         <!-- Place this tag where you want the button to render. -->
         <iframe

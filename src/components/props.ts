@@ -1,10 +1,10 @@
-import { PropType } from 'vue';
+import { PropType } from "vue";
 import { MenuItem } from '../types';
 
 export default {
   dimension: {
     type: Number,
-    default: 3,
+    default: 50,
   },
   position: {
     type: String,
@@ -13,10 +13,6 @@ export default {
   fixed: {
     type: Boolean,
     default: false,
-  },
-  menuOrientation: {
-    type: String,
-    default: "top",
   },
   menuDimension: {
     type: Object as PropType<{ height: number; width: number }>,

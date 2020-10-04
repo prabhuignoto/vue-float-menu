@@ -20,7 +20,6 @@ export type SetupOrientation = (
   head: HTMLElement,
   content: HTMLElement,
   headDimension: number,
-  dir: string,
   menuDimension: { height: number, width: number }) =>
   ({
     "min-height": string;
