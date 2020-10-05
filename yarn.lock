@@ -5044,13 +5044,14 @@ rollup-plugin-postcss@^3.1.8:
     safe-identifier "^0.4.1"
     style-inject "^0.3.0"
 
-rollup-plugin-scss@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-scss/-/rollup-plugin-scss-2.6.0.tgz#2845be27e01aa1bfc1847cfaabb8255c1c83cf6d"
-  integrity sha512-LZiZrJFJv+jEZ5m+BCAqNwd9ZrvQq+YmAPPIgT6awL6EhyKakbC7XTWw9CZM+hkeLQpIO3Yi3EhMOk7XpIKV0w==
+rollup-plugin-scss@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-scss/-/rollup-plugin-scss-2.6.1.tgz#22826b4499f511aaf2edb8420faaf04a42e24a33"
+  integrity sha512-IWREkMDJLJbS3aa1aakYYdJc3yPUb4BBrmK8hgThmtr7hWevBvCZ3b0SXm/Tgx53RxV9q1Btf4hD7nczJiDsfw==
   dependencies:
-    node-sass "4"
     rollup-pluginutils "2"
+  optionalDependencies:
+    node-sass "4"
 
 rollup-plugin-terser@^5.3.0:
   version "5.3.0"
@@ -6157,6 +6158,15 @@ vue-float-menu@^1.1.10:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/vue-float-menu/-/vue-float-menu-1.1.11.tgz#b11e0e70ec2d761e06e6e6eb52ea0e6158cc8e30"
   integrity sha512-a1nlVV2xdTsoc6Wm8R2OoS1O9inCZ2RM+RamLRdBkKt58lDF/8mQh0D3j0I//zkqo8QZVKN2H0E9ihyucAfCkg==
+  dependencies:
+    nanoid "^3.1.12"
+    vue "^3.0.0"
+    vue-float-menu "^1.1.10"
+
+vue-float-menu@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/vue-float-menu/-/vue-float-menu-1.5.0.tgz#56c1a76cebf728b4459e318b311b84d39fe9f683"
+  integrity sha512-uxAE/RMpaPcyFSWAS0LMJvSNOFazAEDS6k0BZFL63fEv7shYje1w2rdbyg1NSwgCt49F+sxZjwWjbDvv1PkjLQ==
   dependencies:
     nanoid "^3.1.12"
     vue "^3.0.0"
