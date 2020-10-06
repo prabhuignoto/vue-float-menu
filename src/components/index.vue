@@ -16,7 +16,7 @@
     >
       <span class="menu-head-icon">
         <slot />
-        <BoxIcon v-if="isSlotEmpty" />
+        <MenuIcon v-if="isSlotEmpty" />
       </span>
     </div>
     <div
@@ -55,7 +55,7 @@ import {
 } from "vue";
 import Menu from "./Menu.vue";
 import XIcon from "./icons/XIcon.vue";
-import BoxIcon from "./icons/BoxIcon.vue";
+import MenuIcon from "./icons/MenuIcon.vue";
 import utils from "../utils";
 import Props from "./props";
 import interact from "interactjs";
@@ -65,7 +65,7 @@ export default defineComponent({
   components: {
     Menu,
     XIcon,
-    BoxIcon,
+    MenuIcon,
   },
   props: Props,
   setup(props, { slots }) {
@@ -87,7 +87,7 @@ export default defineComponent({
     const menuStyle = ref<{ "min-height": string; width: string } | null>(null);
 
     // local reference of the menu direction
-    const localMenuOrientation = ref("top");
+    const menuOrientation = ref("top");
 
     // flip menu content
     const flipMenu = ref(false);
@@ -135,11 +135,11 @@ export default defineComponent({
         props.menuDimension
       );
 
-      localMenuOrientation.value = newStyle.newOrientation;
+      menuOrientation.value = newStyle.newOrientation;
       menuStyle.value = newStyle;
     };
 
-    // this function repositions the menu head whenever it goes out of screen edges.
+    // manages the position of the menu head. make sure the menu stays within the screen bounds
     const adjustFloatMenuPosition = (element: HTMLElement) => {
       const positionRef = unref(position);
 
@@ -172,6 +172,7 @@ export default defineComponent({
       }
     };
 
+    // handler for window resize event
     const onWindowResize = () => {
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
 
@@ -182,17 +183,20 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      // setup the initial style on load
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
-
       position.value = {
         left: +intialStyle.left.replace(/px/gi, ""),
         top: +intialStyle.top.replace(/px/gi, ""),
       };
 
+      // close the menu when clicked outside
       window.addEventListener("click", onCloseMenu);
-      window.addEventListener("touchmove", onCloseMenu);
+
+      // attach handler for window resize event
       window.addEventListener("resize", onWindowResize);
 
+      // initialize interact js
       if (menuHeadContainer.value) {
         interact(menuHeadContainer.value).draggable({
           listeners: {
@@ -221,11 +225,13 @@ export default defineComponent({
       }
     });
 
+    // cleanup
     onUnmounted(() => {
       window.removeEventListener("click", onCloseMenu);
       window.removeEventListener("resize", onWindowResize);
     });
 
+    // open/close the menu
     const toggleMenu = (event: MouseEvent) => {
       if (dragActive.value) {
         return;
@@ -249,6 +255,7 @@ export default defineComponent({
       });
     };
 
+    // close the menu from child component (./menu.vue)
     const handleMenuClose = (keyCode?: number) => {
       if (keyCode === 37 || keyCode === 39) {
         return;
@@ -277,7 +284,7 @@ export default defineComponent({
       handleMenuClose,
       handleMenuItemSelection,
       isSlotEmpty: slots && !slots.default,
-      localMenuOrientation,
+      menuOrientation,
       menuActive,
       menuContainer,
       menuHead,

@@ -1,17 +1,9 @@
 <template>
-  <div
-    ref="menuRef"
-    class="menu-wrapper"
-    tabindex="0"
-    @keyup="handleKeyUp"
-  >
-    <ul
-      class="menu-list"
-      :style="getTheme"
-    >
+  <div ref="menuRef" class="menu-wrapper" tabindex="0" @keyup="handleKeyUp">
+    <ul class="menu-list" :style="getTheme">
       <li
         v-for="({ id, selected, name, subMenu, showSubMenu, disabled },
-                index) of menuItems"
+        index) of menuItems"
         :key="id"
         :class="[
           { 'sub-menu': subMenu, selected, disabled, flip },
@@ -25,7 +17,8 @@
         <span
           :class="['name', { disabled }]"
           @click="$event.stopPropagation()"
-        >{{ name }}</span>
+          >{{ name }}</span
+        >
         <span
           v-if="subMenu"
           :class="['chev-icon', { disabled }]"
@@ -215,6 +208,8 @@ export default defineComponent({
       if (keyCode === 40) {
         if (actvIndex < props.data.length - 1) {
           activeIndex.value += 1;
+        } else if (actvIndex === props.data.length - 1) {
+          activeIndex.value = 0;
         }
         // handle up arrow
       } else if (keyCode === 38) {

@@ -17,7 +17,6 @@
     </float-menu>
     <float-menu
       :position="'top right'"
-      :dimension="55"
       :menu-data="items"
       :on-selected="handleSelection"
       :flip-on-edges="true"
@@ -32,7 +31,6 @@
     </float-menu>
     <float-menu
       :position="'bottom left'"
-      :dimension="55"
       :menu-data="items"
       :on-selected="handleSelection"
       :flip-on-edges="true"
@@ -47,7 +45,6 @@
     </float-menu>
     <float-menu
       :position="'bottom right'"
-      :dimension="55"
       :menu-data="items"
       :on-selected="handleSelection"
       :flip-on-edges="true"
@@ -66,9 +63,9 @@
 <script lang="ts">
 import FloatMenu from "../components/index.vue";
 
-import BoxIcon from "../components/icons/BoxIcon.vue";
-import HeartIcon from "../components/icons/HeartIcon.vue";
-import MenuIcon from "../components/icons/MenuIcon.vue";
+import BoxIcon from "./assets/BoxIcon.vue";
+import HeartIcon from "./assets/HeartIcon.vue";
+import MenuIcon from "./assets/MenuIcon.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({

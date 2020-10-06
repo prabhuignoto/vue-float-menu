@@ -122,7 +122,6 @@ export default {
 | dimension        | number   | dimension of the Menu Head `width x height` in pixels.                                                                           |
 | position         | String   | initial position of the Menu Head. can be any one of the values `top left`, `top right`, `bottom left`, `bottom right`           |
 | fixed            | Boolean  | disables dragging and the menu will be fixed. use the `position` prop to fix the menu position                                   |
-| menu-orientation | String   | sets the Menu's orientation. can be `top` or `bottom`.                                                                           |
 | menu-dimension   | Object   | sets the `width` and `minimum` height of the Menu.                                                                               |
 | menu-data        | Object   | data to generate the menu. refer to [populating the menu](#populating-the-menu) for usage details.                               |
 | on-selected      | Function | hook that is called on selection.                                                                                                |

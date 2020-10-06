@@ -27,35 +27,67 @@
       <div class="feature-set">
         <ul>
           <li>
-            <span class="icon">👌</span>&nbsp;
+            <span
+              class="icon"
+              role="img"
+              aria-label="drag"
+            >👌</span>&nbsp;
             <span class="name">Drag and place anywhere on screen.</span>
           </li>
           <li>
-            <span class="icon">👓</span>
+            <span
+              class="icon"
+              role="img"
+              aria-label="orientation"
+            >👓</span>
             <span class="name">Optimal menu orientation.</span>
           </li>
           <li>
-            <span class="icon">👍</span>
+            <span
+              class="icon"
+              role="img"
+              aria-label="nested menus"
+            >👍</span>
             <span class="name">Support for nested menus.</span>
           </li>
           <li>
-            <span class="icon">⌨</span>
+            <span
+              class="icon"
+              role="img"
+              aria-label="keyboard accessible"
+            >⌨</span>
             <span class="name">Keyboard Accessible.</span>
           </li>
           <li>
-            <span class="icon">🌈</span>
+            <span
+              class="icon"
+              role="img"
+              aria-label="themes"
+            >🌈</span>
             <span class="name">Support for custom themes.</span>
           </li>
           <li>
-            <span class="icon">💪</span>
+            <span
+              class="icon"
+              role="img"
+              aria-label="typescript"
+            >💪</span>
             <span class="name">Built with Typescript.</span>
           </li>
           <li>
-            <span class="icon">🧰</span>
+            <span
+              class="icon"
+              role="img"
+              aria-label="intuitive API"
+            >🧰</span>
             <span class="name">Intuitive API with data driven behavior.</span>
           </li>
           <li>
-            <span class="icon">🌠</span>
+            <span
+              class="icon"
+              role="img"
+              aria-label="built with Vue 3"
+            >🌠</span>
             <span class="name">Built with the all new Vue 3.</span>
           </li>
         </ul>
