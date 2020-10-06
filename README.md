@@ -1,9 +1,9 @@
 [![Build Status](https://dev.azure.com/prabhummurthy/float-menu/_apis/build/status/prabhuignoto.vue-float-menu?branchName=master)](https://dev.azure.com/prabhummurthy/float-menu/_build/latest?definitionId=9&branchName=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a591487451582a389126/maintainability)](https://codeclimate.com/github/prabhuignoto/float-menu/maintainability)
 [![DeepScan grade](https://deepscan.io/api/teams/10074/projects/13372/branches/223016/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=10074&pid=13372&bid=223016)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/prabhuignoto/float-menu.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/prabhuignoto/float-menu/context:javascript)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/prabhuignoto/float-menu)
 [![Depfu](https://badges.depfu.com/badges/3597df88718d346a7b41f08e31fe1331/overview.svg)](https://depfu.com/github/prabhuignoto/float-menu?project_id=15010)
+![https://badgen.net/bundlephobia/min/vue-float-menu](https://badgen.net/bundlephobia/min/vue-float-menu)
 
 ![logo](./readme-assets/social-media-logo-small.png)
 
@@ -29,7 +29,6 @@
 - [🍬 Demo](#-demo)
 - [Props](#props)
   - [Position](#position)
-  - [Menu orientation](#menu-orientation)
   - [Menu head dimension](#menu-head-dimension)
   - [Menu dimension](#menu-dimension)
   - [Populating the Menu](#populating-the-menu)
@@ -54,9 +53,9 @@ yarn install vue-float-menu
 
 vue-float-menu has some great defaults. Please check the [props](#props) section for all available options.
 
-`vue-float-menu` finds the optimal menu orientation depending on the position of the menu. for e.g if the menu is placed at the bottom edge and the orientation set to `bottom`, the component will automatically flip the orientation to `top`. If you want to disable this behavior, set [flip-on-edges](#flip-on-edges) to false.
+`vue-float-menu` finds the optimal menu orientation depending on the position of the menu. for e.g if the menu is placed at the bottom edge and the orientation set to `bottom`, the component will automatically flip the orientation to `top`.
 
-Here is a basic example that sets the default position of the menu as `top left` and menu orientation to `bottom`.
+Here is a basic example that sets the default position of the menu as `top left`.
 
 ```sh
 <template>
@@ -65,7 +64,6 @@ Here is a basic example that sets the default position of the menu as `top left`
     :dimension="50"
     :menu-data="items"
     :on-selected="handleSelection"
-    menu-orientation="bottom"
   >
     Drag
   </float-menu>
@@ -143,16 +141,6 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
   </float-menu>
 ```
 
-### Menu orientation
-
-sets the default orientation of the menu. can be set to either `top` or `bottom`.
-
-```sh
-  <float-menu :dimension=50 position="bottom right" menu-orientation="bottom">
-    <BoxIcon />
-  </float-menu>
-```
-
 ### Menu head dimension
 
 `dimension` prop can be used to set the width and height of the menu head. The prop takes a single number value to set the height and width of the Menu Head.
@@ -172,7 +160,6 @@ prop to set the `height` and `width` of the menu.
     :dimension=50
     :menu-dimension="{height: 400, width: 300}"
     position="bottom right"
-    menu-orientation="bottom"
   >
     <BoxIcon />
   </float-menu>
@@ -218,7 +205,6 @@ const menuData = [
     :menu-dimension="{height: 400, width: 300}"
     :menu-data="menuData"
     position="bottom right"
-    menu-orientation="bottom"
   >
     <BoxIcon />
   </float-menu>
@@ -237,7 +223,6 @@ hook for the menu item selection event.
     :menu-dimension="{height: 400, width: 300}"
     :menu-data="{items: [{name: 'File'}, {name: 'Open'}]}"
     on-select="handleSelection"
-    menu-orientation="bottom"
   >
     <BoxIcon />
   </float-menu>
@@ -253,7 +238,6 @@ setting this prop `flips` the menu content on the right edges of the screen.
     position="bottom right"
     flip-on-edges
     on-select="handleSelection"
-    menu-orientation="bottom"
   >
     <BoxIcon />
   </float-menu>
@@ -279,7 +263,6 @@ To customize the Menu Icon, simply pass any content in between the `float-menu` 
   <float-menu
     :dimension=50
     :menu-data="menuData"
-    menu-orientation="bottom"
   >
     <BoxIcon />
   </float-menu>
@@ -291,7 +274,6 @@ and here we render a text `Click` inside the Menu handle
   <float-menu
     :dimension=50
     :menu-data="menuData"
-    menu-orientation="bottom"
   >
     Click
   </float-menu>
@@ -312,7 +294,6 @@ Customize the color schemes with the `theme` prop.
       menuBgColor: '#fff',
       textSelectedColor: '#fff',
     }"
-    menu-orientation="bottom"
   >
     Click
   </float-menu>
