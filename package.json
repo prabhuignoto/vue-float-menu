@@ -42,7 +42,7 @@
   "dependencies": {
     "interactjs": "^1.10.0",
     "nanoid": "^3.1.12",
-    "vue": "^3.0.0",
+    "vue": "^3.0.1",
     "vue-float-menu": "^1.6.0"
   },
   "devDependencies": {
@@ -54,12 +54,12 @@
     "@types/nanoid": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/compiler-sfc": "^3.0.1",
     "eslint": "^7.11.0",
     "eslint-plugin-vue": "^7.0.1",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
-    "rollup": "^2.30.0",
+    "rollup": "^2.31.0",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-postcss": "^3.1.8",
