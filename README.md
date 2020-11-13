@@ -12,7 +12,7 @@
 ![https://badgen.net/bundlephobia/min/vue-float-menu](https://badgen.net/bundlephobia/min/vue-float-menu)
 
 <div align="center">
-  <img src="./readme-assets/app-home.png">
+  <img src="./readme-assets/demo.gif">
 </div>
 
 [![Edit vue-float-menu](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-float-menu-e09z4?fontsize=14&hidenavigation=1&theme=dark)
