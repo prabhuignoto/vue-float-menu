@@ -11,6 +11,7 @@ const MenuProps = {
     type: Number,
     default: 45,
   },
+
   /**
   * sets the initial position of the menu.
   *
@@ -20,6 +21,7 @@ const MenuProps = {
     type: String,
     default: "bottom right",
   },
+
   /**
   * disables dragging and sets the position to fixed.
   *
@@ -29,6 +31,7 @@ const MenuProps = {
     type: Boolean,
     default: false,
   },
+
   /**
   * sets the height and width of the menu.
   *
@@ -41,6 +44,7 @@ const MenuProps = {
       width: 250,
     },
   },
+
   /**
   * data to generate the menu. array of type MenuItem
   *
@@ -54,6 +58,7 @@ const MenuProps = {
     type: Boolean,
     default: false,
   },
+
   /**
   * hook that gets called on selection of the menu item.
   *
@@ -63,6 +68,7 @@ const MenuProps = {
     type: Function as PropType<(val: string) => void>,
     default: null,
   },
+
   /**
   * flips the content of the menu on the right edges of the screen
   *
@@ -72,6 +78,7 @@ const MenuProps = {
     type: Boolean,
     default: false,
   },
+
   /**
   * theme object.
   *
@@ -112,6 +119,16 @@ const MenuProps = {
       textSelectedColor: "#fff",
     },
   },
+
+  preserveMenuPosition: {
+    type: Boolean,
+    default: true
+  },
+
+  menuStyle: {
+    type: String,
+    default: "accordion"
+  }
 }
 
 export default MenuProps;

@@ -64,6 +64,7 @@ export type SetupMenuPosition = (
   menuContainer: HTMLElement) => ({
     position: Position | null;
     flip: boolean;
+    reveal: boolean;
   })
 
 export type SetupInitStyle = (dockPosition: string, dimension: number) => ({

@@ -38,7 +38,7 @@ const utils: UtilsType = {
     return Object.assign({}, newMenuStyle, {
       "min-height": `${menuDimension.height}px`,
       width: `${menuDimension.width}px`,
-      newOrientation
+      newOrientation,
     });
   },
   setupMenuPosition: (element, position, flipOnEdges, menuContainer) => {
@@ -49,6 +49,7 @@ const utils: UtilsType = {
     let newPosition: Position | null = null;
 
     let flipMenu = false;
+    let reveal = false;
 
     if (flipOnEdges) {
       flipMenu = false;
@@ -60,6 +61,7 @@ const utils: UtilsType = {
         left: position.left,
         top: position.top - (bottom - screenHeight),
       };
+      reveal = true;
     }
 
     // reposition if the menu head goes above the bottom of the viewport
@@ -68,6 +70,7 @@ const utils: UtilsType = {
         left: position.left,
         top: position.top + Math.abs(top),
       };
+      reveal = true;
     }
 
     // reposition if the menu head goes beyond the left side of the viewport
@@ -76,6 +79,7 @@ const utils: UtilsType = {
         left: menuContHalfWidth,
         top: position.top,
       };
+      reveal = true;
     }
 
     // reposition if the menu head goes beyond the right side of the viewport
@@ -88,11 +92,13 @@ const utils: UtilsType = {
       if (flipOnEdges) {
         flipMenu = true;
       }
+      reveal = true;
     }
 
     return {
       position: newPosition,
-      flip: flipMenu
+      flip: flipMenu,
+      reveal
     }
   },
   setupInitStyle: (position: string, dimension: number) => {
@@ -127,7 +133,7 @@ const utils: UtilsType = {
   },
   detectDeviceType: () => {
     const screenWidth = screen.width;
-    if(screenWidth <= 768) {
+    if (screenWidth <= 768) {
       return "mobile"
     }
     return "desktop"

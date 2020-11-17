@@ -44,7 +44,6 @@ export default {
       sourcemap: true,
       globals: {
         vue: "vue",
-        nanoid: "nanoid",
         interactjs: "interactjs"
       },
     },
@@ -61,5 +60,5 @@ export default {
     buble(),
     resolve(),
   ],
-  external: ["vue", "nanoid", "interactjs"],
+  external: ["vue", "interactjs"],
 };
