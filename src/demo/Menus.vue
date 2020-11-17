@@ -12,7 +12,6 @@
         textSelectedColor: '#fff',
       }"
       menu-orientation="top"
-      menu-style="accordion"
     >
       <BoxIcon />
     </float-menu>
@@ -21,6 +20,7 @@
       :menu-data="items"
       :on-selected="handleSelection"
       :flip-on-edges="false"
+      menu-style="accordion"
       :theme="{
         primary: '#FF1493',
         textColor: '#000',

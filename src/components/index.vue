@@ -269,7 +269,9 @@ export default defineComponent({
         setupMenuOrientation();
         adjustFloatMenuPosition(menuHead.value as HTMLElement);
       } else {
-        isRevealing.value = false;
+        if (isRevealing.value) {
+          position.value = previousPosition.value;
+        }
       }
 
       nextTick(() => {
