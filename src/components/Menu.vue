@@ -1,34 +1,49 @@
 <template>
-  <div ref="menuRef" class="menu-wrapper" tabindex="0" @keyup="handleKeyUp">
-    <ul class="menu-list" :style="getTheme">
+  <div
+    ref="menuRef"
+    class="menu-wrapper"
+    tabindex="0"
+    @keyup="handleKeyUp"
+  >
+    <ul
+      class="menu-list"
+      :style="getTheme"
+    >
       <li
         v-for="({ id, selected, name, subMenu, showSubMenu, disabled },
-        index) of menuItems"
+                index) of menuItems"
         :key="id"
         :class="[
           { 'sub-menu': subMenu, selected, disabled, flip },
           'menu-list-item',
+          menuStyle,
         ]"
         :style="getTheme"
         @mousedown="
           handleMenuItemClick($event, id, name, subMenu, index, disabled)
         "
       >
-        <span
-          :class="['name', { disabled }]"
-          @click="$event.stopPropagation()"
-          >{{ name }}</span
-        >
-        <span
-          v-if="subMenu"
-          :class="['chev-icon', { disabled }]"
+        <div
+          :class="menuItemClass"
           @click="$event.stopPropagation()"
         >
-          <ChevRightIcon />
-        </span>
-        <span
+          <span :class="['name', { disabled }]">{{ name }}</span>
+          <span
+            v-if="subMenu"
+            :class="[
+              'chev-icon',
+              { disabled, 'show-submenu': showSubMenu },
+              menuStyle,
+            ]"
+          >
+            <chev-right-icon v-if="!isAccordion" />
+            <plus-icon v-if="subMenu && !showSubMenu && isAccordion" />
+            <minus-icon v-if="subMenu && showSubMenu && isAccordion" />
+          </span>
+        </div>
+        <div
           v-if="!disabled && showSubMenu"
-          class="sub-menu-wrapper"
+          :class="subMenuClass"
           :style="getTheme"
         >
           <component
@@ -38,8 +53,9 @@
             :theme="theme"
             :on-close="handleSubmenuClose"
             :flip="flip"
+            :menu-style="menuStyle"
           />
-        </span>
+        </div>
       </li>
     </ul>
   </div>
@@ -56,14 +72,17 @@ import {
   watch,
   nextTick,
 } from "vue";
-import { nanoid } from "nanoid";
 import ChevRightIcon from "./icons/ChevRightIcon.vue";
+import PlusIcon from "./icons/PlusIcon.vue";
+import MinusIcon from "./icons/MinusIcon.vue";
 import { MenuItem } from "../types";
 
 export default defineComponent({
   name: "Menu",
   components: {
     ChevRightIcon,
+    PlusIcon,
+    MinusIcon,
   },
   props: {
     data: {
@@ -98,6 +117,11 @@ export default defineComponent({
         textSelectedColor: "#fff",
       },
     },
+    menuStyle: {
+      type: String,
+      default: "slided_out",
+      required: false,
+    },
   },
   setup(props) {
     // tracks the index of the selected menu item
@@ -107,14 +131,14 @@ export default defineComponent({
     const menuItems = ref<MenuItem[]>(
       props.data.map((item) =>
         Object.assign({}, item, {
-          id: nanoid(),
+          id: `menu-item-${Math.round(Math.random() * 1000)}`,
           showSubMenu: false,
         })
       )
     );
 
     // reference to the menu itself
-    const menuRef = ref<HTMLElement>();
+    const menuRef = ref();
 
     // resolve this component for usage innested menus
     const SubMenuComponent = resolveComponent("Menu");
@@ -128,15 +152,18 @@ export default defineComponent({
       if (!subMenu) {
         props.onSelection && props.onSelection(name);
       } else {
-        expandMenu(id, selectFirstItem);
+        toggleMenu(id, selectFirstItem);
       }
     };
 
     // expands the submenu
-    const expandMenu = (id?: string, selectFirstItem?: boolean) => {
+    const toggleMenu = (id?: string, selectFirstItem?: boolean) => {
       menuItems.value = menuItems.value.map((item) =>
         Object.assign({}, item, {
-          showSubMenu: item.id === id,
+          showSubMenu:
+            props.menuStyle === "accordion"
+              ? item.id === id && !item.showSubMenu
+              : item.id === id,
           subMenu:
             selectFirstItem && item.id === id
               ? {
@@ -203,12 +230,13 @@ export default defineComponent({
       // get the active item
       const item = menuItems.value[actvIndex > -1 ? actvIndex : 0];
       const keyCode = event.keyCode;
+      const len = props.data.length;
 
       // handle down arrow
       if (keyCode === 40) {
-        if (actvIndex < props.data.length - 1) {
+        if (actvIndex < len - 1) {
           activeIndex.value += 1;
-        } else if (actvIndex === props.data.length - 1) {
+        } else if (actvIndex === len - 1) {
           activeIndex.value = 0;
         }
         // handle up arrow
@@ -221,19 +249,19 @@ export default defineComponent({
         if (!props.flip) {
           props.onClose(keyCode);
         } else {
-          expandMenu(item.id, true);
+          toggleMenu(item.id, true);
         }
         // handle enter
       } else if (keyCode === 13) {
         if (item.subMenu) {
-          expandMenu(item.id, true);
+          toggleMenu(item.id, true);
         } else {
           selectMenuItem(item.name, item.id, !!item.subMenu);
         }
         // handle right arrow
       } else if (keyCode === 39) {
         if (!props.flip) {
-          expandMenu(item.id, true);
+          toggleMenu(item.id, true);
         } else {
           props.onClose(keyCode);
         }
@@ -259,6 +287,14 @@ export default defineComponent({
       });
     });
 
+    const subMenuClass = computed(() => `sub-menu-wrapper ${props.menuStyle}`);
+
+    const menuItemClass = computed(
+      () => `menu-item-wrapper ${props.menuStyle}`
+    );
+
+    const isAccordion = computed(() => props.menuStyle === "accordion");
+
     return {
       menuItems,
       handleMenuItemClick,
@@ -268,6 +304,9 @@ export default defineComponent({
       handleKeyUp,
       activeIndex,
       handleSubmenuClose,
+      subMenuClass,
+      menuItemClass,
+      isAccordion,
     };
   },
 });

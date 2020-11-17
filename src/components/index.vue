@@ -22,7 +22,7 @@
     <div
       ref="menuContainer"
       :class="[{ menuActive }, 'menu-container']"
-      :style="menuStyle"
+      :style="menuCSS"
       draggable="false"
     >
       <span
@@ -38,6 +38,7 @@
         :on-selection="handleMenuItemSelection"
         :theme="theme"
         :on-close="handleMenuClose"
+        :menu-style="menuStyle"
       />
     </div>
   </div>
@@ -60,6 +61,10 @@ import utils from "../utils";
 import Props from "./props";
 import interact from "interactjs";
 
+interface Position {
+  left: number;
+  top: number;
+}
 export default defineComponent({
   name: "FloatMenu",
   components: {
@@ -70,21 +75,23 @@ export default defineComponent({
   props: Props,
   setup(props, { slots }) {
     // position of the circular menu head
-    const position = ref<{ left: number; top: number } | null>(null);
+    const position = ref<Position | null>(null);
+
+    const previousPosition = ref<Position | null>(null);
 
     // reference to the circular menu head
-    const menuHead = ref<HTMLElement>();
+    const menuHead = ref();
 
-    const menuHeadContainer = ref<HTMLElement>();
+    const menuHeadContainer = ref();
 
     // enables/disables menu
     const menuActive = ref(false);
 
     // reference to the menu container
-    const menuContainer = ref<HTMLElement>();
+    const menuContainer = ref();
 
     // generates style for the menu
-    const menuStyle = ref<{ "min-height": string; width: string } | null>(null);
+    const menuCSS = ref<{ "min-height": string; width: string } | null>(null);
 
     // local reference of the menu direction
     const menuOrientation = ref("top");
@@ -100,6 +107,8 @@ export default defineComponent({
       const position = utils.setupInitStyle(props.position, props.dimension);
       return position;
     });
+
+    const isRevealing = ref(false);
 
     // compute the style
     const style = computed(() => {
@@ -134,9 +143,8 @@ export default defineComponent({
         dimension,
         props.menuDimension
       );
-
       menuOrientation.value = newStyle.newOrientation;
-      menuStyle.value = newStyle;
+      menuCSS.value = newStyle;
     };
 
     // manages the position of the menu head. make sure the menu stays within the screen bounds
@@ -155,6 +163,7 @@ export default defineComponent({
           menuContainer.value
         );
         flipMenu.value = newPosition.flip;
+        isRevealing.value = newPosition.reveal;
 
         if (newPosition.position) {
           position.value = newPosition.position;
@@ -164,6 +173,9 @@ export default defineComponent({
 
     const onCloseMenu = (event: MouseEvent | TouchEvent) => {
       if (menuActive.value) {
+        if (isRevealing.value) {
+          position.value = previousPosition.value;
+        }
         const classes = Array.from((event.target as HTMLElement).classList);
         if (classes.some((cls) => cls === "sub-menu" || cls === "disabled")) {
           return;
@@ -185,10 +197,12 @@ export default defineComponent({
     onMounted(() => {
       // setup the initial style on load
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
-      position.value = {
+      const initPosition = {
         left: +intialStyle.left.replace(/px/gi, ""),
         top: +intialStyle.top.replace(/px/gi, ""),
       };
+      position.value = initPosition;
+      previousPosition.value = initPosition;
 
       // close the menu when clicked outside
       window.addEventListener("click", onCloseMenu);
@@ -215,7 +229,12 @@ export default defineComponent({
                 };
               }
             },
-            end() {
+            end(event) {
+              const { pageX, pageY } = event;
+              previousPosition.value = {
+                left: pageX - Math.round(props.dimension / 2),
+                top: pageY - Math.round(props.dimension / 2),
+              };
               setTimeout(() => {
                 dragActive.value = false;
               }, 100);
@@ -241,6 +260,7 @@ export default defineComponent({
       event.preventDefault();
 
       const classes = Array.from((event.target as HTMLElement).classList);
+
       if (classes.some((cls) => cls === "menu-list-item")) {
         return;
       }
@@ -248,6 +268,8 @@ export default defineComponent({
       if (!menuActive.value) {
         setupMenuOrientation();
         adjustFloatMenuPosition(menuHead.value as HTMLElement);
+      } else {
+        isRevealing.value = false;
       }
 
       nextTick(() => {
@@ -261,6 +283,10 @@ export default defineComponent({
         return;
       }
       menuActive.value = false;
+      if (isRevealing.value) {
+        position.value = previousPosition.value;
+      }
+
       nextTick(() => {
         menuHead.value?.focus();
       });
@@ -288,7 +314,7 @@ export default defineComponent({
       menuActive,
       menuContainer,
       menuHead,
-      menuStyle,
+      menuCSS,
       style,
       toggleMenu,
       menuHeadContainer,

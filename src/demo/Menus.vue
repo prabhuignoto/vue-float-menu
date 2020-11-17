@@ -4,7 +4,7 @@
       :position="'top left'"
       :menu-data="items"
       :on-selected="handleSelection"
-      :flip-on-edges="true"
+      :flip-on-edges="false"
       :theme="{
         primary: '#00539C',
         textColor: '#000',
@@ -12,6 +12,7 @@
         textSelectedColor: '#fff',
       }"
       menu-orientation="top"
+      menu-style="accordion"
     >
       <BoxIcon />
     </float-menu>
@@ -19,7 +20,7 @@
       :position="'top right'"
       :menu-data="items"
       :on-selected="handleSelection"
-      :flip-on-edges="true"
+      :flip-on-edges="false"
       :theme="{
         primary: '#FF1493',
         textColor: '#000',
@@ -111,7 +112,7 @@ export default defineComponent({
             items: [
               {
                 name: "Themes",
-                disabled: true,
+                disabled: false,
                 subMenu: {
                   name: "sub-themes",
                   items: [

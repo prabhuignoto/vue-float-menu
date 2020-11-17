@@ -12,20 +12,45 @@
 
 .sub-menu-wrapper {
   animation: show 0.1s ease-in;
-  border-radius: 0.5rem;
-  box-shadow: $shadow;
-  left: 102%;
   min-width: 150px;
-  position: absolute;
-  top: 0;
-  background: var(--menu-background);
+
+  &.slide-out {
+    border-radius: 4px;
+    box-shadow: $shadow;
+    left: 102%;
+    position: absolute;
+    background: var(--menu-background);
+    top: 0;
+  }
+
+  &.accordion {
+    width: 99%;
+    margin-left: auto;
+    max-height: 900px;
+    transition: max-height 0.5s ease;
+  }
 }
 
 .chev-icon {
-  margin-left: auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 
   &.disabled {
     opacity: 0.45;
+  }
+
+  &.accordion {
+    // transform: rotate(90deg);
+
+    // &.show-submenu {
+    //   transform: rotate(-90deg);
+    // }
   }
 }
 
@@ -48,39 +73,79 @@
   }
 }
 
+.menu-item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 2.5rem;
+
+  &.slide-out {
+    .name {
+      order: 1;
+    }
+
+    .chev-icon {
+      order: 2;
+      margin-left: auto;
+    }
+  }
+
+  &.accordion {
+    .name {
+      order: 2;
+    }
+
+    .chev-icon {
+      order: 1;
+    }
+  }
+}
+
 .menu-list-item {
   align-items: center;
   color: var(--menu-text-color);
   cursor: pointer;
   display: flex;
   font-size: 0.9rem;
-  height: 2.5rem;
   justify-content: flex-start;
   position: relative;
   width: 100%;
-  background: var(--menu-background);
+  // background-color: rgba(var(--menu-background), 0.65);
 
-  // &:not(:last-child) {
-  //   border-bottom: 1px solid $light-gray;
-  // }
+  &.accordion {
+    flex-direction: column;
+
+    &.selected {
+      max-height: 900px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $light-gray;
+    }
+  }
+
+  &.slide-out {
+    height: 2.5rem;
+  }
 
   &:first-child {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
   }
 
   &:last-child {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 
   &.selected {
-    background: var(--background);
-    color: var(--text-selected-color);
+    background-color: transparentize(#cccc, 0.5);
+    // color: var(--text-selected-color);
   }
 
   &:hover:not(.selected) {
-    background: rgba(0, 0, 0, 0.1);
+    // background: transparentize(#cccc, 0.35);
     color: $black;
   }
 
