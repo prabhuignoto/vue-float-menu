@@ -12,7 +12,7 @@
         textSelectedColor: '#fff',
       }"
       menu-orientation="top"
-      menu-style="slide-out"
+      menu-style="accordion"
     >
       <BoxIcon />
     </float-menu>

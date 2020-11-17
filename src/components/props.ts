@@ -127,7 +127,7 @@ const MenuProps = {
 
   menuStyle: {
     type: String,
-    default: "accordion"
+    default: "slide-out"
   }
 }
 

@@ -32,11 +32,11 @@
 
 - [⚡ Installation](#-installation)
 - [🚀 Getting Started](#-getting-started)
-- [🍬 Demo](#-demo)
 - [Props](#props)
   - [Position](#position)
   - [Menu head dimension](#menu-head-dimension)
   - [Menu dimension](#menu-dimension)
+  - [Menu Style](#menu-style)
   - [Populating the Menu](#populating-the-menu)
   - [on-select](#on-select)
   - [Flip on edges](#flip-on-edges)
@@ -115,10 +115,6 @@ export default {
 </script>
 ```
 
-## 🍬 Demo
-
-![demo](./readme-assets/demo.gif)
-
 ## Props
 
 | Prop             | Type     | Description                                                                                                                      |
@@ -129,6 +125,7 @@ export default {
 | menu-dimension   | Object   | sets the `width` and `minimum` height of the Menu.                                                                               |
 | menu-data        | Object   | data to generate the menu. refer to [populating the menu](#populating-the-menu) for usage details.                               |
 | on-selected      | Function | hook that is called on selection.                                                                                                |
+| menu-style       | String   | can be `slide-out` or `accordion`.`slide-out` is the default menu style.                                                         |
 | flip-on-edges    | Boolean  | flips the menu content on the right edges of the screen.                                                                         |
 | theme            | Object   | prop to customize the color schemes. refer [theme](#theme) for usage.                                                            |
 
@@ -170,6 +167,22 @@ prop to set the `height` and `width` of the menu.
     <BoxIcon />
   </float-menu>
 ```
+
+### Menu Style
+
+The component supports two modes `slide-out`(default) and `accordion`. The `accordion` style is more suitable for mobile devices.
+
+```sh
+  <float-menu
+    position="bottom right"
+    flip-on-edges
+    menu-style="accordion"
+  >
+    <BoxIcon />
+  </float-menu>
+```
+
+![accordion](./readme-assets/accordion.png)
 
 ### Populating the Menu
 
@@ -260,6 +273,7 @@ To disable dragging and to fix the position statically, set `fixed` to `true`. T
     <BoxIcon />
   </float-menu>
 ```
+
 
 ### 🎨 Custom icon
 
