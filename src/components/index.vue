@@ -60,6 +60,7 @@ import MenuIcon from "./icons/MenuIcon.vue";
 import utils from "../utils";
 import Props from "./props";
 import interact from "interactjs";
+import "focus-visible";
 
 interface Position {
   left: number;

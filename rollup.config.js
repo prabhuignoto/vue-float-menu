@@ -6,6 +6,7 @@ import common from "rollup-plugin-commonjs";
 import buble from "rollup-plugin-buble";
 import beep from "@rollup/plugin-beep";
 import resolve from "@rollup/plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 
 const banner = `/*
  * ${pkg.name}
@@ -59,6 +60,7 @@ export default {
     common(),
     buble(),
     resolve(),
+    terser()
   ],
   external: ["vue", "interactjs"],
 };
