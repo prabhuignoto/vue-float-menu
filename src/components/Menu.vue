@@ -160,10 +160,7 @@ export default defineComponent({
     const toggleMenu = (id?: string, selectFirstItem?: boolean) => {
       menuItems.value = menuItems.value.map((item) =>
         Object.assign({}, item, {
-          showSubMenu:
-            props.menuStyle === "accordion"
-              ? item.id === id && !item.showSubMenu
-              : item.id === id,
+          showSubMenu: item.id === id && !item.showSubMenu,
           subMenu:
             selectFirstItem && item.id === id
               ? {

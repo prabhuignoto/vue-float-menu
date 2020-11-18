@@ -127,6 +127,11 @@
 
   &.slide-out {
     height: 2.5rem;
+
+    &:hover {
+      background: var(--background);
+      color: var(--text-selected-color);
+    }
   }
 
   &:first-child {
@@ -142,11 +147,6 @@
   &.selected {
     background-color: transparentize(#cccc, 0.5);
     // color: var(--text-selected-color);
-  }
-
-  &:hover:not(.selected) {
-    // background: transparentize(#cccc, 0.35);
-    color: $black;
   }
 
   &.highlight {
