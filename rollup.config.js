@@ -25,7 +25,6 @@ export default {
       exports: "named",
       strict: true,
       banner,
-      sourcemap: true,
     },
     {
       file: pkg.module,
@@ -33,7 +32,6 @@ export default {
       exports: "named",
       strict: true,
       banner,
-      sourcemap: true,
     },
     {
       file: pkg.umd,
@@ -42,7 +40,6 @@ export default {
       strict: true,
       banner,
       name: "FloatMenu",
-      sourcemap: true,
       globals: {
         vue: "vue",
         interactjs: "interactjs"
