@@ -3,7 +3,12 @@
     ref="menuHeadContainer"
     :class="[{ dragActive }, 'menu-head-wrapper']"
     :style="style"
-    :draggable="!fixed"
+    @mousedown="handleDragStart"
+    @mouseup="handleDragEnd"
+    @mousemove="handleDragMove"
+    @touchstart="handleDragStart"
+    @touchend="handleDragEnd"
+    @touchmove="handleDragMove"
     @click="toggleMenu"
   >
     <div
@@ -38,7 +43,7 @@
         :on-selection="handleMenuItemSelection"
         :theme="theme"
         :on-close="handleMenuClose"
-        :menu-style="menuStyle"
+        :menu-style="computedMenuStyle"
       />
     </div>
   </div>
@@ -59,7 +64,6 @@ import XIcon from "./icons/XIcon.vue";
 import MenuIcon from "./icons/MenuIcon.vue";
 import utils from "../utils";
 import Props from "./props";
-import interact from "interactjs";
 import "focus-visible";
 
 interface Position {
@@ -102,6 +106,17 @@ export default defineComponent({
 
     // drag active
     const dragActive = ref(false);
+    const dragStart = ref(false);
+
+    const isTouch = ref(window.ontouchstart !== undefined);
+
+    const moveEvent = computed(() =>
+      isTouch.value ? "touchmove" : "mousemove"
+    );
+
+    const computedMenuStyle = computed(() =>
+      moveEvent.value === "touchmove" ? "accordion" : "slide-out"
+    );
 
     // sets the initial style
     const getInitStyle = computed(() => {
@@ -195,6 +210,27 @@ export default defineComponent({
       };
     };
 
+    const handleMove = (event: MouseEvent | TouchEvent) => {
+      // const { clientX, clientY } = event;
+      let clientX = 0;
+      let clientY = 0;
+
+      if (event instanceof MouseEvent) {
+        clientX = event.clientX;
+        clientY = event.clientY;
+      } else if (event instanceof TouchEvent) {
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+      }
+
+      if (dragActive.value) {
+        position.value = {
+          left: clientX - Math.round(props.dimension / 2),
+          top: clientY - Math.round(props.dimension / 2),
+        };
+      }
+    };
+
     onMounted(() => {
       // setup the initial style on load
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
@@ -211,37 +247,8 @@ export default defineComponent({
       // attach handler for window resize event
       window.addEventListener("resize", onWindowResize);
 
-      // initialize interact js
-      if (menuHeadContainer.value) {
-        interact(menuHeadContainer.value).draggable({
-          listeners: {
-            start() {
-              dragActive.value = true;
-              menuActive.value = false;
-            },
-            move(event) {
-              const { pageX, pageY } = event;
-
-              if (menuHeadContainer.value && menuContainer.value) {
-                // update the menuhead position
-                position.value = {
-                  left: pageX - Math.round(props.dimension / 2),
-                  top: pageY - Math.round(props.dimension / 2),
-                };
-              }
-            },
-            end(event) {
-              const { pageX, pageY } = event;
-              previousPosition.value = {
-                left: pageX - Math.round(props.dimension / 2),
-                top: pageY - Math.round(props.dimension / 2),
-              };
-              setTimeout(() => {
-                dragActive.value = false;
-              }, 100);
-            },
-          },
-        });
+      if (!props.fixed && menuHeadContainer.value) {
+        document.addEventListener(moveEvent.value, handleMove);
       }
     });
 
@@ -249,6 +256,7 @@ export default defineComponent({
     onUnmounted(() => {
       window.removeEventListener("click", onCloseMenu);
       window.removeEventListener("resize", onWindowResize);
+      document.removeEventListener(moveEvent.value, handleMove);
     });
 
     // open/close the menu
@@ -305,6 +313,34 @@ export default defineComponent({
       "--background": props.theme.primary,
     }));
 
+    const handleDragStart = (event: MouseEvent) => {
+      if (!isTouch.value) {
+        event.preventDefault();
+      }
+      dragStart.value = true;
+    };
+
+    const handleDragMove = () => {
+      if (dragStart.value) {
+        menuActive.value = false;
+        dragActive.value = true;
+      }
+    };
+
+    const handleDragEnd = (event: MouseEvent) => {
+      const { clientX, clientY } = event;
+      if (dragActive.value) {
+        previousPosition.value = {
+          left: clientX - Math.round(props.dimension / 2),
+          top: clientY - Math.round(props.dimension / 2),
+        };
+        setTimeout(() => {
+          dragActive.value = false;
+        }, 100);
+      }
+      dragStart.value = false;
+    };
+
     return {
       dragActive,
       flipMenu,
@@ -321,6 +357,10 @@ export default defineComponent({
       style,
       toggleMenu,
       menuHeadContainer,
+      handleDragStart,
+      handleDragMove,
+      handleDragEnd,
+      computedMenuStyle,
     };
   },
 });

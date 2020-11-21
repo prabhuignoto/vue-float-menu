@@ -22,7 +22,8 @@
     "build": "vite build",
     "rollup": "rimraf ./dist && rollup -c",
     "lint": "eslint src/**/*.vue",
-    "lint:css": "stylelint src/**/*.scss"
+    "lint:css": "stylelint src/**/*.scss",
+    "lint:all": "yarn lint && yarn lint:css"
   },
   "husky": {
     "hooks": {
@@ -40,11 +41,9 @@
     ]
   },
   "dependencies": {
-    "focus-visible": "^5.2.0",
-    "interactjs": "^1.10.0"
+    "focus-visible": "^5.2.0"
   },
   "devDependencies": {
-    "@interactjs/types": "^1.10.0",
     "@rollup/plugin-beep": "^0.2.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@rollup/plugin-sucrase": "^3.1.0",
