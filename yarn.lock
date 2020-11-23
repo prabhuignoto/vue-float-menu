@@ -193,11 +193,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@interactjs/types@1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.10.0.tgz#c2232ed3ba503891349912fa74aa05aa467403e9"
-  integrity sha512-TB4uHd++aXqiWHQNzERcP8cxOLHCd+b3fq0XoV7Ydnappoq25R8iIrrB8Yb2FqVkZXnj1SIFYnzpol1SYHFIMQ==
-
 "@koa/cors@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@koa/cors/-/cors-3.1.0.tgz#618bb073438cfdbd3ebd0e648a76e33b84f3a3b2"
@@ -2711,13 +2706,6 @@ ini@^1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
-
-interactjs@^1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/interactjs/-/interactjs-1.10.0.tgz#0fafd725b1fddfc9671cacd98c4f92ceae73a197"
-  integrity sha512-dblDEizs758xETNVoSSxcZiwrP0DmFeNKILeDfhmO13LQRIsnSvbJFEYerEBVeH5m9qsOyYeMgBTafA+ZKkyBg==
-  dependencies:
-    "@interactjs/types" "1.10.0"
 
 is-absolute-url@^2.0.0:
   version "2.1.0"
@@ -5987,13 +5975,12 @@ vue-eslint-parser@^7.1.1:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
-vue-float-menu@^1.7.1:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/vue-float-menu/-/vue-float-menu-1.7.5.tgz#59060617183a28fd27b415e9496683cd9360fe98"
-  integrity sha512-At6M/YhZLWd9VrAG1F5f/NY8XpGFbIvxrZySMGCsrc93Eljnje+FEyfAt4Pqm324ibpM3RB/mQI0WusUkLNP4Q==
+vue-float-menu@^1.7.6:
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/vue-float-menu/-/vue-float-menu-1.7.6.tgz#727a6a33d8c0cb858977f78e8c138e815ab960a4"
+  integrity sha512-gQII5Uig68JA7Exdcj7c7I4PZhwyvuWDv93owa0shOZlXXEk1WEODA/GfvgCDg6BjchEjGyoeyAp/yMeNjPeog==
   dependencies:
     focus-visible "^5.2.0"
-    interactjs "^1.10.0"
 
 vue@^3.0.2:
   version "3.0.2"
