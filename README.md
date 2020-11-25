@@ -15,8 +15,6 @@
   <img src="./readme-assets/demo.gif">
 </div>
 
-[![Edit vue-float-menu](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-float-menu-e09z4?fontsize=14&hidenavigation=1&theme=dark)
-
 <h2>✨ Features</h2>
 
 - 👌 &nbsp;[Drag](#-demo) and place the menu anywhere on screen.

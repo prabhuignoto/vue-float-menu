@@ -175,6 +175,7 @@ img {
       align-items: center;
       justify-content: flex-start;
       padding: 0.5rem 0;
+      filter: drop-shadow(2px 2px 60px rgba(0, 0, 0, 0.1));
     }
 
     .icon {
