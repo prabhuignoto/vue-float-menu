@@ -376,7 +376,7 @@ Prabhu Murthy – [@prabhumurthy2](https://twitter.com/prabhumurthy2) – prabhu
 
 Distributed under the MIT license. See `LICENSE` for more information.
 
-[https://github.com/prabhuingoto/](https://github.com/prabhuingoto/)
+[https://github.com/prabhuingoto/](https://github.com/prabhuignoto/)
 
 <!-- Markdown link & img dfn's -->
 
