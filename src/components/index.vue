@@ -82,9 +82,11 @@ export default defineComponent({
     // position of the circular menu head
     const position = ref<Position | null>(null);
 
+    // tracks  the  last position of the menu head.
+    // this will be used when the menu head need to moved from the edges of the screen to a more optimal position
     const previousPosition = ref<Position | null>(null);
 
-    // reference to the circular menu head
+    // // reference to the circular menu head
     const menuHead = ref();
 
     const menuHeadContainer = ref();
@@ -111,18 +113,17 @@ export default defineComponent({
     const isTouch = ref(window.ontouchstart !== undefined);
 
     const moveEvent = computed(() =>
-      isTouch.value ? "touchmove" : "mousemove"
+      unref(isTouch) ? "touchmove" : "mousemove"
     );
 
     const computedMenuStyle = computed(() =>
-      moveEvent.value === "touchmove" ? "accordion" : "slide-out"
+      unref(moveEvent) === "touchmove" ? "accordion" : props.menuStyle
     );
 
     // sets the initial style
-    const getInitStyle = computed(() => {
-      const position = utils.setupInitStyle(props.position, props.dimension);
-      return position;
-    });
+    const getInitStyle = computed(() =>
+      utils.setupInitStyle(props.position, props.dimension)
+    );
 
     const isRevealing = ref(false);
 
@@ -211,7 +212,6 @@ export default defineComponent({
     };
 
     const handleMove = (event: MouseEvent | TouchEvent) => {
-      // const { clientX, clientY } = event;
       let clientX = 0;
       let clientY = 0;
 
@@ -224,9 +224,16 @@ export default defineComponent({
       }
 
       if (dragActive.value) {
+        const top = clientY - Math.round(props.dimension / 2);
+
         position.value = {
           left: clientX - Math.round(props.dimension / 2),
-          top: clientY - Math.round(props.dimension / 2),
+          top:
+            top > 0 && top < window.innerHeight - props.dimension
+              ? top
+              : top < 0
+              ? 0
+              : top - props.dimension,
         };
       }
     };
@@ -246,6 +253,21 @@ export default defineComponent({
 
       // attach handler for window resize event
       window.addEventListener("resize", onWindowResize);
+
+      window.addEventListener(
+        "mouseup",
+        (event: MouseEvent) => {
+          const nodeName = (event.target as HTMLElement).nodeName;
+          const canStopDrag = nodeName === "#document" || nodeName === "HTML";
+
+          if (canStopDrag) {
+            dragStart.value = false;
+            dragActive.value = false;
+            previousPosition.value = position.value;
+          }
+        },
+        { capture: true }
+      );
 
       if (!props.fixed && menuHeadContainer.value) {
         document.addEventListener(moveEvent.value, handleMove);

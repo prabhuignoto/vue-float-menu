@@ -45,6 +45,21 @@
   - [🌈 Theme](#-theme)
 - [📦 Build Setup](#-build-setup)
 - [🔨 Contributing](#-contributing)
+- [🧱 Built with](#-built-with)
+- [Notes](#notes)
+- [Meta](#meta)
+
+  - [Menu head dimension](#menu-head-dimension)
+  - [Menu dimension](#menu-dimension)
+  - [Menu Style](#menu-style)
+  - [Populating the Menu](#populating-the-menu)
+  - [on-select](#on-select)
+  - [Flip on edges](#flip-on-edges)
+  - [Fixed Menu](#fixed-menu)
+  - [🎨 Custom icon](#-custom-icon)
+  - [🌈 Theme](#-theme)
+- [📦 Build Setup](#-build-setup)
+- [🔨 Contributing](#-contributing)
 - [Built with](#built-with)
 - [Notes](#notes)
 - [Meta](#meta)
@@ -188,13 +203,14 @@ The component supports two modes `slide-out`(default) and `accordion`. The `acco
 
 Use the `menu-data` prop to create simple or nested menus of your liking. `menu-data` takes an array of `MenuItem` type
 
-MenuItem properties
+`MenuItem` properties
 
 | property    | description                                                           |
 | ----------- | --------------------------------------------------------------------- |
 | name        | display name of the menu item.                                        |
 | subMenu     | data for the sub-menu                                                 |
 | disabled    | disables the menu item                                                |
+| divider     | makes the item as a divider                                           |
 
 Here we create a simple Menu structure with 3 Menu items with no sub menus.
 
@@ -208,11 +224,12 @@ const menuData = [
       items: [{ name: "Copy" }, { name: "Paste", disabled: true }],
     },
   },
+  {divider: true},
   {
     name: "Open Recent",
     subMenu: {
       name: "recent-items",
-      items: [{ name: "Document 1" }, { name: "Document 2" }],
+      items: [{ name: "Document 1" }, {divider: true}, { name: "Document 2" }],
     },
   },
 ]
@@ -228,8 +245,6 @@ const menuData = [
     <BoxIcon />
   </float-menu>
 ```
-
-![example1](./readme-assets/example1.png)
 
 ### on-select
 
@@ -301,6 +316,7 @@ and here we render a text `Click` inside the Menu handle
 
 ![example2](./readme-assets/example2.png)
 
+
 ### 🌈 Theme
 
 Customize the color schemes with the `theme` prop.
@@ -319,8 +335,6 @@ Customize the color schemes with the `theme` prop.
   </float-menu>
 ```
 
-![theme](./readme-assets/theme.png)
-
 ## 📦 Build Setup
 
 ``` bash
@@ -332,6 +346,9 @@ yarn run dev
 
 # run css linting
 yarn run lint:css
+
+# lint everything
+yarn run lint:all
 
 # package lib
 npm run rollup
@@ -345,7 +362,7 @@ npm run rollup
 4. Push to the branch (`git push origin new-feature`)
 5. Create a new Pull Request
 
-## Built with
+## 🧱 Built with
 
 - [Vue.JS](vue) - The Component is written in Vue + [Typescript](typescript).
 

@@ -8,7 +8,7 @@ export type MenuItem = {
    *
    * @type {string}
    */
-  name: string;
+  name?: string;
   /**
    * data for the sub menu
    *
@@ -39,6 +39,8 @@ export type MenuItem = {
    * @type {boolean}
    */
   disabled?: boolean;
+
+  divider?: boolean;
 };
 
 export type Position = {

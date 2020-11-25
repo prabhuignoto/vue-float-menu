@@ -10,52 +10,65 @@
       :style="getTheme"
     >
       <li
-        v-for="({ id, selected, name, subMenu, showSubMenu, disabled },
+        v-for="({ id, selected, name, subMenu, showSubMenu, disabled, divider },
                 index) of menuItems"
         :key="id"
         :class="[
-          { 'sub-menu': subMenu, selected, disabled, flip },
+          { 'sub-menu': subMenu, selected, disabled, flip, divider },
           'menu-list-item',
           menuStyle,
         ]"
         :style="getTheme"
         @mousedown="
-          handleMenuItemClick($event, id, name, subMenu, index, disabled)
+          handleMenuItemClick(
+            $event,
+            id,
+            name,
+            subMenu,
+            index,
+            disabled,
+            divider
+          )
         "
       >
-        <div
-          :class="menuItemClass"
-          @click="$event.stopPropagation()"
-        >
-          <span :class="['name', { disabled }]">{{ name }}</span>
-          <span
-            v-if="subMenu"
-            :class="[
-              'chev-icon',
-              { disabled, 'show-submenu': showSubMenu },
-              menuStyle,
-            ]"
+        <template v-if="!divider">
+          <div
+            :class="menuItemClass"
+            @click="$event.stopPropagation()"
           >
-            <chev-right-icon v-if="!isAccordion" />
-            <plus-icon v-if="subMenu && !showSubMenu && isAccordion" />
-            <minus-icon v-if="subMenu && showSubMenu && isAccordion" />
-          </span>
-        </div>
-        <div
-          v-if="!disabled && showSubMenu"
-          :class="subMenuClass"
-          :style="getTheme"
-        >
-          <component
-            :is="SubMenuComponent"
-            :data="subMenu.items"
-            :on-selection="onSelection"
-            :theme="theme"
-            :on-close="handleSubmenuClose"
-            :flip="flip"
-            :menu-style="menuStyle"
-          />
-        </div>
+            <span :class="['name', { disabled }]">{{ name }}</span>
+            <span
+              v-if="subMenu"
+              :class="[
+                'chev-icon',
+                { disabled, 'show-submenu': showSubMenu },
+                menuStyle,
+              ]"
+            >
+              <chev-right-icon v-if="!isAccordion" />
+              <plus-icon v-if="subMenu && !showSubMenu && isAccordion" />
+              <minus-icon v-if="subMenu && showSubMenu && isAccordion" />
+            </span>
+          </div>
+          <div
+            v-if="!disabled && showSubMenu"
+            :class="subMenuClass"
+            :style="getTheme"
+          >
+            <component
+              :is="SubMenuComponent"
+              :data="subMenu.items"
+              :on-selection="onSelection"
+              :theme="theme"
+              :on-close="handleSubmenuClose"
+              :flip="flip"
+              :menu-style="menuStyle"
+            />
+          </div>
+        </template>
+        <template v-else>
+          <span class="menu-item-divider" />
+        </template>
       </li>
     </ul>
   </div>
@@ -144,13 +157,13 @@ export default defineComponent({
     const SubMenuComponent = resolveComponent("Menu");
 
     const selectMenuItem = (
-      name: string,
+      name?: string,
       id?: string,
       subMenu?: boolean,
       selectFirstItem?: boolean
     ) => {
       if (!subMenu) {
-        props.onSelection && props.onSelection(name);
+        name && props?.onSelection(name);
       } else {
         toggleMenu(id, selectFirstItem);
       }
@@ -181,12 +194,13 @@ export default defineComponent({
       name: string,
       subMenu: boolean,
       index: number,
-      disabled: boolean
+      disabled: boolean,
+      divider: boolean
     ) => {
       event.stopPropagation();
       event.preventDefault();
 
-      if (disabled) {
+      if (disabled || divider) {
         return;
       }
 
@@ -232,15 +246,28 @@ export default defineComponent({
       // handle down arrow
       if (keyCode === 40) {
         if (actvIndex < len - 1) {
-          activeIndex.value += 1;
+          const nextItem = menuItems.value[actvIndex + 1].divider;
+
+          if (nextItem) {
+            activeIndex.value = actvIndex + 2 < len ? actvIndex + 2 : 0;
+          } else {
+            activeIndex.value += 1;
+          }
         } else if (actvIndex === len - 1) {
           activeIndex.value = 0;
         }
         // handle up arrow
       } else if (keyCode === 38) {
-        if (actvIndex > 0) {
-          activeIndex.value -= 1;
-        }
+        const isDivider = menuItems.value[actvIndex - 1]?.divider;
+        const nextIndex = isDivider
+          ? actvIndex - 2
+          : actvIndex - 1 < 0
+          ? len - 1
+          : actvIndex - 1;
+
+        console.log(nextIndex);
+
+        activeIndex.value = nextIndex;
         // handle left arrow
       } else if (keyCode === 37) {
         if (!props.flip) {

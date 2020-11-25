@@ -4,7 +4,7 @@
       :position="'top left'"
       :menu-data="items"
       :on-selected="handleSelection"
-      :flip-on-edges="false"
+      flip-on-edges
       :theme="{
         primary: '#00539C',
         textColor: '#000',
@@ -13,7 +13,7 @@
       }"
       menu-orientation="top"
     >
-      <BoxIcon />
+      <box-icon />
     </float-menu>
     <float-menu
       :position="'top right'"
@@ -106,6 +106,9 @@ export default defineComponent({
           },
         },
         {
+          divider: true,
+        },
+        {
           name: "Settings",
           subMenu: {
             name: "settings",
@@ -128,12 +131,18 @@ export default defineComponent({
           },
         },
         {
+          divider: true,
+        },
+        {
           name: "Save",
           disabled: true,
         },
         {
           name: "Save As",
           disabled: true,
+        },
+        {
+          divider: true,
         },
         {
           name: "Close",
