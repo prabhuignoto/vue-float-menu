@@ -111,7 +111,7 @@ export default defineComponent({
       default: null,
     },
     onClose: {
-      type: Function as PropType<(keyCodeUsed?: number) => void>,
+      type: Function as PropType<(keyCodeUsed?: string) => void>,
       default: null,
       required: true,
     },
@@ -240,11 +240,11 @@ export default defineComponent({
 
       // get the active item
       const item = menuItems.value[actvIndex > -1 ? actvIndex : 0];
-      const keyCode = event.keyCode;
+      const keyCode = event.key;
       const len = props.data.length;
 
       // handle down arrow
-      if (keyCode === 40) {
+      if (keyCode === 'ArrowDown') {
         if (actvIndex < len - 1) {
           const nextItem = menuItems.value[actvIndex + 1].divider;
 
@@ -257,7 +257,7 @@ export default defineComponent({
           activeIndex.value = 0;
         }
         // handle up arrow
-      } else if (keyCode === 38) {
+      } else if (keyCode === 'ArrowUp') {
         const isDivider = menuItems.value[actvIndex - 1]?.divider;
         const nextIndex = isDivider
           ? actvIndex - 2
@@ -269,27 +269,27 @@ export default defineComponent({
 
         activeIndex.value = nextIndex;
         // handle left arrow
-      } else if (keyCode === 37) {
+      } else if (keyCode === 'ArrowLeft') {
         if (!props.flip) {
-          props.onClose(keyCode);
+          props.onClose('ArrowLeft'); 
         } else {
           toggleMenu(item.id, true);
         }
         // handle enter
-      } else if (keyCode === 13) {
+      } else if (keyCode === 'Enter') {
         if (item.subMenu) {
           toggleMenu(item.id, true);
         } else {
           selectMenuItem(item.name, item.id, !!item.subMenu);
         }
         // handle right arrow
-      } else if (keyCode === 39) {
+      } else if (keyCode === 'ArrowRight') {
         if (!props.flip) {
           toggleMenu(item.id, true);
         } else {
-          props.onClose(keyCode);
+          props.onClose('ArrowRight');
         }
-      } else if (keyCode === 27) {
+      } else if (keyCode === 'Escape') {
         props.onClose();
       }
     };

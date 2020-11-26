@@ -311,8 +311,8 @@ export default defineComponent({
     };
 
     // close the menu from child component (./menu.vue)
-    const handleMenuClose = (keyCode?: number) => {
-      if (keyCode === 37 || keyCode === 39) {
+    const handleMenuClose = (keyCode?: string) => {
+      if (keyCode === "ArrowLeft" || keyCode === "ArrowRight") {
         return;
       }
       menuActive.value = false;
