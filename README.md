@@ -97,7 +97,7 @@ export default {
     FloatMenu,
   },
   setup() {
-    const handleSelection = (selectedItem: string) => {
+    const handleSelection = (selectedItem) => {
       console.log(selectedItem);
     };
     return {
