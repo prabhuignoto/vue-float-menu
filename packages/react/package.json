@@ -1,0 +1,52 @@
+{
+  "name": "react-float-menu",
+  "version": "0.1.0",
+  "description": "A Customizable float Menu for React",
+  "author": "Prabhu <prabhu.m.murthy@gmail.com>",
+  "homepage": "https://github.com/prabhuignoto/float-menu#readme",
+  "license": "MIT",
+  "main": "lib/react.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prabhuignoto/float-menu.git"
+  },
+  "scripts": {
+    "dev":  "snowpack dev",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/prabhuignoto/float-menu/issues"
+  },
+  "devDependencies": {
+    "@snowpack/plugin-dotenv": "^2.0.4",
+    "@snowpack/plugin-react-refresh": "^2.3.7",
+    "@snowpack/plugin-typescript": "^1.1.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "eslint": "^7.14.0",
+    "eslint-plugin-react": "^7.21.5",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "rollup": "^2.33.3",
+    "snowpack": "^2.17.1",
+    "stylelint": "^13.8.0",
+    "stylelint-config-standard": "^20.0.0",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@emotion/core": "^11.0.0-next.10",
+    "@emotion/react": "^11.0.0-next.10",
+    "@emotion/styled": "^11.0.0-next.19"
+  }
+}
