@@ -1,5 +1,6 @@
+import cls from "classnames";
 import React, { useCallback, useMemo } from "react";
-import MenuTheme from "../models/Theme";
+import { MenuItemViewModel } from "../models/MenuItemModel";
 import ChevronIcon from "./ChevRight";
 import {
   Divider,
@@ -11,33 +12,17 @@ import {
 } from "./MenuItem.style";
 import { MenuItems } from "./MenuItems";
 
-export interface MenuItemModel {
-  divider?: boolean;
-  id?: number;
-  name?: string;
-  subMenu?: MenuItemModel[];
-  selected?: boolean;
-}
-
-export interface MenuItemViewModel extends MenuItemModel {
-  flip?: string;
-  onSelectSubMenu: (name?: string, expandSubMenu?: boolean) => void;
-  showSubMenu?: boolean;
-  subMenu?: MenuItemViewModel[];
-  theme: MenuTheme;
-  onCloseSubMenu:  (name: string) => void;
-}
-
-const MenuItem: React.FunctionComponent<MenuItemViewModel> = ({
-  name,
-  subMenu,
-  showSubMenu,
-  onSelectSubMenu,
-  theme,
+const MenuItem: React.FunctionComponent<MenuItemViewModel> = React.memo(({
+  disable,
   divider,
   flip,
+  name,
+  onCloseSubMenu,
+  onSelectSubMenu,
   selected,
-  onCloseSubMenu
+  showSubMenu,
+  subMenu,
+  theme,
 }: MenuItemViewModel) => {
   const canShowSubMenu = useMemo(() => {
     return subMenu && showSubMenu;
@@ -52,14 +37,26 @@ const MenuItem: React.FunctionComponent<MenuItemViewModel> = ({
     }
   }, []);
 
+  const dividerContent = useMemo(() => <Divider />, []);
+  const dividerClass = useMemo(() => cls({ divider }), [divider]);
+
+  const subMenuClass = useMemo(() => cls(flip === "left" ? "left" : "right"), [
+    flip,
+  ]);
+
+  const menuContentClass = useMemo(
+    () => cls("react-dock-menu-item", { selected, disable }),
+    [selected]
+  );
+
+  const menuItemIconClass = useMemo(
+    () => cls({ "react-dock-menu-nested": subMenu }),
+    []
+  );
+
   const menuContent = useMemo(
     () => (
-      <MenuItemContent
-        theme={theme}
-        className={
-          selected ? "react-dock-menu-item selected" : "react-dock-menu-item"
-        }
-      >
+      <MenuItemContent theme={theme} className={menuContentClass}>
         <MenuItemText
           theme={theme}
           align={flip}
@@ -67,10 +64,7 @@ const MenuItem: React.FunctionComponent<MenuItemViewModel> = ({
         >
           {name}
         </MenuItemText>
-        <MenuItemIcon
-          align={flip}
-          className={subMenu ? "react-dock-menu-nested" : ""}
-        >
+        <MenuItemIcon align={flip} className={menuItemIconClass}>
           {subMenu && <ChevronIcon />}
         </MenuItemIcon>
       </MenuItemContent>
@@ -78,30 +72,28 @@ const MenuItem: React.FunctionComponent<MenuItemViewModel> = ({
     [flip, selected]
   );
 
-  const dividerContent = useMemo(() => <Divider />, []);
-
   return (
     <MenuItemMain
       theme={theme}
-      className={divider ? "divider" : ""}
+      className={dividerClass}
       onClick={handleSelection}
     >
       {divider ? dividerContent : menuContent}
       {canShowSubMenu ? (
-        <SubMenuWrapper align={flip === "left" ? flip : ""}>
+        <SubMenuWrapper className={subMenuClass}>
           <MenuItems
-            items={subMenu}
-            theme={theme}
-            onSelection={handleSelection}
             flip={flip}
+            items={subMenu}
             onCloseSubMenu={onCloseSubMenu}
+            onSelection={handleSelection}
             parent={name}
+            theme={theme}
           />
         </SubMenuWrapper>
       ) : null}
     </MenuItemMain>
   );
-};
+});
 
 MenuItem.displayName = "MenuItem";
 

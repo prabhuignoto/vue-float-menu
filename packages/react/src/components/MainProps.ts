@@ -1,11 +1,12 @@
+import { MenuItemModel } from "../models/MenuItemModel";
 import MenuTheme from "../models/Theme";
-import { MenuItemModel } from "./MenuItem";
 
 export interface Props {
-  items: MenuItemModel[];
   children: React.ReactNode;
-  minWidth?: number;
   dimension?: number;
-  theme?: MenuTheme;
+  fixed?:  boolean;
+  items: MenuItemModel[];
+  minWidth?: number;
   onSelection: (e: string | React.MouseEvent) => void;
+  theme?: MenuTheme;
 }

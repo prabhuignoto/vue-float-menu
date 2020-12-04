@@ -28,6 +28,7 @@
     "@snowpack/plugin-dotenv": "^2.0.5",
     "@snowpack/plugin-react-refresh": "^2.3.8",
     "@snowpack/plugin-typescript": "^1.1.1",
+    "@types/classnames": "^2.2.11",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
@@ -47,6 +48,7 @@
   "dependencies": {
     "@emotion/core": "^11.0.0-next.10",
     "@emotion/react": "^11.0.0-next.10",
-    "@emotion/styled": "^11.0.0-next.19"
+    "@emotion/styled": "^11.0.0-next.19",
+    "classnames": "^2.2.6"
   }
 }

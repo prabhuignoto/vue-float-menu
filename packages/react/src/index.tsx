@@ -2,35 +2,62 @@ import React from "react";
 import { render } from "react-dom";
 import Main from "./components/Main";
 
+import BoxIcon from "./assets/BoxIcon";
+
 const Application = () => (
   <div>
     <Main
       items={[
-        { id: 12, name: "test" },
-        { id: 22, name: "red" },
-        { id: 13, name: "blue" },
-        { divider: true },
-        { id: 13, name: "orange" },
-        { id: 13, name: "black" },
-        { id: 13, name: "violet" },
-        { divider: true },
+        { name: "New" },
         {
-          id: 11,
-          name: "prdasdd",
-          subMenu: [{ name: "test" }, { name: "test2" }],
+          name: "Edit",
+          subMenu: [{ name: "Copy" }, { name: "Paste" }],
         },
         {
-          id: 11,
-          name: "erer",
+          name: "Open Recent",
+          subMenu: [{ name: "Document 1" }, { name: "Document 2" }],
+        },
+        {
+          divider: true,
+        },
+        {
+          name: "Settings",
           subMenu: [
-            { name: "3434" },
-            { name: "t3434est2", subMenu: [{ id: 13, name: "red" }] },
+            {
+              name: "Themes",
+              subMenu: [
+                { name: "Dark" },
+                { name: "Light" },
+                { name: "Blue" },
+                { name: "Green" },
+              ],
+            },
+            { name: "Keymaps" },
           ],
+        },
+        {
+          divider: true,
+        },
+        {
+          name: "Save",
+          disable:  true,
+        },
+        {
+          name: "Save As",
+        },
+        {
+          divider: true,
+        },
+        {
+          name: "Close",
+        },
+        {
+          name: "Exit",
         },
       ]}
       onSelection={(name) => alert(name)}
     >
-      Menu
+      <BoxIcon />
     </Main>
   </div>
 );

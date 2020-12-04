@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { MenuItemViewModel } from "../models/MenuItemModel";
 import {
   MainWrapper,
   MenuContainer,
@@ -7,22 +8,27 @@ import {
 } from "./Main.style";
 import { Props } from "./MainProps";
 import usePosition from "./menuEffect";
-import { MenuItemViewModel } from "./MenuItem";
 import { MenuItems } from "./MenuItems";
 
 const Main: React.FunctionComponent<Props> = ({
-  items,
   children,
+  dimension = 45,
+  fixed = false,
+  items,
   minWidth = 250,
-  dimension = 40,
-  theme = { primary: "red" },
   onSelection = () => {},
+  theme = { primary: "#0080ff" },
 }: Props) => {
   const mainRef = useRef<HTMLDivElement>(null);
   const menuHeadRef = useRef<HTMLSpanElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const [position, open, setOpen] = usePosition(menuHeadRef, menuRef, mainRef);
+  const [position, open, setOpen] = usePosition(
+    menuHeadRef,
+    menuRef,
+    mainRef,
+    fixed
+  );
 
   const cubic = useMemo(() => "cubic-bezier(0.25, 0.46, 0.45, 0.94)", []);
 
@@ -30,7 +36,6 @@ const Main: React.FunctionComponent<Props> = ({
     const mainWrapper = mainRef.current;
 
     if (mainWrapper) {
-      // setFlip(position.flip as boolean);
       mainWrapper.style.transition = `left 0.2s ${cubic}, top 0.2s  ${cubic}`;
       mainWrapper.style.left = position.left + "px";
       mainWrapper.style.top = position.top + "px";
@@ -48,13 +53,14 @@ const Main: React.FunctionComponent<Props> = ({
 
   return (
     <MainWrapper ref={mainRef}>
-      <MenuHead menuStyle={{ minWidth }} flip={position.flip}>
+      <MenuHead menuStyle={{ minWidth }}>
         <MenuHeadCircle
           width={dimension}
           height={dimension}
           theme={theme}
           ref={menuHeadRef}
-          draggable
+          draggable={!fixed}
+          tabIndex={0}
         >
           {children}
         </MenuHeadCircle>

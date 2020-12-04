@@ -1,8 +1,19 @@
+import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+
+const animate = keyframes`
+  0%{
+    opacity: 0;
+  }
+  100%  {
+    opacity: 1;
+  }
+`
 
 export const MenuItemsWrapper = styled.div`
   width: 100%;
   outline: 0;
+  animation: ${animate} 0.1s ease-in;
 `;
 
 export const MenuItemsMain = styled.ul`
@@ -13,3 +24,4 @@ export const MenuItemsMain = styled.ul`
   margin: 0;
   outline: 0;
 `;
+

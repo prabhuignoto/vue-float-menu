@@ -6,6 +6,9 @@ enabled = true
 
   [analyzers.meta]
   environment = ["browser"]
-  plugins = ["react"]
+  plugins = [
+    "vue",
+    "react"
+  ]
   style_guide = "standard"
   dialect = "typescript"

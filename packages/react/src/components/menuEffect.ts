@@ -1,18 +1,15 @@
 import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Position } from "../models/Position";
 
-export interface Position {
-  left: number;
-  top: number;
-  flip?: 'top' | 'left' | 'none';
-}
 
 type Ref = MutableRefObject<HTMLSpanElement | null>;
 type returnType = [data: Position, open: boolean, setOpen: (s: boolean) => void];
 
-export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): returnType {
-  const [data, setData] = useState<Position>({ left: 0, top: 0, flip: 'none' });
+export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref, fixed: boolean): returnType {
+  const [data, setData] = useState<Position>({ left: 0, top: 0, flip: 'none', isRevealing: false });
   const [open, setOpen] = useState(false);
   const marginGap = 20;
+  const previousPosition = useRef<Position>();
 
   const isDragged = useRef(false);
   const isDragStart = useRef(false);
@@ -26,7 +23,12 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
 
   useEffect(() => {
     isOpen.current = open;
-  }, [open])
+    const prev = previousPosition.current;
+
+    if (!open && prev && prev.isRevealing) {
+      setData(prev);
+    }
+  }, [open]);
 
   useLayoutEffect(() => {
     const head = headRef.current;
@@ -44,7 +46,6 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
         return;
       } else if (isDragStart.current) {
         // this handles the menu toggling operation.
-        // isOpen.current = !isOpen.current;
         setOpen(!isOpen.current);
       } else {
 
@@ -52,7 +53,6 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
         const classList = Array.from((event.target as HTMLElement).classList);
 
         if (!class2Check.some(cls => classList.indexOf(cls) > -1)) {
-          // isOpen.current = false;
           setOpen(false);
         }
         isDragStart.current = false;
@@ -78,8 +78,11 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
         flip: 'none',
       };
 
+      let isRevealing = false;
+
       if (left < 0) {
         newPos = { left: marginGap, top: headTop - Math.round(headHeight / 2) };
+        isRevealing = true;
       }
 
       if (headTop < 0) {
@@ -89,13 +92,19 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
 
       if (right > winWidth) {
         newPos = { left: winWidth - (menuWidth + marginGap), top: headTop - Math.round(headHeight / 2), flip: 'left' };
+        isRevealing = true;
       }
 
       if (bottom > winHeight) {
         newPos = { left: newPos.left, top: headTop - headHeight, flip: 'top' }
-
-        // newPos = { left: newPos.left, top: headTop, flip: 'top' }
       }
+
+      if (isRevealing) {
+        previousPosition.current = Object.assign({}, previousPosition.current, {
+          isRevealing
+        });
+      }
+
       setData(newPos);
     };
 
@@ -119,21 +128,18 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
       const { innerHeight: winHeight, innerWidth: winWidth } = window;
       const { clientWidth: headWidth, clientHeight: headHeight } = head;
 
+      let x: number = 0, y: number = 0;
+      const menuHalfWidth = round(menu.clientWidth / 2);
+      const headHalfWidth = round(headWidth / 2);
+      const headHalfHeight = round(headHeight / 2);
+
       if (!isDragStart.current || !main || !menu || !head) {
         // cancel out the operation if the drag is not started
         return;
       } else {
         isDragged.current = true;
-        // close the menu when dragging starts
-        // isOpen.current = false;
         setOpen(false);
       }
-
-      const menuHalfWidth = round(menu.clientWidth / 2);
-      const headHalfWidth = round(headWidth / 2);
-      const headHalfHeight = round(headHeight / 2);
-
-      let x: number = 0, y: number = 0;
 
       if (event instanceof MouseEvent) {
         [x, y] = [event.clientX, event.clientY];
@@ -142,21 +148,35 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
         [x, y] = [clientX, clientY];
       }
 
+      let prevPosition = {
+        left: x,
+        top: y
+      };
+
       // check if the menu head is within the screen bounds (horizontal axis)
-      if (x > 0 && x < winWidth) {
-        main.style.left = `${x - menuHalfWidth}px`;
+      if (x > -headHalfWidth && x < winWidth) {
+        const newX = x - menuHalfWidth;
+        main.style.left = `${newX}px`;
+        prevPosition.left = newX;
       }
 
       // check if the menu head is within the screen bounds (vertical axis)
       if (y > 0 && y < winHeight - headHalfHeight) {
-        main.style.top = `${y - headHalfHeight}px`;
+        const newY = y - headHalfHeight;
+        main.style.top = `${newY}px`;
+        prevPosition.top = newY;
       }
+
+      previousPosition.current = prevPosition;
 
     };
 
-    document.addEventListener(dragEvent, dragHandler);
+    if (!fixed) {
+      document.addEventListener(dragEvent, dragHandler);
+    }
 
-    if (headRef.current) {
+
+    if (headRef.current && !fixed) {
 
       const head = headRef.current;
 
@@ -169,7 +189,7 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
     }
 
     return () => {
-      if (head) {
+      if (head && !fixed) {
         document.removeEventListener(dragEvent, dragHandler);
         head.removeEventListener(dragStartEvent, mouseUpHandler);
         document.removeEventListener(dragEndEvent, mouseDownHandler);

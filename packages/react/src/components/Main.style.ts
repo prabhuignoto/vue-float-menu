@@ -55,11 +55,16 @@ export const MenuHead = styled.div<MenuHeadModel>`
 export const MenuHeadCircle = styled.span<MenuHeadCircleModel>`
   align-items: center;
   background-color: ${p => p.theme.primary};
-  background: red;
   border-radius: 50%;
   display: flex;
   height: ${p => p.height}px;
   justify-content: center;
   margin: 1rem 0;
   width: ${p => p.width}px;
+  color:  #fff;
+
+  &.svg  {
+    width:  100%;
+    height:  100%;
+  }
 `;

@@ -7,7 +7,7 @@ export const MenuItemContent = styled.div<{ theme: MenuTheme; flip?: string }>`
   padding-left: 0.2em;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 2.5rem; 
   user-select: none;
   font-size: 1rem;
 
@@ -18,6 +18,10 @@ export const MenuItemContent = styled.div<{ theme: MenuTheme; flip?: string }>`
 
   &.selected  {
     background: #f2f2f2;
+  }
+  
+  &.disable {
+    filter: opacity(0.5);
   }
 `;
 
@@ -32,9 +36,12 @@ export const MenuItemMain = styled.li<{ theme: MenuTheme, flip?: string }>`
   align-items: center;
   justify-content: center;
   position: relative;
+  margin: 0.1rem 0;
+
 `;
 
 export const MenuItemText = styled.span<{ align?: string, theme: MenuTheme }>`
+  font-size: 0.9rem;
   color: ${p => p.theme.textColor};
   ${p => p.align === 'left' ? 'padding-right:3px' : 'padding-left:3px'};
   ${p => {
@@ -49,7 +56,7 @@ export const MenuItemText = styled.span<{ align?: string, theme: MenuTheme }>`
 export const MenuItemIcon = styled.span<{ align?: string }>`
   ${p => {
     if (p.align === "left") {
-      return `order: 1; margin-right: auto;padding-left:3px;`
+      return `order: 1; margin-right: auto;padding-left:3px; transform: rotate(180deg);`
     } else {
       return `order: 2; margin-left: auto;`
     }
@@ -63,17 +70,13 @@ export const SubMenuWrapper = styled.div<{ align?: string }>`
   background: #fff;
   border-radius: 3px;
 
-  ${p => {
-    if (p.align === "left") {
-      return `
-        right: 102%;
-      `
-    } else {
-      return `
-        left: 102%;
-      `
-    }
-  }}
+  &.left  {
+    right: 102%;
+  }
+
+  &.right  {
+    left: 102%;
+  }
 `;
 
 export const Divider = styled.span`

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { MenuItemViewModel } from "../models/MenuItemModel";
 import MenuTheme from "../models/Theme";
-import { MenuItem, MenuItemViewModel } from "./MenuItem";
+import { MenuItem } from "./MenuItem";
 import { MenuItemsMain, MenuItemsWrapper } from "./MenuItems.style";
 
 interface MenuItemsModel {
@@ -12,7 +13,7 @@ interface MenuItemsViewModel extends MenuItemsModel {
   onSelection(e: React.MouseEvent | string): void;
   toggleMenu?: boolean;
   flip?: string;
-  onCloseSubMenu?: (name?: string) => void;
+  onCloseSubMenu?: () => void;
   parent?: string;
 }
 
@@ -57,15 +58,21 @@ const MenuItems: React.FunctionComponent<MenuItemsViewModel> = ({
     []
   );
 
-  useEffect(() => {
-    if (!toggleMenu) {
+  const reset = useCallback(
+    () =>
       setMenuItems((prev) =>
         prev.map((item) =>
           Object.assign({}, item, {
             showSubMenu: false,
           })
         )
-      );
+      ),
+    []
+  );
+
+  useEffect(() => {
+    if (!toggleMenu) {
+      reset();
     }
   }, [toggleMenu]);
 
@@ -75,36 +82,32 @@ const MenuItems: React.FunctionComponent<MenuItemsViewModel> = ({
     }
   }, []);
 
-  const closeSubMenu = (name: string) => {
-    setMenuItems((prev) =>
-      prev.map((item) =>
-        Object.assign({}, item, {
-          showSubMenu: false,
-        })
-      )
-    );
-  };
+  const closeSubMenu = useCallback(() => reset(), []);
 
   const handleKeyUp = (event: React.KeyboardEvent) => {
     event.stopPropagation();
 
     let newIndex = 0;
     let menuItemsLen = menuItems.length;
+    const selectedItem = menuItems[activeIndex.current];
+    const closeKey = flip === "left" ? "ArrowRight" : "ArrowLeft";
+    const expandKey = flip === "left" ? "ArrowLeft" : "ArrowRight";
 
     if (event.key === "ArrowUp") {
       newIndex = activeIndex.current - 1;
     } else if (event.key === "ArrowDown") {
       newIndex = activeIndex.current + 1;
-    } else if (event.key === "Enter" || event.key === "ArrowRight") {
-      const selectedItem = menuItems[activeIndex.current];
-
+    } else if (
+      event.key === "Enter" ||
+      (event.key === expandKey && selectedItem?.subMenu)
+    ) {
       if (selectedItem) {
         const { subMenu, name } = selectedItem;
         handleSelectSubMenu(name, !!subMenu);
       }
 
       return;
-    } else if (event.key === "ArrowLeft") {
+    } else if (event.key === closeKey && parent) {
       const wrapper = menuItemsWrapperRef.current;
 
       if (wrapper) {
@@ -113,9 +116,11 @@ const MenuItems: React.FunctionComponent<MenuItemsViewModel> = ({
         if (parentList) {
           parentList.focus();
 
-          onCloseSubMenu && onCloseSubMenu(parent);
+          onCloseSubMenu && onCloseSubMenu();
         }
       }
+    } else if (!selectedItem?.subMenu) {
+      return;
     }
 
     if (newIndex < 0) {
@@ -130,15 +135,17 @@ const MenuItems: React.FunctionComponent<MenuItemsViewModel> = ({
       }
     }
 
-    activeIndex.current = newIndex;
+    if (newIndex !== activeIndex.current) {
+      activeIndex.current = newIndex;
 
-    setMenuItems((prev) => {
-      return prev.map((item, index) =>
-        Object.assign({}, item, {
-          selected: index === newIndex,
-        })
-      );
-    });
+      setMenuItems((prev) => {
+        return prev.map((item, index) =>
+          Object.assign({}, item, {
+            selected: index === newIndex,
+          })
+        );
+      });
+    }
   };
 
   return (
@@ -149,10 +156,13 @@ const MenuItems: React.FunctionComponent<MenuItemsViewModel> = ({
             key={item.id}
             flip={flip}
             {...item}
-            onSelectSubMenu={handleSelectSubMenu}
+            onSelectSubMenu={
+              !item.disable && !item.divider ? handleSelectSubMenu : () => {}
+            }
             theme={theme}
             selected={item.selected}
             onCloseSubMenu={closeSubMenu}
+            disable={item.disable}
           />
         ))}
       </MenuItemsMain>
