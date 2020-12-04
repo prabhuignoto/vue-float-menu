@@ -18,28 +18,28 @@
     "url": "git+https://github.com/prabhuignoto/float-menu.git"
   },
   "scripts": {
-    "dev":  "snowpack dev",
+    "dev": "snowpack dev",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/prabhuignoto/float-menu/issues"
   },
   "devDependencies": {
-    "@snowpack/plugin-dotenv": "^2.0.4",
-    "@snowpack/plugin-react-refresh": "^2.3.7",
-    "@snowpack/plugin-typescript": "^1.1.0",
+    "@snowpack/plugin-dotenv": "^2.0.5",
+    "@snowpack/plugin-react-refresh": "^2.3.8",
+    "@snowpack/plugin-typescript": "^1.1.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.8.2",
-    "@typescript-eslint/parser": "^4.8.2",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
     "eslint": "^7.14.0",
     "eslint-plugin-react": "^7.21.5",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "rollup": "^2.33.3",
-    "snowpack": "^2.17.1",
+    "rollup": "^2.34.1",
+    "snowpack": "^2.18.0",
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0",
     "typescript": "^4.1.2"

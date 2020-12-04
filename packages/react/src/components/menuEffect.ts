@@ -1,4 +1,4 @@
-import { MutableRefObject, useLayoutEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export interface Position {
   left: number;
@@ -24,6 +24,10 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
   const dragEvent = isTouch ? "touchmove" : "mousemove";
   const dragEndEvent = isTouch ? 'touchend' : 'mouseup';
 
+  useEffect(() => {
+    isOpen.current = open;
+  }, [open])
+
   useLayoutEffect(() => {
     const head = headRef.current;
     const menu = menuRef.current;
@@ -40,15 +44,15 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
         return;
       } else if (isDragStart.current) {
         // this handles the menu toggling operation.
-        isOpen.current = !isOpen.current;
-        setOpen(isOpen.current);
+        // isOpen.current = !isOpen.current;
+        setOpen(!isOpen.current);
       } else {
 
         const class2Check = ['item', 'txt', 'icon', 'nested'].map(t => `react-dock-menu-${t}`);
         const classList = Array.from((event.target as HTMLElement).classList);
 
         if (!class2Check.some(cls => classList.indexOf(cls) > -1)) {
-          isOpen.current = false;
+          // isOpen.current = false;
           setOpen(false);
         }
         isDragStart.current = false;
@@ -121,7 +125,7 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
       } else {
         isDragged.current = true;
         // close the menu when dragging starts
-        isOpen.current = false;
+        // isOpen.current = false;
         setOpen(false);
       }
 
@@ -139,7 +143,7 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref): r
       }
 
       // check if the menu head is within the screen bounds (horizontal axis)
-      if (x > 0 && x < winWidth - headHalfWidth) {
+      if (x > 0 && x < winWidth) {
         main.style.left = `${x - menuHalfWidth}px`;
       }
 

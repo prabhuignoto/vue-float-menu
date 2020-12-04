@@ -15,6 +15,10 @@ export const MenuItemContent = styled.div<{ theme: MenuTheme; flip?: string }>`
     background: ${p => p.theme.primary};
     color: #fff;
   }
+
+  &.selected  {
+    background: #f2f2f2;
+  }
 `;
 
 export const MenuItemMain = styled.li<{ theme: MenuTheme, flip?: string }>`
@@ -32,7 +36,7 @@ export const MenuItemMain = styled.li<{ theme: MenuTheme, flip?: string }>`
 
 export const MenuItemText = styled.span<{ align?: string, theme: MenuTheme }>`
   color: ${p => p.theme.textColor};
-  ${p => p.align === 'left' ? 'padding-right:3px':'padding-left:3px'};
+  ${p => p.align === 'left' ? 'padding-right:3px' : 'padding-left:3px'};
   ${p => {
     if (p.align === "left") {
       return `order: 2;`
