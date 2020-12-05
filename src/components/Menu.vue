@@ -10,8 +10,9 @@
       :style="getTheme"
     >
       <li
-        v-for="({ id, selected, name, subMenu, showSubMenu, disabled, divider },
-                index) of menuItems"
+        v-for="(
+          { id, selected, name, subMenu, showSubMenu, disabled, divider }, index
+        ) of menuItems"
         :key="id"
         :class="[
           { 'sub-menu': subMenu, selected, disabled, flip, divider },
@@ -225,7 +226,7 @@ export default defineComponent({
       // reset the activeindex to 0, if first item is already selected.
       // this is mostly the case while navigating via keyboard
       nextTick(() => {
-        const isFirstItemSelected = props.data[0].selected;
+        const isFirstItemSelected = props.data[0]?.selected;
         if (isFirstItemSelected) {
           activeIndex.value = 0;
         }
@@ -242,54 +243,59 @@ export default defineComponent({
       const item = menuItems.value[actvIndex > -1 ? actvIndex : 0];
       const keyCode = event.key;
       const len = props.data.length;
+      const  flip  = props.flip;
 
       // handle down arrow
-      if (keyCode === 'ArrowDown') {
+      if (keyCode === "ArrowDown") {
         if (actvIndex < len - 1) {
-          const nextItem = menuItems.value[actvIndex + 1].divider;
+          const nextItemIsDivider = menuItems.value[actvIndex + 1]?.divider;
+          // check if the next item is a divider and move 2 steps forward.                                                                                                                                                                                                                                   
 
-          if (nextItem) {
+          if (nextItemIsDivider) {
             activeIndex.value = actvIndex + 2 < len ? actvIndex + 2 : 0;
           } else {
+            // normal increment
             activeIndex.value += 1;
           }
         } else if (actvIndex === len - 1) {
+          // move to the top once the end is reached
           activeIndex.value = 0;
         }
         // handle up arrow
-      } else if (keyCode === 'ArrowUp') {
+      } else if (keyCode === "ArrowUp") {
         const isDivider = menuItems.value[actvIndex - 1]?.divider;
+
+        // check if the previous item is a divider and move 2 steps backward
         const nextIndex = isDivider
           ? actvIndex - 2
           : actvIndex - 1 < 0
           ? len - 1
           : actvIndex - 1;
 
-        console.log(nextIndex);
-
         activeIndex.value = nextIndex;
         // handle left arrow
-      } else if (keyCode === 'ArrowLeft') {
-        if (!props.flip) {
-          props.onClose('ArrowLeft'); 
-        } else {
+      } else if (keyCode === "ArrowLeft") {
+        if (!flip) {
+          props.onClose("ArrowLeft");
+        } else if (item.subMenu) {
+          // if the menu is flipped this should toggle the menu
           toggleMenu(item.id, true);
         }
         // handle enter
-      } else if (keyCode === 'Enter') {
+      } else if (keyCode === "Enter") {
         if (item.subMenu) {
           toggleMenu(item.id, true);
         } else {
           selectMenuItem(item.name, item.id, !!item.subMenu);
         }
         // handle right arrow
-      } else if (keyCode === 'ArrowRight') {
-        if (!props.flip) {
+      } else if (keyCode === "ArrowRight") {
+        if (!flip && item.subMenu) {
           toggleMenu(item.id, true);
-        } else {
-          props.onClose('ArrowRight');
+        } else if (flip) {
+          props.onClose("ArrowRight");
         }
-      } else if (keyCode === 'Escape') {
+      } else if (keyCode === "Escape") {
         props.onClose();
       }
     };
