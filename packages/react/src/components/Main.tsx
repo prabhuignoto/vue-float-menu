@@ -64,15 +64,13 @@ const Main: React.FunctionComponent<Props> = ({
         >
           {children}
         </MenuHeadCircle>
-      </MenuHead>
-      <MenuContainer
-        menuStyle={{ minWidth }}
-        ref={menuRef}
-        visibility={open ? 1 : 0}
-        draggable={false}
-        flip={position.flip}
-      >
-        {open && (
+        <MenuContainer
+          menuStyle={{ minWidth }}
+          ref={menuRef}
+          draggable={false}
+          flip={position.flip}
+          visibility={open ? 1 : 0}
+        >
           <MenuItems
             items={items as MenuItemViewModel[]}
             theme={theme}
@@ -80,8 +78,8 @@ const Main: React.FunctionComponent<Props> = ({
             toggleMenu={open}
             flip={position.flip}
           />
-        )}
-      </MenuContainer>
+        </MenuContainer>
+      </MenuHead>
     </MainWrapper>
   );
 };

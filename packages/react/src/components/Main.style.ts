@@ -29,13 +29,16 @@ export const MenuContainer = styled.div<MenuContainerModel>`
   border-radius: 4px;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
   min-width: ${p => p.menuStyle.minWidth}px;
-  visibility:  ${p => p.visibility ? "visible" : "hidden"};
+  margin-top: 0.5rem;
+  visibility: ${p => p.visibility ? "visible" : "hidden"};
 
   ${p => {
     if (p.flip === 'top') {
       return `
         // position: absolute;
         // bottom: calc(100%);
+        // left: 50%;
+        // transform: translateX(-50%);
       `;
     }
   }};
@@ -50,6 +53,7 @@ export const MenuHead = styled.div<MenuHeadModel>`
   cursor: pointer;
   display: flex;
   justify-content: center;
+  flex-direction: column;
 `;
 
 export const MenuHeadCircle = styled.span<MenuHeadCircleModel>`
@@ -59,7 +63,6 @@ export const MenuHeadCircle = styled.span<MenuHeadCircleModel>`
   display: flex;
   height: ${p => p.height}px;
   justify-content: center;
-  margin: 1rem 0;
   width: ${p => p.width}px;
   color:  #fff;
 

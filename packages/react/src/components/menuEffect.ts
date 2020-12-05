@@ -81,7 +81,7 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref, fi
       let isRevealing = false;
 
       if (left < 0) {
-        newPos = { left: marginGap, top: headTop - Math.round(headHeight / 2) };
+        newPos = { left: marginGap, top: headTop };
         isRevealing = true;
       }
 
@@ -91,12 +91,12 @@ export default function usePosition(headRef: Ref, menuRef: Ref, mainRef: Ref, fi
       }
 
       if (right > winWidth) {
-        newPos = { left: winWidth - (menuWidth + marginGap), top: headTop - Math.round(headHeight / 2), flip: 'left' };
+        newPos = { left: winWidth - (menuWidth + marginGap), top: headTop, flip: 'left' };
         isRevealing = true;
       }
 
       if (bottom > winHeight) {
-        newPos = { left: newPos.left, top: headTop - headHeight, flip: 'top' }
+        newPos = { left: newPos.left, top: headTop, flip: 'top' }
       }
 
       if (isRevealing) {
