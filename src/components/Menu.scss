@@ -94,6 +94,15 @@
   }
 }
 
+.menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  padding: 0 5px;
+}
+
 .menu-list-item {
   align-items: center;
   color: var(--menu-text-color);
@@ -165,6 +174,10 @@
     .sub-menu-wrapper {
       left: auto;
       right: 102%;
+    }
+
+    .menu-item-icon {
+      order: 3;
     }
   }
 

@@ -11,7 +11,7 @@
     >
       <li
         v-for="(
-          { id, selected, name, subMenu, showSubMenu, disabled, divider }, index
+          { id, selected, name, subMenu, showSubMenu, disabled, divider, iconSlot }, index
         ) of menuItems"
         :key="id"
         :class="[
@@ -37,6 +37,12 @@
             :class="menuItemClass"
             @click="$event.stopPropagation()"
           >
+            <span
+              v-if="iconSlot"
+              class="menu-item-icon"
+            >
+              <slot :name="iconSlot" />
+            </span>
             <span :class="['name', { disabled }]">{{ name }}</span>
             <span
               v-if="subMenu"
@@ -64,7 +70,17 @@
               :on-close="handleSubmenuClose"
               :flip="flip"
               :menu-style="menuStyle"
-            />
+            >
+              <template
+                v-for="slot in Object.keys($slots)"
+                #[slot]="scope"
+              >
+                <slot
+                  :name="slot"
+                  v-bind="scope"
+                />
+              </template>
+            </component>
           </div>
         </template>
         <template v-else>
@@ -145,7 +161,7 @@ export default defineComponent({
     const menuItems = ref<MenuItem[]>(
       props.data.map((item) =>
         Object.assign({}, item, {
-          id: `menu-item-${Math.round(Math.random() * 1000)}`,
+          id: `menu-item-${Math.random().toString(16)}`,
           showSubMenu: false,
         })
       )
@@ -243,13 +259,13 @@ export default defineComponent({
       const item = menuItems.value[actvIndex > -1 ? actvIndex : 0];
       const keyCode = event.key;
       const len = props.data.length;
-      const  flip  = props.flip;
+      const flip = props.flip;
 
       // handle down arrow
       if (keyCode === "ArrowDown") {
         if (actvIndex < len - 1) {
           const nextItemIsDivider = menuItems.value[actvIndex + 1]?.divider;
-          // check if the next item is a divider and move 2 steps forward.                                                                                                                                                                                                                                   
+          // check if the next item is a divider and move 2 steps forward.
 
           if (nextItemIsDivider) {
             activeIndex.value = actvIndex + 2 < len ? actvIndex + 2 : 0;

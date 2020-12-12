@@ -40,6 +40,7 @@
   - [Flip on edges](#flip-on-edges)
   - [Fixed Menu](#fixed-menu)
   - [🎨 Custom icon](#-custom-icon)
+  - [🎭 Icon support](#-icon-support)
   - [🌈 Theme](#-theme)
 - [📦 Build Setup](#-build-setup)
 - [🔨 Contributing](#-contributing)
@@ -153,7 +154,9 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
 
 ```sh
   <float-menu :dimension=50 position="bottom right">
-    <BoxIcon />
+    <template #icon>
+      <BoxIcon />
+    </template>
   </float-menu>
 ```
 
@@ -163,7 +166,9 @@ The `position` prop can be used to set the initial position of the Menu Head. Th
 
 ```sh
   <float-menu :dimension=50>
-    <BoxIcon />
+    <template #icon>
+      <BoxIcon />
+    </template>
   </float-menu>
 ```
 
@@ -177,7 +182,9 @@ prop to set the `height` and `width` of the menu.
     :menu-dimension="{height: 400, width: 300}"
     position="bottom right"
   >
-    <BoxIcon />
+    <template #icon>
+      <BoxIcon />
+    </template>
   </float-menu>
 ```
 
@@ -191,7 +198,9 @@ The component supports two modes `slide-out`(default) and `accordion`. The `acco
     flip-on-edges
     menu-style="accordion"
   >
-    <BoxIcon />
+    <template #icon>
+      <BoxIcon />
+    </template>
   </float-menu>
 ```
 
@@ -283,10 +292,11 @@ To disable dragging and to fix the position statically, set `fixed` to `true`. T
 
 ```sh
   <float-menu :dimension=50 position="bottom right" fixed>
-    <BoxIcon />
+    <template #icon>
+      <BoxIcon />
+    </template>
   </float-menu>
 ```
-
 
 ### 🎨 Custom icon
 
@@ -297,7 +307,9 @@ To customize the Menu Icon, simply pass any content in between the `float-menu` 
     :dimension=50
     :menu-data="menuData"
   >
-    <BoxIcon />
+    <template #icon>
+      <BoxIcon />
+    </template>
   </float-menu>
 ```
 
@@ -313,6 +325,75 @@ and here we render a text `Click` inside the Menu handle
 ```
 
 ![example2](./readme-assets/example2.png)
+
+### 🎭 Icon support
+
+Each menu item can be iconified and the component uses slots to inject the icons.
+
+Pass individual icons (or images) as templates marked with a unique `slot id`. please make sure the `ids` match the `iconSlot` property in the items array.
+
+```sh
+<float-menu
+  :menu-data="items"
+>
+  <template #file>
+    <img
+      src="../assets/file.svg"
+      alt="file"
+      :style="style"
+    >
+  </template>
+  <template #window>
+    <img
+      src="../assets/window-maximize.svg"
+      alt="file"
+      :style="style"
+    >
+  </template>
+</float-menu>
+
+export default defineComponent({
+  name: "MenuExample",
+  data()  {
+    return {
+      items: [
+        { name: "New File", iconSlot: "file" },
+        { name: "New Window", iconSlot: "window" },
+      ]
+    }
+  }
+})
+```
+
+![menu-icon](./readme-assets/menu-icon.png)
+
+This works seamlessly even for `nested` menu structure. Make sure the `slot ids` match and the component will render the icons appropriately.
+
+```sh
+<float-menu
+  :menu-data="items"
+>
+  <template #window>
+    <img
+      src="../assets/window-maximize.svg"
+      alt="file"
+      :style="style"
+    >
+  </template>
+</float-menu>
+
+export default defineComponent({
+  name: "MenuExample",
+  data()  {
+    return {
+      items: [
+        { name: "New File",
+        subMenu: [{ name: "New Window", iconSlot: "window" }]},
+      ]
+    }
+  }
+});
+```
 
 
 ### 🌈 Theme

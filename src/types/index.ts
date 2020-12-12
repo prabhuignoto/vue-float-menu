@@ -41,6 +41,8 @@ export type MenuItem = {
   disabled?: boolean;
 
   divider?: boolean;
+
+  iconSlot?: string;
 };
 
 export type Position = {
