@@ -11,7 +11,17 @@
     >
       <li
         v-for="(
-          { id, selected, name, subMenu, showSubMenu, disabled, divider, iconSlot }, index
+          {
+            id,
+            selected,
+            name,
+            subMenu,
+            showSubMenu,
+            disabled,
+            divider,
+            iconSlot,
+          },
+          index
         ) of menuItems"
         :key="id"
         :class="[
@@ -105,7 +115,7 @@ import {
 import ChevRightIcon from "./icons/ChevRightIcon.vue";
 import PlusIcon from "./icons/PlusIcon.vue";
 import MinusIcon from "./icons/MinusIcon.vue";
-import { MenuItem } from "../types";
+import { MenuItem, Theme, ThemeDefault } from "../types";
 
 export default defineComponent({
   name: "Menu",
@@ -133,19 +143,9 @@ export default defineComponent({
       required: true,
     },
     theme: {
-      type: Object as PropType<{
-        primary: string;
-        textColor: string;
-        menuBgColor: string;
-        textSelectedColor: string;
-      }>,
+      type: Object as PropType<Theme>,
       required: false,
-      default: {
-        primary: "#0080ff",
-        textColor: "#000",
-        menuBgColor: "#fff",
-        textSelectedColor: "#fff",
-      },
+      default: ThemeDefault,
     },
     menuStyle: {
       type: String,
@@ -232,6 +232,7 @@ export default defineComponent({
       "--menu-background": props.theme.menuBgColor,
       "--menu-text-color": props.theme.textColor,
       "--text-selected-color": props.theme.textSelectedColor,
+      "--hover-background": props.theme.hoverBackground,
     }));
 
     // life cycle mount

@@ -84,3 +84,43 @@ export type UtilsType = {
   setupInitStyle: SetupInitStyle;
   detectDeviceType: () => string;
 }
+export interface Theme {
+  /**
+       * targets the bg color of the menu head and selection highlight for sub menus.
+       *
+       * @type {string}
+       */
+  primary: string;
+
+  /**
+   * targets the text color
+   *
+   * @type {string}
+   */
+  textColor: string;
+
+  /**
+   * targets the background color of the menu
+   *
+   * @type {string}
+   */
+  menuBgColor: string;
+
+  /**
+   * targets the text color of the menu item when the item has a sub menu
+   *
+   * @type {string}
+   */
+  textSelectedColor: string;
+
+  hoverBackground: string;
+}
+
+export const ThemeDefault =
+{
+  primary: "#0080ff",
+  textColor: "#000",
+  menuBgColor: "#fff",
+  textSelectedColor: "#fff",
+  hoverBackground: "#89c4ff"
+};

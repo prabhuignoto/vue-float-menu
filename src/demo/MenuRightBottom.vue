@@ -8,7 +8,8 @@
       primary: '#228B22',
       textColor: '#000',
       menuBgColor: '#fff',
-      textSelectedColor: '#fff',
+      textSelectedColor: '#000',
+      hoverBackground: '#e8f3e8'
     }"
     menu-orientation="top"
   >

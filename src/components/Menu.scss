@@ -133,7 +133,7 @@
     height: 2.5rem;
 
     &:hover {
-      background: var(--background);
+      background-color: var(--hover-background);
       color: var(--text-selected-color);
     }
   }
@@ -150,7 +150,6 @@
 
   &.selected {
     background-color: transparentize(#cccc, 0.5);
-    // color: var(--text-selected-color);
   }
 
   &.highlight {
