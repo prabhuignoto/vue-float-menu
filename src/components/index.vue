@@ -20,8 +20,9 @@
       @keyup="$event.keyCode === 13 && toggleMenu($event)"
     >
       <span class="menu-head-icon">
+        <slot name="icon" />
         <slot />
-        <MenuIcon v-if="isSlotEmpty" />
+        <MenuIcon v-if="slotsEmpty" />
       </span>
     </div>
     <div
@@ -44,7 +45,17 @@
         :theme="theme"
         :on-close="handleMenuClose"
         :menu-style="computedMenuStyle"
-      />
+      >
+        <template
+          v-for="slot in Object.keys($slots)"
+          #[slot]="scope"
+        >
+          <slot
+            :name="slot"
+            v-bind="scope"
+          />
+        </template>
+      </Menu>
     </div>
   </div>
 </template>
@@ -363,6 +374,8 @@ export default defineComponent({
       dragStart.value = false;
     };
 
+    const slotsEmpty = computed(() => !Object.keys(slots).length);
+
     return {
       dragActive,
       flipMenu,
@@ -370,7 +383,7 @@ export default defineComponent({
       getTheme,
       handleMenuClose,
       handleMenuItemSelection,
-      isSlotEmpty: slots && !slots.default,
+      slotsEmpty,
       menuOrientation,
       menuActive,
       menuContainer,

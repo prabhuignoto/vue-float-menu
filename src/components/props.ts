@@ -1,5 +1,5 @@
 import { PropType } from "vue";
-import { MenuItem } from '../types';
+import { MenuItem, Theme, ThemeDefault } from '../types';
 
 const MenuProps = {
   /**
@@ -85,39 +85,9 @@ const MenuProps = {
   * @type {boolean}
   */
   theme: {
-    type: Object as PropType<{
-      /**
-       * targets the bg color of the menu head and selection highlight for sub menus.
-       *
-       * @type {string}
-       */
-      primary: string;
-      /**
-       * targets the text color
-       *
-       * @type {string}
-       */
-      textColor: string;
-      /**
-       * targets the background color of the menu
-       *
-       * @type {string}
-       */
-      menuBgColor: string;
-      /**
-       * targets the text color of the menu item when the item has a sub menu
-       *
-       * @type {string}
-       */
-      textSelectedColor: string;
-    }>,
+    type: Object as PropType<Theme>,
     required: false,
-    default: {
-      primary: "#0080ff",
-      textColor: "#000",
-      menuBgColor: "#fff",
-      textSelectedColor: "#fff",
-    },
+    default: ThemeDefault,
   },
 
   preserveMenuPosition: {

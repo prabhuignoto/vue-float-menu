@@ -94,6 +94,15 @@
   }
 }
 
+.menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  padding: 0 5px;
+}
+
 .menu-list-item {
   align-items: center;
   color: var(--menu-text-color);
@@ -124,7 +133,7 @@
     height: 2.5rem;
 
     &:hover {
-      background: var(--background);
+      background-color: var(--hover-background);
       color: var(--text-selected-color);
     }
   }
@@ -141,7 +150,6 @@
 
   &.selected {
     background-color: transparentize(#cccc, 0.5);
-    // color: var(--text-selected-color);
   }
 
   &.highlight {
@@ -165,6 +173,10 @@
     .sub-menu-wrapper {
       left: auto;
       right: 102%;
+    }
+
+    .menu-item-icon {
+      order: 3;
     }
   }
 
