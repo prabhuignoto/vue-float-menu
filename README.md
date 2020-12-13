@@ -336,18 +336,16 @@ Pass individual icons (or images) as templates marked with a unique `slot id`. p
 <float-menu
   :menu-data="items"
 >
-  <template #file>
+  <template #new>
     <img
-      src="../assets/file.svg"
-      alt="file"
-      :style="style"
+      src="../assets/new.svg"
+      alt="new"
     >
   </template>
-  <template #window>
+  <template #edit>
     <img
-      src="../assets/window-maximize.svg"
-      alt="file"
-      :style="style"
+      src="../assets/edit.svg"
+      alt="edit"
     >
   </template>
 </float-menu>
@@ -357,8 +355,8 @@ export default defineComponent({
   data()  {
     return {
       items: [
-        { name: "New File", iconSlot: "file" },
-        { name: "New Window", iconSlot: "window" },
+        { name: "New File", iconSlot: "new" },
+        { name: "New Window", iconSlot: "edit" },
       ]
     }
   }
@@ -373,11 +371,10 @@ This works seamlessly even for `nested` menu structure. Make sure the `slot ids`
 <float-menu
   :menu-data="items"
 >
-  <template #window>
+  <template #cut>
     <img
       src="../assets/window-maximize.svg"
-      alt="file"
-      :style="style"
+      alt="cut"
     >
   </template>
 </float-menu>
@@ -387,8 +384,8 @@ export default defineComponent({
   data()  {
     return {
       items: [
-        { name: "New File",
-        subMenu: [{ name: "New Window", iconSlot: "window" }]},
+        { name: "edit",
+        subMenu: [{ name: "cut", iconSlot: "cut" }]},
       ]
     }
   }

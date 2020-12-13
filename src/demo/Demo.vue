@@ -4,9 +4,9 @@
     <div class="hero">
       <img
         src="/social-media-logo-small.png"
+        alt="logo"
       >
       <div class="github">
-        <!-- Place this tag where you want the button to render. -->
         <iframe
           src="https://ghbtns.com/github-btn.html?user=prabhuignoto&repo=vue-float-menu&type=star&count=true&size=large"
           frameborder="0"
