@@ -1,0 +1,13 @@
+version = 1
+
+exclude_patterns = ["src/demo/**"]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["vue"]
+  environment = ["browser"]
+  style_guide = "standard"
+  dialect = "typescript"
