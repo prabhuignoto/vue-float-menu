@@ -5892,10 +5892,10 @@ vue-eslint-parser@^7.2.0:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
-vue-float-menu@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/vue-float-menu/-/vue-float-menu-1.8.2.tgz#93fcb11211f7d3ff38f85b68da0f62a82da8c2d0"
-  integrity sha512-QzV5cgb6IxTepBzwJww/BAX0SnISO69uCdL85htgZrqhdYa7JC5WWmjQr0/ztmBChYthS7u+suY/ruc35CUOsw==
+vue-float-menu@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/vue-float-menu/-/vue-float-menu-1.9.0.tgz#8e6782748ddf63fbc1e7985efe15dc30707ec3e5"
+  integrity sha512-XqeO1qebNr73Qskk/whn+J3Mzd5YerS4NH/N7SIZPVsSFC2/3zotIFdgd568vtvZMuM60v1Su/qVDtTtnWbF/Q==
   dependencies:
     focus-visible "^5.2.0"
 
