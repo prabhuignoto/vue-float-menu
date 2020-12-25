@@ -7,6 +7,7 @@
 [![Build Status](https://dev.azure.com/prabhummurthy/float-menu/_apis/build/status/prabhuignoto.vue-float-menu?branchName=master)](https://dev.azure.com/prabhummurthy/float-menu/_build/latest?definitionId=9&branchName=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a591487451582a389126/maintainability)](https://codeclimate.com/github/prabhuignoto/float-menu/maintainability)
 [![DeepScan grade](https://deepscan.io/api/teams/10074/projects/13372/branches/223016/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=10074&pid=13372&bid=223016)
+[![DeepSource](https://deepsource.io/gh/prabhuignoto/vue-float-menu.svg/?label=active+issues)](https://deepsource.io/gh/prabhuignoto/vue-float-menu/?ref=repository-badge)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/prabhuignoto/float-menu)
 ![minified](https://badgen.net/bundlephobia/minzip/vue-float-menu)
 [![Depfu](https://badges.depfu.com/badges/3597df88718d346a7b41f08e31fe1331/overview.svg)](https://depfu.com/github/prabhuignoto/float-menu?project_id=15010)
