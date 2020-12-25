@@ -56,7 +56,12 @@ export default {
     common(),
     buble(),
     resolve(),
-    terser(),
+    terser({
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }),
   ],
   external: ["vue"],
 };
