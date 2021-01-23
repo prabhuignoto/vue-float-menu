@@ -16,18 +16,18 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
-    npm run build
+    yarn install
+    yarn run build
   displayName: 'npm install and build'
 
 - script: |
-    npm run rollup
+    yarn run rollup
   displayName: 'Rollup build'
 
 - script: |
-    npm run lint:css
+    yarn run lint:css
   displayName: 'lint styles' 
 
 - script: |
-    npm run lint
+    yarn run lint
   displayName: 'lint typescript' 
