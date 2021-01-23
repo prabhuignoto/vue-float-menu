@@ -17,7 +17,6 @@ steps:
 
 - script: |
     yarn install
-    yarn run build
   displayName: 'npm install and build'
 
 - script: |
