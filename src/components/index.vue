@@ -140,17 +140,17 @@ export default defineComponent({
 
     // compute the style
     const style = computed(() => {
-      if (position.value) {
-        const pos = unref(position);
+      const pos = unref(position);
 
-        if (pos) {
-          return {
-            left: `${pos.left}px`,
-            top: `${pos.top}px`,
-            width: `${props.dimension}px`,
-            height: `${props.dimension}px`,
-          };
-        }
+      if (pos) {
+        return {
+          left: `${pos.left}px`,
+          top: `${pos.top}px`,
+          width: `${props.dimension}px`,
+          height: `${props.dimension}px`,
+        };
+      } else {
+        return {};
       }
     });
 
