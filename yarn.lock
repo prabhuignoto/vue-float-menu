@@ -4294,10 +4294,10 @@ rollup@^2.35.1:
   optionalDependencies:
     fsevents "~2.1.2"
 
-rollup@^2.38.4:
-  version "2.38.4"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.38.4.tgz#1b84ea8728c73b1a00a6a6e9c630ec8c3fe48cea"
-  integrity sha512-B0LcJhjiwKkTl79aGVF/u5KdzsH8IylVfV56Ut6c9ouWLJcUK17T83aZBetNYSnZtXf2OHD4+2PbmRW+Fp5ulg==
+rollup@^2.38.5:
+  version "2.38.5"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.38.5.tgz#be41ad4fe0c103a8794377afceb5f22b8f603d6a"
+  integrity sha512-VoWt8DysFGDVRGWuHTqZzT02J0ASgjVq/hPs9QcBOGMd7B+jfTr/iqMVEyOi901rE3xq+Deq66GzIT1yt7sGwQ==
   optionalDependencies:
     fsevents "~2.3.1"
 
@@ -5168,10 +5168,10 @@ vfile@^4.0.0:
     unist-util-stringify-position "^2.0.0"
     vfile-message "^2.0.0"
 
-vite@^2.0.0-beta.63:
-  version "2.0.0-beta.63"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.0-beta.63.tgz#8e2f64fdb38d1c1e183827dbdf6dde961ef15641"
-  integrity sha512-ZH7NADUqk0uXnYJe89Jxfj9WMDQ0PYKwjmwwFy2yjoSbGOwREEtltZOk7fGTX4UXug0ws/h32C+22zBA9ZtTZg==
+vite@^2.0.0-beta.64:
+  version "2.0.0-beta.64"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.0-beta.64.tgz#245cabc72335911d4cb704545f713d47e880d84f"
+  integrity sha512-/dR5rOXohhdXfkAIBAjmwX7JmoMWhQc7+VI6/EjyqXQCQzREmfBztLgTk/rPkmsNY87Cd71u9b+nlbcYK4TDCA==
   dependencies:
     esbuild "^0.8.34"
     postcss "^8.2.1"
