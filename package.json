@@ -23,7 +23,8 @@
     "rollup": "rimraf ./dist && rollup -c",
     "lint": "eslint src/**/*.vue",
     "lint:css": "stylelint src/**/*.scss",
-    "lint:all": "yarn lint && yarn lint:css"
+    "lint:all": "yarn lint && yarn lint:css",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {

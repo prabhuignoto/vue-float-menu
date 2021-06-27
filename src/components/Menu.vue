@@ -127,7 +127,7 @@ export default defineComponent({
   props: {
     data: {
       type: Array as PropType<MenuItem[]>,
-      default: [],
+      default: () => [],
     },
     flip: {
       type: Boolean,
