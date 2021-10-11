@@ -52,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "@vitejs/plugin-vue": "^1.9.3",
-    "@vue/compiler-sfc": "^3.2.19",
+    "@vue/compiler-sfc": "^3.2.20",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^7.19.1",
     "husky": "^7.0.2",
@@ -71,7 +71,7 @@
     "tslib": "^2.3.1",
     "typescript": "^4.4.3",
     "vite": "^2.6.5",
-    "vue": "^3.2.19",
+    "vue": "^3.2.20",
     "vue-float-menu": "^1.9.0"
   },
   "peerDependencies": {
