@@ -42,7 +42,7 @@
   }
 
   &.disabled {
-    opacity: 0.45;
+    opacity: 45%;
   }
 }
 
@@ -187,7 +187,7 @@
 
 .menu-item-divider {
   width: 95%;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgb(0 0 0 / 10%);
   display: block;
   height: 1px;
   margin: 0 auto;
@@ -196,10 +196,10 @@
 
 @keyframes show {
   0% {
-    opacity: 0;
+    opacity: 0%;
   }
 
   100% {
-    opacity: 1;
+    opacity: 100%;
   }
 }

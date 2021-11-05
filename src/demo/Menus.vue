@@ -14,7 +14,7 @@ import MenuRight from "./MenuRight.vue";
 import MenuRightBottom from "./MenuRightBottom.vue";
 
 export default defineComponent({
-  name: "Menus",
+  name: "MenuDemos",
   components: {
     MenuLeft,
     MenuLeftBottom,

@@ -14,7 +14,10 @@
     <div
       ref="menuHead"
       tabindex="0"
-      :class="[{ menuActive, dragActive }, 'menu-head']"
+      :class="[
+        { 'menu-active': menuActive, 'drag-active': dragActive },
+        'menu-head',
+      ]"
       :style="getTheme"
       draggable="false"
       @keyup="$event.keyCode === 13 && toggleMenu($event)"
@@ -27,7 +30,7 @@
     </div>
     <div
       ref="menuContainer"
-      :class="[{ menuActive }, 'menu-container']"
+      :class="[{ 'menu-active': menuActive }, 'menu-container']"
       :style="menuCSS"
       draggable="false"
     >
@@ -46,14 +49,8 @@
         :on-close="handleMenuClose"
         :menu-style="computedMenuStyle"
       >
-        <template
-          v-for="slot in Object.keys($slots)"
-          #[slot]="scope"
-        >
-          <slot
-            :name="slot"
-            v-bind="scope"
-          />
+        <template v-for="slot in Object.keys($slots)" #[slot]="scope">
+          <slot :name="slot" v-bind="scope" />
         </template>
       </Menu>
     </div>
@@ -339,7 +336,10 @@ export default defineComponent({
     // handler for selection
     const handleMenuItemSelection = (name: string) => {
       menuActive.value = false;
-      props.onSelected && props.onSelected(name);
+
+      if (props.onSelected) {
+        props.onSelected(name);
+      }
     };
 
     const getTheme = computed(() => ({
