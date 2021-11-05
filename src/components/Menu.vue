@@ -171,7 +171,7 @@ export default defineComponent({
     const menuRef = ref();
 
     // resolve this component for usage innested menus
-    const SubMenuComponent = resolveComponent("Menu");
+    const SubMenuComponent = resolveComponent("FloatMenu");
 
     const selectMenuItem = (
       name?: string,
