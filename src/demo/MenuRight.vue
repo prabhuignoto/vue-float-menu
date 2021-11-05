@@ -82,7 +82,7 @@ import BoxIcon from "./assets/BoxIcon.vue";
 import { computed, defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Menus",
+  name: "MenuRight",
   components: {
     FloatMenu,
     BoxIcon,

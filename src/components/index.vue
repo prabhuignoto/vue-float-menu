@@ -14,7 +14,10 @@
     <div
       ref="menuHead"
       tabindex="0"
-      :class="[{ menuActive, dragActive }, 'menu-head']"
+      :class="[
+        { 'menu-active': menuActive, 'drag-active': dragActive },
+        'menu-head',
+      ]"
       :style="getTheme"
       draggable="false"
       @keyup="$event.keyCode === 13 && toggleMenu($event)"
@@ -27,7 +30,7 @@
     </div>
     <div
       ref="menuContainer"
-      :class="[{ menuActive }, 'menu-container']"
+      :class="[{ 'menu-active': menuActive }, 'menu-container']"
       :style="menuCSS"
       draggable="false"
     >

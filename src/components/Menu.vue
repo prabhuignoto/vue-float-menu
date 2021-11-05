@@ -118,7 +118,7 @@ import MinusIcon from "./icons/MinusIcon.vue";
 import { MenuItem, Theme, ThemeDefault } from "../types";
 
 export default defineComponent({
-  name: "Menu",
+  name: "FloatMenu",
   components: {
     ChevRightIcon,
     PlusIcon,

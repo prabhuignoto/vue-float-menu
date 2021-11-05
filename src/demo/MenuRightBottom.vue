@@ -82,7 +82,7 @@ import HeartIcon from "./assets/HeartIcon.vue";
 import { computed, defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Menus",
+  name: "MenuRight",
   components: {
     FloatMenu,
     HeartIcon,
