@@ -49,8 +49,14 @@
         :on-close="handleMenuClose"
         :menu-style="computedMenuStyle"
       >
-        <template v-for="slot in Object.keys($slots)" #[slot]="scope">
-          <slot :name="slot" v-bind="scope" />
+        <template
+          v-for="slot in Object.keys($slots)"
+          #[slot]="scope"
+        >
+          <slot
+            :name="slot"
+            v-bind="scope"
+          />
         </template>
       </Menu>
     </div>
@@ -58,21 +64,21 @@
 </template>
 
 <script lang="ts">
+import "focus-visible";
 import {
+  computed,
   defineComponent,
+  nextTick,
   onMounted,
+  onUnmounted,
   ref,
   unref,
-  computed,
-  nextTick,
-  onUnmounted,
 } from "vue";
-import Menu from "./Menu.vue";
-import XIcon from "./icons/XIcon.vue";
-import MenuIcon from "./icons/MenuIcon.vue";
 import utils from "../utils";
+import MenuIcon from "./icons/MenuIcon.vue";
+import XIcon from "./icons/XIcon.vue";
+import Menu from "./Menu.vue";
 import Props from "./props";
-import "focus-visible";
 
 interface Position {
   left: number;
@@ -401,5 +407,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped src="./index.scss">
-</style>
+<style lang="scss" scoped src="./index.scss"></style>
