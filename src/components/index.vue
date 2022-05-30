@@ -40,7 +40,7 @@
       >
         <XIcon />
       </span>
-      <Menu
+      <MenuComponent
         v-if="menuActive"
         :data="menuData"
         :flip="flipMenu"
@@ -49,30 +49,31 @@
         :on-close="handleMenuClose"
         :menu-style="computedMenuStyle"
       >
-        <template v-for="slot in Object.keys($slots)" #[slot]="scope">
-          <slot :name="slot" v-bind="scope" />
+        <template
+          v-for="slot in Object.keys($slots)"
+          #[slot]="scope"
+        >
+          <slot
+            :name="slot"
+            v-bind="scope"
+          />
         </template>
-      </Menu>
+      </MenuComponent>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  ref,
-  unref,
-  computed,
-  nextTick,
-  onUnmounted,
-} from "vue";
-import Menu from "./Menu.vue";
-import XIcon from "./icons/XIcon.vue";
-import MenuIcon from "./icons/MenuIcon.vue";
-import utils from "../utils";
-import Props from "./props";
 import "focus-visible";
+import {
+computed, defineComponent, nextTick, onMounted, onUnmounted, ref,
+unref
+} from "vue";
+import utils from "../utils";
+import MenuIcon from "./icons/MenuIcon.vue";
+import XIcon from "./icons/XIcon.vue";
+import MenuComponent from "./Menu.vue";
+import Props from "./props";
 
 interface Position {
   left: number;
@@ -81,9 +82,9 @@ interface Position {
 export default defineComponent({
   name: "FloatMenu",
   components: {
-    Menu,
-    XIcon,
     MenuIcon,
+    MenuComponent,
+    XIcon,
   },
   props: Props,
   setup(props, { slots }) {
