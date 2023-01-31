@@ -1,11 +1,11 @@
-module.exports = {
+{
     "env": {
         "browser": true,
         "es2021": true
     },
     "extends": [
         "plugin:@typescript-eslint/recommended",
-        "plugin:vue/vue3-recommended",
+        "plugin:vue/vue3-recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 12,
@@ -16,6 +16,5 @@ module.exports = {
         "vue",
         "@typescript-eslint"
     ],
-    "rules": {
-    }
-};
+    "rules": {}
+}

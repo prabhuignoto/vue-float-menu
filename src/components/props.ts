@@ -97,7 +97,7 @@ const MenuProps = {
 
   menuStyle: {
     type: String,
-    default: "slide-out",
+    default: "slide_out",
     required: false
   }
 }

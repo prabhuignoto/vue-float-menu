@@ -1,14 +1,11 @@
 <template>
   <div
     ref="menuRef"
-    class="menu-wrapper"
+    :class="classes.menu_wrapper"
     tabindex="0"
     @keyup="handleKeyUp"
   >
-    <ul
-      class="menu-list"
-      :style="getTheme"
-    >
+    <ul :class="classes.menu_list" :style="getTheme">
       <li
         v-for="(
           {
@@ -25,8 +22,14 @@
         ) of menuItems"
         :key="id"
         :class="[
-          { 'sub-menu': subMenu, selected, disabled, flip, divider },
-          'menu-list-item',
+          {
+            [classes.sub_menu]: subMenu,
+            [classes.selected]: selected,
+            [classes.disabled]: disabled,
+            [classes.flip]: flip,
+            [classes.divider]: divider,
+          },
+          classes.menu_list_item,
           menuStyle,
         ]"
         :style="getTheme"
@@ -43,22 +46,21 @@
         "
       >
         <template v-if="!divider">
-          <div
-            :class="menuItemClass"
-            @click="$event.stopPropagation()"
-          >
-            <span
-              v-if="iconSlot"
-              class="menu-item-icon"
-            >
+          <div :class="menuItemClass" @click="$event.stopPropagation()">
+            <span v-if="iconSlot" :class="classes.menu_item_icon">
               <slot :name="iconSlot" />
             </span>
-            <span :class="['name', { disabled }]">{{ name }}</span>
+            <span :class="[classes.name, { [classes.disabled]: disabled }]">{{
+              name
+            }}</span>
             <span
               v-if="subMenu"
               :class="[
-                'chev-icon',
-                { disabled, 'show-submenu': showSubMenu },
+                classes.chev_icon,
+                {
+                  [classes.disabled]: disabled,
+                  [classes.show_submenu]: showSubMenu,
+                },
                 menuStyle,
               ]"
             >
@@ -81,20 +83,14 @@
               :flip="flip"
               :menu-style="menuStyle"
             >
-              <template
-                v-for="slot in Object.keys($slots)"
-                #[slot]="scope"
-              >
-                <slot
-                  :name="slot"
-                  v-bind="scope"
-                />
+              <template v-for="slot in Object.keys($slots)" #[slot]="scope">
+                <slot :name="slot" v-bind="scope" />
               </template>
             </component>
           </div>
         </template>
         <template v-else>
-          <span class="menu-item-divider" />
+          <span :class="classes.menu_item_divider" />
         </template>
       </li>
     </ul>
@@ -111,6 +107,7 @@ import {
   onMounted,
   watch,
   nextTick,
+  useCssModule,
 } from "vue";
 import ChevRightIcon from "./icons/ChevRightIcon.vue";
 import PlusIcon from "./icons/PlusIcon.vue";
@@ -156,6 +153,7 @@ export default defineComponent({
   setup(props) {
     // tracks the index of the selected menu item
     const activeIndex = ref(-1);
+    const $style = useCssModule("classes");
 
     // gene unique ids for the menu items
     const menuItems = ref<MenuItem[]>(
@@ -334,10 +332,12 @@ export default defineComponent({
       });
     });
 
-    const subMenuClass = computed(() => `sub-menu-wrapper ${props.menuStyle}`);
+    const subMenuClass = computed(
+      () => `${$style.sub_menu_wrapper} ${props.menuStyle}`
+    );
 
     const menuItemClass = computed(
-      () => `menu-item-wrapper ${props.menuStyle}`
+      () => `${$style.menu_item_wrapper} ${$style[props.menuStyle]}`
     );
 
     const isAccordion = computed(() => props.menuStyle === "accordion");
@@ -359,6 +359,4 @@ export default defineComponent({
 });
 </script>
 
-
-<style lang="scss" scoped src="./Menu.scss">
-</style>
+<style module="classes" src="./Menu.module.scss"></style>

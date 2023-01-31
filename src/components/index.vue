@@ -1,7 +1,7 @@
 <template>
   <div
     ref="menuHeadContainer"
-    :class="[{ dragActive }, 'menu-head-wrapper']"
+    :class="[{ dragActive }, classes.menu_head_wrapper]"
     :style="style"
     @mousedown="handleDragStart"
     @mouseup="handleDragEnd"
@@ -15,14 +15,17 @@
       ref="menuHead"
       tabindex="0"
       :class="[
-        { 'menu-active': menuActive, 'drag-active': dragActive },
-        'menu-head',
+        {
+          [classes.menu_active]: menuActive,
+          [classes.drag_active]: dragActive,
+        },
+        classes.menu_head,
       ]"
       :style="getTheme"
       draggable="false"
       @keyup="$event.keyCode === 13 && toggleMenu($event)"
     >
-      <span class="menu-head-icon">
+      <span :class="classes.menu_head_icon">
         <slot name="icon" />
         <slot />
         <MenuIcon v-if="slotsEmpty" />
@@ -30,12 +33,12 @@
     </div>
     <div
       ref="menuContainer"
-      :class="[{ 'menu-active': menuActive }, 'menu-container']"
+      :class="[{ [classes.menu_active]: menuActive }, classes.menu_container]"
       :style="menuCSS"
       draggable="false"
     >
       <span
-        class="close-btn"
+        :class="classes.close_btn"
         @mousedown="$event.stopPropagation() && handleMenuClose()"
       >
         <XIcon />
@@ -49,14 +52,8 @@
         :on-close="handleMenuClose"
         :menu-style="computedMenuStyle"
       >
-        <template
-          v-for="slot in Object.keys($slots)"
-          #[slot]="scope"
-        >
-          <slot
-            :name="slot"
-            v-bind="scope"
-          />
+        <template v-for="slot in Object.keys($slots)" #[slot]="scope">
+          <slot :name="slot" v-bind="scope" />
         </template>
       </MenuComponent>
     </div>
@@ -66,8 +63,13 @@
 <script lang="ts">
 import "focus-visible";
 import {
-computed, defineComponent, nextTick, onMounted, onUnmounted, ref,
-unref
+  computed,
+  defineComponent,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  unref,
 } from "vue";
 import utils from "../utils";
 import MenuIcon from "./icons/MenuIcon.vue";
@@ -402,5 +404,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped src="./index.scss">
-</style>
+<style module="classes" src="./index.module.scss"></style>

@@ -4,17 +4,18 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   outline: none;
 }
 
-.menu-head-wrapper {
+.menu_head_wrapper {
   position: fixed;
   z-index: 9999;
   touch-action: none;
 
   &:not(.drag-active) {
-    transition: left 0.2s $cubic, right 0.2s $cubic, top 0.2s $cubic, bottom 0.2s $cubic;
+    transition: left 0.2s $cubic, right 0.2s $cubic, top 0.2s $cubic,
+      bottom 0.2s $cubic;
   }
 }
 
-.menu-head {
+.menu_head {
   align-items: center;
   background: var(--background);
   border-radius: 50%;
@@ -26,12 +27,12 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   width: 100%;
   pointer-events: none;
 
-  &.menu-active {
+  &.menu_active {
     box-shadow: inset 0 0 12px 4px rgb(0 0 0 / 25%);
   }
 }
 
-.menu-head-icon {
+.menu_head_icon {
   align-items: center;
   color: #fff;
   display: flex;
@@ -45,7 +46,7 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-.menu-container {
+.menu_container {
   align-items: flex-start;
   border-radius: 4px;
   box-shadow: rgb(0 0 0 / 20%) 2px 2px 10px 2px;
@@ -58,13 +59,13 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   width: 250px;
   background: #fff;
 
-  &.menu-active {
+  &.menu_active {
     animation: show 0.15s $cubic;
     visibility: visible;
   }
 }
 
-.close-btn {
+.close_btn {
   position: absolute;
   right: 0;
   top: -2rem;

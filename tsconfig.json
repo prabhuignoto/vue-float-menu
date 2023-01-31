@@ -34,7 +34,7 @@
   "exclude": [
     "node_modules",
     "dist",
-    "rollup.config.js"
+    "rollup.config.mjs"
   ],
   "include": ["src"],
   "files": ["src/index.js"]

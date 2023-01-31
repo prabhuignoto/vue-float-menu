@@ -1,6 +1,6 @@
-@import "./colors.scss";
+$shadow: rgb(0 0 0 / 20%) 2px 2px 10px 2px;
 
-.menu-wrapper {
+.menu_wrapper {
   align-items: flex-start;
   display: flex;
   height: 100%;
@@ -10,11 +10,11 @@
   z-index: 9999;
 }
 
-.sub-menu-wrapper {
+.sub_menu_wrapper {
   animation: show 0.1s ease-in;
   min-width: 150px;
 
-  &.slide-out {
+  &.slide_out {
     border-radius: 4px;
     box-shadow: $shadow;
     left: 102%;
@@ -31,7 +31,7 @@
   }
 }
 
-.chev-icon {
+.chev_icon {
   width: 1.5rem;
   height: 1.5rem;
   display: block;
@@ -46,7 +46,7 @@
   }
 }
 
-.menu-list {
+.menu_list {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
@@ -65,36 +65,45 @@
   }
 }
 
-.menu-item-wrapper {
+.menu_item_wrapper {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   min-height: 2.5rem;
+}
 
-  &.slide-out {
-    .name {
-      order: 1;
-    }
-
-    .chev-icon {
-      order: 2;
-      margin-left: auto;
-    }
+.slide_out {
+  .name {
+    order: 1;
   }
 
-  &.accordion {
-    .name {
-      order: 2;
-    }
+  .chev_icon {
+    order: 2;
+    margin-left: auto;
+  }
 
-    .chev-icon {
-      order: 1;
+  &:not(.divider) {
+    height: 2.5rem;
+
+    &:hover {
+      background-color: var(--hover-background);
+      color: var(--text-selected-color);
     }
   }
 }
 
-.menu-item-icon {
+.accordion {
+  .name {
+    order: 2;
+  }
+
+  .chev-icon {
+    order: 1;
+  }
+}
+
+.menu_item_icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,7 +112,7 @@
   padding: 0 5px;
 }
 
-.menu-list-item {
+.menu_list_item {
   align-items: center;
   color: var(--menu-text-color);
   cursor: pointer;
@@ -129,15 +138,6 @@
     }
   }
 
-  &.slide-out:not(.divider) {
-    height: 2.5rem;
-
-    &:hover {
-      background-color: var(--hover-background);
-      color: var(--text-selected-color);
-    }
-  }
-
   &:first-child {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -155,37 +155,37 @@
   &.highlight {
     border: 1px solid red;
   }
+}
 
-  &.flip {
-    .name {
-      margin-left: auto;
-      order: 2;
-      padding-left: 0;
-      padding-right: 0.5rem;
-    }
-
-    .chev-icon {
-      margin-left: 0;
-      order: 1;
-      transform: rotate(-180deg);
-    }
-
-    .sub-menu-wrapper {
-      left: auto;
-      right: 102%;
-    }
-
-    .menu-item-icon {
-      order: 3;
-    }
+.flip {
+  .name {
+    margin-left: auto;
+    order: 2;
+    padding-left: 0;
+    padding-right: 0.5rem;
   }
 
-  &.disabled {
-    cursor: default;
+  .chev_icon {
+    margin-left: 0;
+    order: 1;
+    transform: rotate(-180deg);
+  }
+
+  .sub_menu_wrapper {
+    left: auto;
+    right: 102%;
+  }
+
+  .menu_item_icon {
+    order: 3;
   }
 }
 
-.menu-item-divider {
+.disabled {
+  cursor: default;
+}
+
+.menu_item_divider {
   width: 95%;
   background: rgb(0 0 0 / 10%);
   display: block;
