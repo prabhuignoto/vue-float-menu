@@ -15,31 +15,13 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "node",
-      "vue"
-    ],
+    "types": ["node", "vue"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "rollup.config.mjs"
-  ],
-  "include": [
-    "src"
-  ],
-  "files": [
-    "src/index.js"
-  ]
+  "exclude": ["node_modules", "dist", "rollup.config.mjs"],
+  "include": ["src"],
+  "files": ["src/index.js"]
 }
