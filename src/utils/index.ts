@@ -1,16 +1,11 @@
 import { Position, UtilsType } from "../types/index";
 
 const utils: UtilsType = {
-  setupMenuOrientation: (
-    head,
-    content,
-    headDimension,
-    menuDimension
-  ) => {
+  setupMenuOrientation: (head, content, headDimension, menuDimension) => {
     const { top, bottom } = head.getBoundingClientRect();
     const left = Math.round((content.clientWidth - headDimension) / 2);
     const menuHeight = content.clientHeight;
-    let newOrientation = 'bottom';
+    let newOrientation = "bottom";
     const MENU_SPACING = 15;
     let newMenuStyle = null;
 
@@ -98,8 +93,8 @@ const utils: UtilsType = {
     return {
       position: newPosition,
       flip: flipMenu,
-      reveal
-    }
+      reveal,
+    };
   },
   setupInitStyle: (position: string, dimension: number) => {
     const MENU_HEAD_SPACING = 15;
@@ -112,16 +107,19 @@ const utils: UtilsType = {
         top = MENU_HEAD_SPACING;
         break;
       case "top right":
-        left = (window.innerWidth - dimension) - MENU_HEAD_SPACING;
+        left = window.innerWidth - dimension - MENU_HEAD_SPACING;
         top = MENU_HEAD_SPACING;
         break;
       case "bottom left":
         left = MENU_HEAD_SPACING;
-        top = (window.innerHeight - dimension) - MENU_HEAD_SPACING;
+        top = window.innerHeight - dimension - MENU_HEAD_SPACING;
         break;
       case "bottom right":
-        left = (window.innerWidth - dimension) - MENU_HEAD_SPACING;
-        top = (window.innerHeight - dimension) - MENU_HEAD_SPACING;
+        left = window.innerWidth - dimension - MENU_HEAD_SPACING;
+        top = window.innerHeight - dimension - MENU_HEAD_SPACING;
+      default:
+        left = MENU_HEAD_SPACING;
+        top = MENU_HEAD_SPACING;
     }
 
     return {
@@ -134,10 +132,10 @@ const utils: UtilsType = {
   detectDeviceType: () => {
     const screenWidth = screen.width;
     if (screenWidth <= 768) {
-      return "mobile"
+      return "mobile";
     }
-    return "desktop"
-  }
-}
+    return "desktop";
+  },
+};
 
 export default utils;

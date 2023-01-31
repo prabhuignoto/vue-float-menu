@@ -1,8 +1,8 @@
-export type Menu = {
+export interface Menu {
   items: MenuItem[];
-};
+}
 
-export type MenuItem = {
+export interface MenuItem {
   /**
    * display name of the Menu item
    *
@@ -43,9 +43,9 @@ export type MenuItem = {
   divider?: boolean;
 
   iconSlot?: string;
-};
+}
 
-export type Position = {
+export interface Position {
   left: number;
   top: number;
 }
@@ -54,31 +54,35 @@ export type SetupOrientation = (
   head: HTMLElement,
   content: HTMLElement,
   headDimension: number,
-  menuDimension: { height: number, width: number }) =>
-  ({
-    "min-height": string;
-    width: string;
-    newOrientation: string;
-  })
+  menuDimension: { height: number; width: number }
+) => {
+  "min-height": string;
+  width: string;
+  newOrientation: string;
+};
 
 export type SetupMenuPosition = (
   element: HTMLElement,
   position: Position,
   flipOnEdges: boolean,
-  menuContainer: HTMLElement) => ({
-    position: Position | null;
-    flip: boolean;
-    reveal: boolean;
-  })
+  menuContainer: HTMLElement
+) => {
+  position: Position | null;
+  flip: boolean;
+  reveal: boolean;
+};
 
-export type SetupInitStyle = (dockPosition: string, dimension: number) => ({
+export type SetupInitStyle = (
+  dockPosition: string,
+  dimension: number
+) => {
   left: string;
   top: string;
   width: string;
   height: string;
-})
+};
 
-export type UtilsType = {
+export interface UtilsType {
   setupMenuOrientation: SetupOrientation;
   setupMenuPosition: SetupMenuPosition;
   setupInitStyle: SetupInitStyle;
@@ -86,10 +90,10 @@ export type UtilsType = {
 }
 export interface Theme {
   /**
-       * targets the bg color of the menu head and selection highlight for sub menus.
-       *
-       * @type {string}
-       */
+   * targets the bg color of the menu head and selection highlight for sub menus.
+   *
+   * @type {string}
+   */
   primary: string;
 
   /**
@@ -116,11 +120,10 @@ export interface Theme {
   hoverBackground: string;
 }
 
-export const ThemeDefault =
-{
+export const ThemeDefault = {
   primary: "#0080ff",
   textColor: "#000",
   menuBgColor: "#fff",
   textSelectedColor: "#fff",
-  hoverBackground: "#89c4ff"
+  hoverBackground: "#89c4ff",
 };
