@@ -36,6 +36,10 @@
     "dist",
     "rollup.config.mjs"
   ],
-  "include": ["src"],
-  "files": ["src/index.js"]
+  "include": [
+    "src"
+  ],
+  "files": [
+    "src/index.js"
+  ]
 }
