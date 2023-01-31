@@ -6,7 +6,7 @@ import common from "rollup-plugin-commonjs";
 import scss from "rollup-plugin-scss";
 import { terser } from "rollup-plugin-terser";
 import vue from "rollup-plugin-vue";
-import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 const banner = `/*
  * ${pkg.name}
@@ -59,8 +59,8 @@ export default {
     terser({
       compress: {
         drop_console: true,
-        drop_debugger: true
-      }
+        drop_debugger: true,
+      },
     }),
   ],
   external: ["vue"],

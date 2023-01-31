@@ -9,7 +9,7 @@
       textColor: '#000',
       menuBgColor: '#fff',
       textSelectedColor: '#000',
-      hoverBackground: '#fbe7eb'
+      hoverBackground: '#fbe7eb',
     }"
     menu-orientation="top"
   >
@@ -17,60 +17,28 @@
       <box-icon />
     </template>
     <template #edit>
-      <img
-        src="../assets/edit.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/edit.svg" alt="edit" :style="computedStyle" />
     </template>
     <template #new>
-      <img
-        src="../assets/plus-circle.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/plus-circle.svg" alt="edit" :style="computedStyle" />
     </template>
     <template #theme>
-      <img
-        src="../assets/paint-brush.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/paint-brush.svg" alt="edit" :style="computedStyle" />
     </template>
     <template #settings>
-      <img
-        src="../assets/cog.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/cog.svg" alt="edit" :style="computedStyle" />
     </template>
     <template #save>
-      <img
-        src="../assets/save.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/save.svg" alt="edit" :style="computedStyle" />
     </template>
     <template #close>
-      <img
-        src="../assets/window-close.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/window-close.svg" alt="edit" :style="computedStyle" />
     </template>
     <template #exit>
-      <img
-        src="../assets/sign-out-alt.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/sign-out-alt.svg" alt="edit" :style="computedStyle" />
     </template>
     <template #recent>
-      <img
-        src="../assets/clock.svg"
-        alt="edit"
-        :style="computedStyle"
-      >
+      <img src="../assets/clock.svg" alt="edit" :style="computedStyle" />
     </template>
   </float-menu>
 </template>

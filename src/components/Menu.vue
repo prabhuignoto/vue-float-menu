@@ -1,14 +1,6 @@
 <template>
-  <div
-    ref="menuRef"
-    class="menu-wrapper"
-    tabindex="0"
-    @keyup="handleKeyUp"
-  >
-    <ul
-      class="menu-list"
-      :style="getTheme"
-    >
+  <div ref="menuRef" class="menu-wrapper" tabindex="0" @keyup="handleKeyUp">
+    <ul class="menu-list" :style="getTheme">
       <li
         v-for="(
           {
@@ -43,14 +35,8 @@
         "
       >
         <template v-if="!divider">
-          <div
-            :class="menuItemClass"
-            @click="$event.stopPropagation()"
-          >
-            <span
-              v-if="iconSlot"
-              class="menu-item-icon"
-            >
+          <div :class="menuItemClass" @click="$event.stopPropagation()">
+            <span v-if="iconSlot" class="menu-item-icon">
               <slot :name="iconSlot" />
             </span>
             <span :class="['name', { disabled }]">{{ name }}</span>
@@ -81,14 +67,8 @@
               :flip="flip"
               :menu-style="menuStyle"
             >
-              <template
-                v-for="slot in Object.keys($slots)"
-                #[slot]="scope"
-              >
-                <slot
-                  :name="slot"
-                  v-bind="scope"
-                />
+              <template v-for="slot in Object.keys($slots)" #[slot]="scope">
+                <slot :name="slot" v-bind="scope" />
               </template>
             </component>
           </div>
@@ -359,6 +339,4 @@ export default defineComponent({
 });
 </script>
 
-
-<style lang="scss" scoped src="./Menu.scss">
-</style>
+<style lang="scss" scoped src="./Menu.scss"></style>

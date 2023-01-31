@@ -11,15 +11,9 @@
     strokeLinejoin="round"
     class="feather feather-minus"
   >
-    <line
-      x1="5"
-      y1="12"
-      x2="19"
-      y2="12"
-    />
+    <line x1="5" y1="12" x2="19" y2="12" />
   </svg>
 </template>
-
 
 <script lang="ts">
 import { defineComponent } from "vue";
