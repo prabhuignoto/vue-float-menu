@@ -1,0 +1,3 @@
+merges:
+  # Delete branch after merging the PR
+  - action: delete_branch
