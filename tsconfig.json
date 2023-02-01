@@ -5,7 +5,9 @@
     "strict": true,
     "declaration": true,
     "declarationDir": "dist",
-    "outDir": "dist",
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importHelpers": true,
@@ -36,6 +38,10 @@
     "dist",
     "rollup.config.js"
   ],
-  "include": ["src"],
-  "files": ["src/index.js"]
+  "include": [
+    "src"
+  ],
+  "files": [
+    "src/index.js"
+  ]
 }
