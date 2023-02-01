@@ -8,7 +8,7 @@ import typescript from "@rollup/plugin-typescript";
 import scss from "rollup-plugin-scss";
 import vue from "rollup-plugin-vue";
 
-import pkg from "./package.json" assert {type : "json"};
+import pkg from "./package.json" assert { type: "json" };
 
 const banner = `/*
  * ${pkg.name}
@@ -20,53 +20,51 @@ const banner = `/*
 
 export default {
   input: "src/vue-float-menu.js",
-  output:
-      [
-        {
-          file : pkg.main,
-          format : "es",
-          exports : "named",
-          strict : true,
-          banner,
-        },
-        // {
-        //   file: pkg.module,
-        //   format: "es",
-        //   exports: "named",
-        //   strict: true,
-        //   banner,
-        // },
-        {
-          file : pkg.umd,
-          format : "umd",
-          exports : "named",
-          strict : true,
-          banner,
-          name : "FloatMenu",
-          globals : {
-            vue : "vue",
-          },
-        },
-      ],
-  plugins:
-      [
-        scss(),
-        vue(),
-        sucrase({
-          exclude : [ "node_modules/**" ],
-          transforms : [ "typescript" ],
-        }),
-        typescript(),
-        beep(),
-        common(),
-        // buble(),
-        resolve(),
-        terser({
-          compress : {
-            drop_console : true,
-            drop_debugger : true,
-          },
-        }),
-      ],
-  external: [ "vue" ],
+  output: [
+    {
+      file: pkg.main,
+      format: "es",
+      exports: "named",
+      strict: true,
+      banner,
+    },
+    // {
+    //   file: pkg.module,
+    //   format: "es",
+    //   exports: "named",
+    //   strict: true,
+    //   banner,
+    // },
+    {
+      file: pkg.umd,
+      format: "umd",
+      exports: "named",
+      strict: true,
+      banner,
+      name: "FloatMenu",
+      globals: {
+        vue: "vue",
+      },
+    },
+  ],
+  plugins: [
+    scss(),
+    vue(),
+    sucrase({
+      exclude: ["node_modules/**"],
+      transforms: ["typescript"],
+    }),
+    typescript(),
+    beep(),
+    common(),
+    // buble(),
+    resolve(),
+    terser({
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    }),
+  ],
+  external: ["vue"],
 };
