@@ -4,9 +4,9 @@ import common from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import sucrase from "@rollup/plugin-sucrase";
 import terser from "@rollup/plugin-terser";
+import typescript from "@rollup/plugin-typescript";
 import scss from "rollup-plugin-scss";
 import vue from "rollup-plugin-vue";
-import typescript from "@rollup/plugin-typescript";
 
 import pkg from "./package.json" assert { type: "json" };
 

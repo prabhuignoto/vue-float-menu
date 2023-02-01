@@ -18,30 +18,13 @@
     "sourceMap": true,
     "baseUrl": ".",
     "allowJs": true,
-    "types": [
-      "vue"
-    ],
+    "types": ["vue"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "rollup.config.js"
-  ],
-  "include": [
-    "src"
-  ],
-  "files": [
-    "src/vue-float-menu.js"
-  ]
+  "exclude": ["node_modules", "dist", "rollup.config.js"],
+  "include": ["src"],
+  "files": ["src/vue-float-menu.js"]
 }
