@@ -6,6 +6,7 @@ import sucrase from "@rollup/plugin-sucrase";
 import terser from "@rollup/plugin-terser";
 import scss from "rollup-plugin-scss";
 import vue from "rollup-plugin-vue";
+import typescript from "@rollup/plugin-typescript";
 
 import pkg from "./package.json" assert { type: "json" };
 
@@ -18,22 +19,22 @@ const banner = `/*
 `;
 
 export default {
-  input: "src/index.js",
+  input: "src/vue-float-menu.js",
   output: [
     {
       file: pkg.main,
-      format: "cjs",
-      exports: "named",
-      strict: true,
-      banner,
-    },
-    {
-      file: pkg.module,
       format: "es",
       exports: "named",
       strict: true,
       banner,
     },
+    // {
+    //   file: pkg.module,
+    //   format: "es",
+    //   exports: "named",
+    //   strict: true,
+    //   banner,
+    // },
     {
       file: pkg.umd,
       format: "umd",
@@ -53,9 +54,10 @@ export default {
       exclude: ["node_modules/**"],
       transforms: ["typescript"],
     }),
+    typescript(),
     beep(),
     common(),
-    buble(),
+    // buble(),
     resolve(),
     terser({
       compress: {

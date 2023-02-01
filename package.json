@@ -54,6 +54,7 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-sucrase": "^5.0.1",
     "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "@vitejs/plugin-vue": "^4.0.0",
@@ -84,7 +85,7 @@
     "vue": "^3.0.4"
   },
   "main": "dist/vue-float-menu.js",
-  "module": "dist/vue-float-menu.es.js",
+  "module": "dist/vue-float-menu.js",
   "umd": "dist/vue-float-menu.umd.js",
   "files": [
     "dist"

@@ -17,8 +17,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "allowJs": true,
     "types": [
-      "node",
       "vue"
     ],
     "paths": {
@@ -42,6 +42,6 @@
     "src"
   ],
   "files": [
-    "src/index.js"
+    "src/vue-float-menu.js"
   ]
 }
