@@ -2,8 +2,11 @@ lockfileVersion: 5.4
 
 specifiers:
   "@rollup/plugin-beep": ^1.0.2
+  "@rollup/plugin-buble": ^1.0.2
+  "@rollup/plugin-commonjs": ^24.0.1
   "@rollup/plugin-node-resolve": ^15.0.1
   "@rollup/plugin-sucrase": ^5.0.1
+  "@rollup/plugin-terser": ^0.4.0
   "@rollup/plugin-typescript": ^11.0.0
   "@typescript-eslint/eslint-plugin": ^5.50.0
   "@typescript-eslint/parser": ^5.50.0
@@ -18,11 +21,8 @@ specifiers:
   postcss-html: ^1.5.0
   postcss-scss: ^4.0.6
   rollup: ^3.12.0
-  rollup-plugin-buble: ^0.19.8
-  rollup-plugin-commonjs: ^10.1.0
   rollup-plugin-postcss: ^4.0.2
   rollup-plugin-scss: ^4.0.0
-  rollup-plugin-terser: ^7.0.2
   rollup-plugin-vue: ^6.0.0
   sass: ^1.57.1
   stylelint: ^14.16.1
@@ -39,8 +39,11 @@ dependencies:
 
 devDependencies:
   "@rollup/plugin-beep": 1.0.2_rollup@3.12.0
+  "@rollup/plugin-buble": 1.0.2_rollup@3.12.0
+  "@rollup/plugin-commonjs": 24.0.1_rollup@3.12.0
   "@rollup/plugin-node-resolve": 15.0.1_rollup@3.12.0
   "@rollup/plugin-sucrase": 5.0.1_rollup@3.12.0
+  "@rollup/plugin-terser": 0.4.0_rollup@3.12.0
   "@rollup/plugin-typescript": 11.0.0_rhlcksimi4ycfgwevqw3afkobq
   "@typescript-eslint/eslint-plugin": 5.50.0_go4drrxstycfikanvu45pi4vgq
   "@typescript-eslint/parser": 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
@@ -54,11 +57,8 @@ devDependencies:
   postcss-html: 1.5.0
   postcss-scss: 4.0.6_postcss@8.4.21
   rollup: 3.12.0
-  rollup-plugin-buble: 0.19.8
-  rollup-plugin-commonjs: 10.1.0_rollup@3.12.0
   rollup-plugin-postcss: 4.0.2_postcss@8.4.21
   rollup-plugin-scss: 4.0.0
-  rollup-plugin-terser: 7.0.2_rollup@3.12.0
   rollup-plugin-vue: 6.0.0_@vue+compiler-sfc@3.2.45
   sass: 1.57.1
   stylelint: 14.16.1
@@ -559,6 +559,45 @@ packages:
       rollup: 3.12.0
     dev: true
 
+  /@rollup/plugin-buble/1.0.2_rollup@3.12.0:
+    resolution:
+      {
+        integrity: sha512-Hz9+AigRWwS93vmorrVrhyG9SdSCZAkBDx614w09iFQYFUAP2HmdUrQyZsb1WO2n+iDvPFznrTE16la+eGNcEQ==,
+      }
+    engines: { node: ">=14.0.0" }
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      "@rollup/pluginutils": 5.0.2_rollup@3.12.0
+      "@types/buble": 0.19.2
+      buble: 0.20.0
+      rollup: 3.12.0
+    dev: true
+
+  /@rollup/plugin-commonjs/24.0.1_rollup@3.12.0:
+    resolution:
+      {
+        integrity: sha512-15LsiWRZk4eOGqvrJyu3z3DaBu5BhXIMeWnijSRvd8irrrg9SHpQ1pH+BUK4H6Z9wL9yOxZJMTLU+Au86XHxow==,
+      }
+    engines: { node: ">=14.0.0" }
+    peerDependencies:
+      rollup: ^2.68.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      "@rollup/pluginutils": 5.0.2_rollup@3.12.0
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 8.1.0
+      is-reference: 1.2.1
+      magic-string: 0.27.0
+      rollup: 3.12.0
+    dev: true
+
   /@rollup/plugin-node-resolve/15.0.1_rollup@3.12.0:
     resolution:
       {
@@ -595,6 +634,24 @@ packages:
       "@rollup/pluginutils": 5.0.2_rollup@3.12.0
       rollup: 3.12.0
       sucrase: 3.29.0
+    dev: true
+
+  /@rollup/plugin-terser/0.4.0_rollup@3.12.0:
+    resolution:
+      {
+        integrity: sha512-Ipcf3LPNerey1q9ZMjiaWHlNPEHNU/B5/uh9zXLltfEQ1lVSLLeZSgAtTPWGyw8Ip1guOeq+mDtdOlEj/wNxQw==,
+      }
+    engines: { node: ">=14.0.0" }
+    peerDependencies:
+      rollup: ^2.x || ^3.x
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      rollup: 3.12.0
+      serialize-javascript: 6.0.1
+      smob: 0.0.6
+      terser: 5.16.2
     dev: true
 
   /@rollup/plugin-typescript/11.0.0_rhlcksimi4ycfgwevqw3afkobq:
@@ -646,6 +703,15 @@ packages:
     engines: { node: ">=10.13.0" }
     dev: true
 
+  /@types/buble/0.19.2:
+    resolution:
+      {
+        integrity: sha512-uUD8zIfXMKThmFkahTXDGI3CthFH1kMg2dOm3KLi4GlC5cbARA64bEcUMbbWdWdE73eoc/iBB9PiTMqH0dNS2Q==,
+      }
+    dependencies:
+      magic-string: 0.25.9
+    dev: true
+
   /@types/estree/1.0.0:
     resolution:
       {
@@ -664,13 +730,6 @@ packages:
     resolution:
       {
         integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==,
-      }
-    dev: true
-
-  /@types/node/18.11.18:
-    resolution:
-      {
-        integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==,
       }
     dev: true
 
@@ -1212,6 +1271,15 @@ packages:
       concat-map: 0.0.1
     dev: true
 
+  /brace-expansion/2.0.1:
+    resolution:
+      {
+        integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==,
+      }
+    dependencies:
+      balanced-match: 1.0.2
+    dev: true
+
   /braces/3.0.2:
     resolution:
       {
@@ -1236,10 +1304,10 @@ packages:
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: true
 
-  /buble/0.19.8:
+  /buble/0.20.0:
     resolution:
       {
-        integrity: sha512-IoGZzrUTY5fKXVkgGHw3QeXFMUNBFv+9l8a4QJKG1JhG3nCMHTdEX1DCOg8568E2Q9qvAQIiSokv6Jsgx8p2cA==,
+        integrity: sha512-/1gnaMQE8xvd5qsNBl+iTuyjJ9XxeaVxAMF86dQ4EyxFJOZtsgOS8Ra+7WHgZTam5IFDtt4BguN0sH0tVTKrOw==,
       }
     hasBin: true
     dependencies:
@@ -1249,8 +1317,7 @@ packages:
       chalk: 2.4.2
       magic-string: 0.25.9
       minimist: 1.2.7
-      os-homedir: 2.0.0
-      regexpu-core: 4.8.0
+      regexpu-core: 4.5.4
     dev: true
 
   /buffer-from/1.1.2:
@@ -1472,6 +1539,13 @@ packages:
         integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==,
       }
     engines: { node: ^12.20.0 || >=14 }
+    dev: true
+
+  /commondir/1.0.1:
+    resolution:
+      {
+        integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==,
+      }
     dev: true
 
   /concat-map/0.0.1:
@@ -2335,6 +2409,20 @@ packages:
       path-is-absolute: 1.0.1
     dev: true
 
+  /glob/8.1.0:
+    resolution:
+      {
+        integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==,
+      }
+    engines: { node: ">=12" }
+    dependencies:
+      fs.realpath: 1.0.0
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 5.1.6
+      once: 1.4.0
+    dev: true
+
   /global-modules/2.0.0:
     resolution:
       {
@@ -2737,18 +2825,6 @@ packages:
       }
     dev: true
 
-  /jest-worker/26.6.2:
-    resolution:
-      {
-        integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==,
-      }
-    engines: { node: ">= 10.13.0" }
-    dependencies:
-      "@types/node": 18.11.18
-      merge-stream: 2.0.0
-      supports-color: 7.2.0
-    dev: true
-
   /js-sdsl/4.3.0:
     resolution:
       {
@@ -3007,6 +3083,16 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
+  /magic-string/0.27.0:
+    resolution:
+      {
+        integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==,
+      }
+    engines: { node: ">=12" }
+    dependencies:
+      "@jridgewell/sourcemap-codec": 1.4.14
+    dev: true
+
   /map-obj/1.0.1:
     resolution:
       {
@@ -3115,6 +3201,16 @@ packages:
       }
     dependencies:
       brace-expansion: 1.1.11
+    dev: true
+
+  /minimatch/5.1.6:
+    resolution:
+      {
+        integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==,
+      }
+    engines: { node: ">=10" }
+    dependencies:
+      brace-expansion: 2.0.1
     dev: true
 
   /minimist-options/4.1.0:
@@ -3301,15 +3397,6 @@ packages:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.3
-    dev: true
-
-  /os-homedir/2.0.0:
-    resolution:
-      {
-        integrity: sha512-saRNz0DSC5C/I++gFIaJTXoFJMRwiP5zHar5vV3xQ2TkgEw6hDCcU5F272JjUylpiVgBrZNQHnfjkLabTfb92Q==,
-      }
-    engines: { node: ">=0.10.0" }
-    deprecated: This is not needed anymore. Use `require('os').homedir()` instead.
     dev: true
 
   /p-finally/1.0.0:
@@ -4139,10 +4226,10 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
-  /regenerate-unicode-properties/9.0.0:
+  /regenerate-unicode-properties/8.2.0:
     resolution:
       {
-        integrity: sha512-3E12UeNSPfjrgwjkR81m5J7Aw/T55Tu7nUyZVQYCKEOs+2dkxEY+DpPtZzO4YruuiPb7NkYLVcyJC4+zCbk5pA==,
+        integrity: sha512-F9DjY1vKLo/tPePDycuH3dn9H1OTPIkVD9Kz4LODu+F2C75mgjAJ7x/gwy6ZcSNRAAkhNlJSOHRe8k3p+K9WhA==,
       }
     engines: { node: ">=4" }
     dependencies:
@@ -4164,19 +4251,19 @@ packages:
     engines: { node: ">=8" }
     dev: true
 
-  /regexpu-core/4.8.0:
+  /regexpu-core/4.5.4:
     resolution:
       {
-        integrity: sha512-1F6bYsoYiz6is+oz70NWur2Vlh9KWtswuRuzJOfeYUrfPX2o8n74AnUVaOGDbUqVGO9fNHu48/pjJO4sNVwsOg==,
+        integrity: sha512-BtizvGtFQKGPUcTy56o3nk1bGRp4SZOTYrDtGNlqCQufptV5IkkLN6Emw+yunAJjzf+C9FQFtvq7IoA3+oMYHQ==,
       }
     engines: { node: ">=4" }
     dependencies:
       regenerate: 1.4.2
-      regenerate-unicode-properties: 9.0.0
+      regenerate-unicode-properties: 8.2.0
       regjsgen: 0.5.2
-      regjsparser: 0.7.0
-      unicode-match-property-ecmascript: 2.0.0
-      unicode-match-property-value-ecmascript: 2.1.0
+      regjsparser: 0.6.9
+      unicode-match-property-ecmascript: 1.0.4
+      unicode-match-property-value-ecmascript: 1.2.0
     dev: true
 
   /regjsgen/0.5.2:
@@ -4186,10 +4273,10 @@ packages:
       }
     dev: true
 
-  /regjsparser/0.7.0:
+  /regjsparser/0.6.9:
     resolution:
       {
-        integrity: sha512-A4pcaORqmNMDVwUjWoTzuhwMGpP+NykpfqAsEgI1FSH/EzC7lrN5TMd+kN8YCovX+jMpu8eaqXgXPCa0g8FQNQ==,
+        integrity: sha512-ZqbNRz1SNjLAiYuwY0zoXW8Ne675IX5q+YHioAGbCw4X96Mjl2+dcX9B2ciaeyYjViDAfvIjFpQjJgLttTEERQ==,
       }
     hasBin: true
     dependencies:
@@ -4268,34 +4355,6 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rollup-plugin-buble/0.19.8:
-    resolution:
-      {
-        integrity: sha512-8J4zPk2DQdk3rxeZvxgzhHh/rm5nJkjwgcsUYisCQg1QbT5yagW+hehYEW7ZNns/NVbDCTv4JQ7h4fC8qKGOKw==,
-      }
-    deprecated: This module has been deprecated and is no longer maintained. Please use @rollup/plugin-buble.
-    dependencies:
-      buble: 0.19.8
-      rollup-pluginutils: 2.8.2
-    dev: true
-
-  /rollup-plugin-commonjs/10.1.0_rollup@3.12.0:
-    resolution:
-      {
-        integrity: sha512-jlXbjZSQg8EIeAAvepNwhJj++qJWNJw1Cl0YnOqKtP5Djx+fFGkp3WRh+W0ASCaFG5w1jhmzDxgu3SJuVxPF4Q==,
-      }
-    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-commonjs.
-    peerDependencies:
-      rollup: ">=1.12.0"
-    dependencies:
-      estree-walker: 0.6.1
-      is-reference: 1.2.1
-      magic-string: 0.25.9
-      resolve: 1.22.1
-      rollup: 3.12.0
-      rollup-pluginutils: 2.8.2
-    dev: true
-
   /rollup-plugin-postcss/4.0.2_postcss@8.4.21:
     resolution:
       {
@@ -4330,22 +4389,6 @@ packages:
       }
     dependencies:
       rollup-pluginutils: 2.8.2
-    dev: true
-
-  /rollup-plugin-terser/7.0.2_rollup@3.12.0:
-    resolution:
-      {
-        integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==,
-      }
-    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
-    peerDependencies:
-      rollup: ^2.0.0
-    dependencies:
-      "@babel/code-frame": 7.18.6
-      jest-worker: 26.6.2
-      rollup: 3.12.0
-      serialize-javascript: 4.0.0
-      terser: 5.16.2
     dev: true
 
   /rollup-plugin-vue/6.0.0_@vue+compiler-sfc@3.2.45:
@@ -4448,10 +4491,10 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
-  /serialize-javascript/4.0.0:
+  /serialize-javascript/6.0.1:
     resolution:
       {
-        integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==,
+        integrity: sha512-owoXEFjWRllis8/M1Q+Cw5k8ZH40e3zhp/ovX+Xr/vi1qj6QesbyXXViFbpNvWvPNAD62SutwEXavefrLJWj7w==,
       }
     dependencies:
       randombytes: 2.1.0
@@ -4523,6 +4566,13 @@ packages:
     dependencies:
       ansi-styles: 6.2.1
       is-fullwidth-code-point: 4.0.0
+    dev: true
+
+  /smob/0.0.6:
+    resolution:
+      {
+        integrity: sha512-V21+XeNni+tTyiST1MHsa84AQhT1aFZipzPpOFAVB8DkHzwJyjjAmt9bgwnuZiZWnIbMo2duE29wybxv/7HWUw==,
+      }
     dev: true
 
   /source-map-js/1.0.2:
@@ -5059,37 +5109,37 @@ packages:
     hasBin: true
     dev: true
 
-  /unicode-canonical-property-names-ecmascript/2.0.0:
+  /unicode-canonical-property-names-ecmascript/1.0.4:
     resolution:
       {
-        integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==,
+        integrity: sha512-jDrNnXWHd4oHiTZnx/ZG7gtUTVp+gCcTTKr8L0HjlwphROEW3+Him+IpvC+xcJEFegapiMZyZe02CyuOnRmbnQ==,
       }
     engines: { node: ">=4" }
     dev: true
 
-  /unicode-match-property-ecmascript/2.0.0:
+  /unicode-match-property-ecmascript/1.0.4:
     resolution:
       {
-        integrity: sha512-5kaZCrbp5mmbz5ulBkDkbY0SsPOjKqVS35VpL9ulMPfSl0J0Xsm+9Evphv9CoIZFwre7aJoa94AY6seMKGVN5Q==,
+        integrity: sha512-L4Qoh15vTfntsn4P1zqnHulG0LdXgjSO035fEpdtp6YxXhMT51Q6vgM5lYdG/5X3MjS+k/Y9Xw4SFCY9IkR0rg==,
       }
     engines: { node: ">=4" }
     dependencies:
-      unicode-canonical-property-names-ecmascript: 2.0.0
-      unicode-property-aliases-ecmascript: 2.1.0
+      unicode-canonical-property-names-ecmascript: 1.0.4
+      unicode-property-aliases-ecmascript: 1.1.0
     dev: true
 
-  /unicode-match-property-value-ecmascript/2.1.0:
+  /unicode-match-property-value-ecmascript/1.2.0:
     resolution:
       {
-        integrity: sha512-qxkjQt6qjg/mYscYMC0XKRn3Rh0wFPlfxB0xkt9CfyTvpX1Ra0+rAmdX2QyAobptSEvuy4RtpPRui6XkV+8wjA==,
+        integrity: sha512-wjuQHGQVofmSJv1uVISKLE5zO2rNGzM/KCYZch/QQvez7C1hUhBIuZ701fYXExuufJFMPhv2SyL8CyoIfMLbIQ==,
       }
     engines: { node: ">=4" }
     dev: true
 
-  /unicode-property-aliases-ecmascript/2.1.0:
+  /unicode-property-aliases-ecmascript/1.1.0:
     resolution:
       {
-        integrity: sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==,
+        integrity: sha512-PqSoPh/pWetQ2phoj5RLiaqIk4kCNwoV3CI+LfGmWLKI3rE3kl1h59XpX2BjgDrmbxD9ARtQobPGU1SguCYuQg==,
       }
     engines: { node: ">=4" }
     dev: true

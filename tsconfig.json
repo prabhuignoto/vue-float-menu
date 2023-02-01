@@ -5,7 +5,9 @@
     "strict": true,
     "declaration": true,
     "declarationDir": "dist",
-    "outDir": "dist",
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importHelpers": true,
@@ -15,27 +17,14 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "node",
-      "vue"
-    ],
+    "allowJs": true,
+    "types": ["vue"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "rollup.config.js"
-  ],
+  "exclude": ["node_modules", "dist", "rollup.config.js"],
   "include": ["src"],
-  "files": ["src/index.js"]
+  "files": ["src/vue-float-menu.js"]
 }
