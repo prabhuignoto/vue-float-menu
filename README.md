@@ -58,6 +58,7 @@
   - [Fixed Menu](#fixed-menu)
   - [🎨 Custom icon](#-custom-icon)
   - [🌈 Theme](#-theme)
+
 - [📦 Build Setup](#-build-setup)
 - [🔨 Contributing](#-contributing)
 - [Built with](#built-with)
@@ -67,7 +68,7 @@
 ## ⚡ Installation
 
 ```sh
-yarn install vue-float-menu
+pnpm install vue-float-menu
 ```
 
 ## 🚀 Getting Started
@@ -132,17 +133,17 @@ export default {
 
 ## Props
 
-| Prop             | Type     | Description                                                                                                                      |
-| ---------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| dimension        | number   | dimension of the Menu Head `width x height` in pixels.                                                                           |
-| position         | String   | initial position of the Menu Head. can be any one of the values `top left`, `top right`, `bottom left`, `bottom right`           |
-| fixed            | Boolean  | disables dragging and the menu will be fixed. use the `position` prop to fix the menu position                                   |
-| menu-dimension   | Object   | sets the `width` and `minimum` height of the Menu.                                                                               |
-| menu-data        | Object   | data to generate the menu. refer to [populating the menu](#populating-the-menu) for usage details.                               |
-| on-selected      | Function | hook that is called on selection.                                                                                                |
-| menu-style       | String   | can be `slide-out` or `accordion`.`slide-out` is the default menu style.                                                         |
-| flip-on-edges    | Boolean  | flips the menu content on the right edges of the screen.                                                                         |
-| theme            | Object   | prop to customize the color schemes. refer [theme](#theme) for usage.                                                            |
+| Prop           | Type     | Description                                                                                                            |
+| -------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
+| dimension      | number   | dimension of the Menu Head `width x height` in pixels.                                                                 |
+| position       | String   | initial position of the Menu Head. can be any one of the values `top left`, `top right`, `bottom left`, `bottom right` |
+| fixed          | Boolean  | disables dragging and the menu will be fixed. use the `position` prop to fix the menu position                         |
+| menu-dimension | Object   | sets the `width` and `minimum` height of the Menu.                                                                     |
+| menu-data      | Object   | data to generate the menu. refer to [populating the menu](#populating-the-menu) for usage details.                     |
+| on-selected    | Function | hook that is called on selection.                                                                                      |
+| menu-style     | String   | can be `slide-out` or `accordion`.`slide-out` is the default menu style.                                               |
+| flip-on-edges  | Boolean  | flips the menu content on the right edges of the screen.                                                               |
+| theme          | Object   | prop to customize the color schemes. refer [theme](#theme) for usage.                                                  |
 
 ### Position
 
@@ -213,12 +214,12 @@ Use the `menu-data` prop to create simple or nested menus of your liking. `menu-
 
 `MenuItem` properties
 
-| property    | description                                                           |
-| ----------- | --------------------------------------------------------------------- |
-| name        | display name of the menu item.                                        |
-| subMenu     | data for the sub-menu                                                 |
-| disabled    | disables the menu item                                                |
-| divider     | makes the item as a divider                                           |
+| property | description                    |
+| -------- | ------------------------------ |
+| name     | display name of the menu item. |
+| subMenu  | data for the sub-menu          |
+| disabled | disables the menu item         |
+| divider  | makes the item as a divider    |
 
 Here we create a simple Menu structure with 3 Menu items with no sub menus.
 
@@ -393,7 +394,6 @@ export default defineComponent({
 });
 ```
 
-
 ### 🌈 Theme
 
 Customize the color schemes with the `theme` prop.
@@ -414,18 +414,18 @@ Customize the color schemes with the `theme` prop.
 
 ## 📦 Build Setup
 
-``` bash
+```bash
 # install dependencies
-yarn install
+pnpm install
 
 # start dev
-yarn run dev
+pnpm run dev
 
 # run css linting
-yarn run lint:css
+pnpm run lint:css
 
 # lint everything
-yarn run lint:all
+pnpm run lint:all
 
 # package lib
 npm run rollup
