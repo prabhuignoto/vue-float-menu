@@ -23,8 +23,8 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.6.7
-          run_install: false
+          version: latest
+          run_install: true
 
       - name: Get pnpm store directory
         id: pnpm-cache
