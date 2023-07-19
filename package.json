@@ -24,7 +24,7 @@
     "rollup": "rimraf ./dist && rollup -c",
     "lint": "eslint src/**/*.vue",
     "lint:css": "stylelint src/**/*.scss --custom-syntax postcss-scss",
-    "lint:all": "yarn lint && yarn lint:css",
+    "lint:all": "pnpm lint && pnpm lint:css",
     "prepare": "husky install",
     "format": "prettier --write \"src/**/*.vue\" \"src/**/*.scss\"",
     "clean": "pnpm format && pnpm lint:all"
