@@ -67,7 +67,7 @@
 ## ⚡ Installation
 
 ```sh
-yarn install vue-float-menu
+pnpm install vue-float-menu
 ```
 
 ## 🚀 Getting Started
@@ -416,16 +416,16 @@ Customize the color schemes with the `theme` prop.
 
 ``` bash
 # install dependencies
-yarn install
+pnpm install
 
 # start dev
-yarn run dev
+pnpm run dev
 
 # run css linting
-yarn run lint:css
+pnpm run lint:css
 
 # lint everything
-yarn run lint:all
+pnpm run lint:all
 
 # package lib
 npm run rollup
