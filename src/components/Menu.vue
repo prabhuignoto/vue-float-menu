@@ -12,7 +12,9 @@
           menuStyle,
         ]"
         :style="getTheme"
-        @mousedown="handleMenuItemClick($event, id || '', name || '', !!subMenu, index, !!disabled, !!divider)"
+        @mousedown="
+          handleMenuItemClick($event, id || '', name || '', !!subMenu, index, !!disabled, !!divider)
+        "
       >
         <template v-if="!divider">
           <div :class="menuItemClass" @click="$event.stopPropagation()">

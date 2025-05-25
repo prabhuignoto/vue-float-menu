@@ -1,0 +1,13 @@
+name: 'Vue Float Menu CodeQL Config'
+disable-default-queries: false
+queries:
+  - uses: security-and-quality
+paths:
+  - src
+paths-ignore:
+  - '**/*.d.ts'
+  - '**/*.test.*'
+  - '**/*.spec.*'
+  - '**/node_modules'
+  - '**/dist'
+  - '**/build'

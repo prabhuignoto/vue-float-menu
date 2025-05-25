@@ -1,0 +1,84 @@
+name: Cross-Platform Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: '0 6 * * 1' # Weekly on Monday at 6 AM
+
+env:
+  PNPM_VERSION: '9'
+
+jobs:
+  build-matrix:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: ['18', '20', '22']
+        exclude:
+          # Reduce matrix for PRs
+          - os: windows-latest
+            node-version: '18'
+          - os: macos-latest
+            node-version: '18'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "pnpm-cache-dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm-cache-dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-${{ matrix.node-version }}-
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build library
+        run: pnpm build:lib
+
+      - name: Build demo
+        run: pnpm build
+
+      - name: Verify build outputs
+        shell: bash
+        run: |
+          if [ ! -f "dist/vue-float-menu.js" ]; then
+            echo "Main build file not found"
+            exit 1
+          fi
+          if [ ! -d "dist" ] || [ ! "$(ls -A dist)" ]; then
+            echo "Dist directory is empty"
+            exit 1
+          fi
+          echo "Build verification passed"

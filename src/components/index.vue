@@ -350,7 +350,7 @@ export default defineComponent({
 
     const handleDragEnd = (event: MouseEvent | TouchEvent) => {
       let clientX: number, clientY: number;
-      
+
       if ('touches' in event && event.touches.length > 0) {
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
@@ -361,7 +361,7 @@ export default defineComponent({
         clientX = (event as MouseEvent).clientX;
         clientY = (event as MouseEvent).clientY;
       }
-      
+
       if (dragActive.value) {
         previousPosition.value = {
           left: clientX - Math.round(props.dimension / 2),
