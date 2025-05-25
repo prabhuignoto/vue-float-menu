@@ -6,15 +6,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import MenuLeft from "./MenuLeft.vue";
-import MenuLeftBottom from "./MenuLeftBottom.vue";
-import MenuRight from "./MenuRight.vue";
-import MenuRightBottom from "./MenuRightBottom.vue";
+import MenuLeft from './MenuLeft.vue';
+import MenuLeftBottom from './MenuLeftBottom.vue';
+import MenuRight from './MenuRight.vue';
+import MenuRightBottom from './MenuRightBottom.vue';
 
 export default defineComponent({
-  name: "MenuDemos",
+  name: 'MenuDemos',
   components: {
     MenuLeft,
     MenuLeftBottom,

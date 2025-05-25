@@ -1,14 +1,15 @@
-import beep from "@rollup/plugin-beep";
-import buble from "@rollup/plugin-buble";
-import common from "@rollup/plugin-commonjs";
-import resolve from "@rollup/plugin-node-resolve";
-import sucrase from "@rollup/plugin-sucrase";
-import terser from "@rollup/plugin-terser";
-import typescript from "@rollup/plugin-typescript";
-import scss from "rollup-plugin-scss";
-import vue from "rollup-plugin-vue";
+import { readFileSync } from 'fs';
+import beep from '@rollup/plugin-beep';
+import babel from '@rollup/plugin-babel';
+import common from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
+import postcss from 'rollup-plugin-postcss';
+import vue from 'rollup-plugin-vue';
 
-import pkg from "./package.json" assert { type: "json" };
+// Read package.json using fs for better compatibility
+const pkg = JSON.parse(readFileSync('./package.json', 'utf8'));
 
 const banner = `/*
  * ${pkg.name}
@@ -19,52 +20,115 @@ const banner = `/*
 `;
 
 export default {
-  input: "src/vue-float-menu.js",
+  input: 'src/vue-float-menu.js',
   output: [
     {
       file: pkg.main,
-      format: "es",
-      exports: "named",
+      format: 'es',
+      exports: 'named',
       strict: true,
       banner,
+      sourcemap: true,
     },
-    // {
-    //   file: pkg.module,
-    //   format: "es",
-    //   exports: "named",
-    //   strict: true,
-    //   banner,
-    // },
     {
       file: pkg.umd,
-      format: "umd",
-      exports: "named",
+      format: 'umd',
+      exports: 'named',
       strict: true,
       banner,
-      name: "FloatMenu",
+      name: 'VueFloatMenu',
+      sourcemap: true,
       globals: {
-        vue: "vue",
+        vue: 'Vue',
       },
     },
   ],
   plugins: [
-    scss(),
-    vue(),
-    sucrase({
-      exclude: ["node_modules/**"],
-      transforms: ["typescript"],
+    // Resolve dependencies first
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+      extensions: ['.js', '.ts', '.vue'],
     }),
-    typescript(),
-    beep(),
-    common(),
-    // buble(),
-    resolve(),
+
+    // Handle CommonJS dependencies
+    common({
+      exclude: 'src/**',
+    }),
+
+    // Process Vue files with CSS handling
+    vue({
+      css: true, // Let Vue handle CSS internally
+      compileTemplate: true,
+      preprocessStyles: true,
+      template: {
+        isProduction: true,
+        compilerOptions: {
+          whitespace: 'condense',
+        },
+      },
+    }),
+
+    // Process CSS/SCSS files (including those extracted by Vue)
+    postcss({
+      extract: 'vue-float-menu.css',
+      minimize: true,
+      use: [
+        [
+          'sass',
+          {
+            includePaths: ['node_modules', 'src'],
+          },
+        ],
+      ],
+      extensions: ['.css', '.scss', '.sass'],
+      inject: false, // Don't inject CSS into JS
+    }),
+
+    // Use Babel to handle TypeScript in Vue files
+    babel({
+      babelHelpers: 'bundled',
+      exclude: 'node_modules/**',
+      extensions: ['.js', '.ts', '.vue'],
+      presets: [
+        [
+          '@babel/preset-typescript',
+          {
+            allExtensions: true,
+            isTSX: false,
+          },
+        ],
+      ],
+    }),
+
+    // TypeScript processing for type declarations only
+    typescript({
+      tsconfig: './tsconfig.build.json',
+      declaration: true,
+      declarationDir: 'dist/types',
+      emitDeclarationOnly: true,
+      exclude: ['**/*.test.*', '**/*.spec.*', 'src/demo/**/*'],
+    }),
+
+    // Minification
     terser({
       compress: {
         drop_console: true,
         drop_debugger: true,
       },
+      format: {
+        comments: /^!/,
+      },
     }),
+
+    // Success notification
+    beep(),
   ],
-  external: ["vue"],
+  external: ['vue'],
+  onwarn(warning, warn) {
+    // Suppress certain warnings
+    if (warning.code === 'THIS_IS_UNDEFINED') return;
+    if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+    warn(warning);
+  },
 };

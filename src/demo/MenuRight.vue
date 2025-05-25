@@ -44,13 +44,13 @@
 </template>
 
 <script lang="ts">
-import FloatMenu from "../components/index.vue";
+import FloatMenu from '../components/index.vue';
 
-import BoxIcon from "./assets/BoxIcon.vue";
-import { computed, defineComponent } from "vue";
+import BoxIcon from './assets/BoxIcon.vue';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "MenuRight",
+  name: 'MenuRight',
   components: {
     FloatMenu,
     BoxIcon,
@@ -61,8 +61,8 @@ export default defineComponent({
     };
 
     const computedStyle = computed(() => ({
-      width: "100%",
-      height: "100%",
+      width: '100%',
+      height: '100%',
     }));
 
     return {
@@ -74,47 +74,42 @@ export default defineComponent({
     return {
       count: 0,
       items: [
-        { name: "New", iconSlot: "new" },
+        { name: 'New', iconSlot: 'new' },
         {
-          name: "Edit",
-          iconSlot: "edit",
+          name: 'Edit',
+          iconSlot: 'edit',
           subMenu: {
-            name: "edit-items",
-            items: [{ name: "Copy" }, { name: "Paste" }],
+            name: 'edit-items',
+            items: [{ name: 'Copy' }, { name: 'Paste' }],
           },
         },
         {
-          name: "Open Recent",
-          iconSlot: "recent",
+          name: 'Open Recent',
+          iconSlot: 'recent',
           subMenu: {
-            name: "recent-items",
-            items: [{ name: "Document 1" }, { name: "Document 2" }],
+            name: 'recent-items',
+            items: [{ name: 'Document 1' }, { name: 'Document 2' }],
           },
         },
         {
           divider: true,
         },
         {
-          name: "Settings",
-          iconSlot: "settings",
+          name: 'Settings',
+          iconSlot: 'settings',
           subMenu: {
-            name: "settings",
+            name: 'settings',
             items: [
               {
-                name: "Themes",
-                iconSlot: "theme",
+                name: 'Themes',
+                iconSlot: 'theme',
                 disabled: false,
                 subMenu: {
-                  name: "sub-themes",
-                  items: [
-                    { name: "Dark" },
-                    { name: "Light" },
-                    { name: "Blue" },
-                    { name: "Green" },
-                  ],
+                  name: 'sub-themes',
+                  items: [{ name: 'Dark' }, { name: 'Light' }, { name: 'Blue' }, { name: 'Green' }],
                 },
               },
-              { name: "Keymaps" },
+              { name: 'Keymaps' },
             ],
           },
         },
@@ -122,25 +117,25 @@ export default defineComponent({
           divider: true,
         },
         {
-          name: "Save",
-          iconSlot: "save",
+          name: 'Save',
+          iconSlot: 'save',
           disabled: true,
         },
         {
-          name: "Save As",
-          iconSlot: "save",
+          name: 'Save As',
+          iconSlot: 'save',
           disabled: true,
         },
         {
           divider: true,
         },
         {
-          name: "Close",
-          iconSlot: "close",
+          name: 'Close',
+          iconSlot: 'close',
         },
         {
-          name: "Exit",
-          iconSlot: "exit",
+          name: 'Exit',
+          iconSlot: 'exit',
         },
       ],
     };

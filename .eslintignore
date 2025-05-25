@@ -1,0 +1,21 @@
+# Dependency directories
+node_modules/
+dist/
+
+# Build output
+dist/
+build/
+coverage/
+
+# Logs
+logs/
+*.log
+
+# Editor directories
+.vscode/
+.idea/
+*.sublime-*
+
+# OS specific
+.DS_Store
+Thumbs.db

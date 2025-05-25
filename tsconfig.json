@@ -1,30 +1,80 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    // Target and Module
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    
+    // Strict Type Checking Options
     "strict": true,
-    "declaration": true,
-    "declarationDir": "dist",
-    "declarationMap": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false,
+    "noPropertyAccessFromIndexSignature": false,
+    
+    // Module Resolution Options
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    
+    // Advanced Options
+    "skipLibCheck": true,
     "allowJs": true,
-    "types": ["vue"],
+    "checkJs": false,
+    "useDefineForClassFields": true,
+    
+    // Vue 3 and JSX Support
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    
+    // Source Maps and Debugging
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "dist",
+    "outDir": "./dist",
+    
+    // Path Mapping
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    
+    // Library Support
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+    
+    // Vue Specific Options
+    "verbatimModuleSyntax": false,
+    
+    // Performance
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo"
   },
-  "exclude": ["node_modules", "dist", "rollup.config.js"],
-  "include": ["src"],
-  "files": ["src/vue-float-menu.js"]
+  "include": [
+    "src/**/*",
+    "src/**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "rollup.config.js",
+    "vite.config.js",
+    "eslint.config.js"
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }

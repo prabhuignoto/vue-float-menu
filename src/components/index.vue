@@ -14,10 +14,7 @@
     <div
       ref="menuHead"
       tabindex="0"
-      :class="[
-        { 'menu-active': menuActive, 'drag-active': dragActive },
-        'menu-head',
-      ]"
+      :class="[{ 'menu-active': menuActive, 'drag-active': dragActive }, 'menu-head']"
       :style="getTheme"
       draggable="false"
       @keyup="$event.keyCode === 13 && toggleMenu($event)"
@@ -34,10 +31,7 @@
       :style="menuCSS"
       draggable="false"
     >
-      <span
-        class="close-btn"
-        @mousedown="$event.stopPropagation() && handleMenuClose()"
-      >
+      <span class="close-btn" @mousedown="handleCloseClick">
         <XIcon />
       </span>
       <MenuComponent
@@ -58,28 +52,20 @@
 </template>
 
 <script lang="ts">
-import "focus-visible";
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  ref,
-  unref,
-} from "vue";
-import utils from "../utils";
-import MenuIcon from "./icons/MenuIcon.vue";
-import XIcon from "./icons/XIcon.vue";
-import MenuComponent from "./Menu.vue";
-import Props from "./props";
+import 'focus-visible';
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, unref } from 'vue';
+import utils from '../utils';
+import MenuIcon from './icons/MenuIcon.vue';
+import XIcon from './icons/XIcon.vue';
+import MenuComponent from './Menu.vue';
+import Props from './props';
 
 interface Position {
   left: number;
   top: number;
 }
 export default defineComponent({
-  name: "FloatMenu",
+  name: 'FloatMenu',
   components: {
     MenuIcon,
     MenuComponent,
@@ -106,10 +92,10 @@ export default defineComponent({
     const menuContainer = ref();
 
     // generates style for the menu
-    const menuCSS = ref<{ "min-height": string; width: string } | null>(null);
+    const menuCSS = ref<{ 'min-height': string; width: string } | undefined>(undefined);
 
     // local reference of the menu direction
-    const menuOrientation = ref("top");
+    const menuOrientation = ref('top');
 
     // flip menu content
     const flipMenu = ref(false);
@@ -120,18 +106,14 @@ export default defineComponent({
 
     const isTouch = ref(window.ontouchstart !== undefined);
 
-    const moveEvent = computed(() =>
-      unref(isTouch) ? "touchmove" : "mousemove"
-    );
+    const moveEvent = computed(() => (unref(isTouch) ? 'touchmove' : 'mousemove'));
 
     const computedMenuStyle = computed(() =>
-      unref(moveEvent) === "touchmove" ? "accordion" : props.menuStyle
+      unref(moveEvent) === 'touchmove' ? 'accordion' : props.menuStyle
     );
 
     // sets the initial style
-    const getInitStyle = computed(() =>
-      utils.setupInitStyle(props.position, props.dimension)
-    );
+    const getInitStyle = computed(() => utils.setupInitStyle(props.position, props.dimension));
 
     const isRevealing = ref(false);
 
@@ -202,7 +184,7 @@ export default defineComponent({
           position.value = previousPosition.value;
         }
         const classes = Array.from((event.target as HTMLElement).classList);
-        if (classes.some((cls) => cls === "sub-menu" || cls === "disabled")) {
+        if (classes.some((cls) => cls === 'sub-menu' || cls === 'disabled')) {
           return;
         }
         menuActive.value = false;
@@ -214,8 +196,8 @@ export default defineComponent({
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
 
       position.value = {
-        left: +intialStyle.left.replace(/px/gi, ""),
-        top: +intialStyle.top.replace(/px/gi, ""),
+        left: +intialStyle.left.replace(/px/gi, ''),
+        top: +intialStyle.top.replace(/px/gi, ''),
       };
     };
 
@@ -250,23 +232,23 @@ export default defineComponent({
       // setup the initial style on load
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
       const initPosition = {
-        left: +intialStyle.left.replace(/px/gi, ""),
-        top: +intialStyle.top.replace(/px/gi, ""),
+        left: +intialStyle.left.replace(/px/gi, ''),
+        top: +intialStyle.top.replace(/px/gi, ''),
       };
       position.value = initPosition;
       previousPosition.value = initPosition;
 
       // close the menu when clicked outside
-      window.addEventListener("click", onCloseMenu);
+      window.addEventListener('click', onCloseMenu);
 
       // attach handler for window resize event
-      window.addEventListener("resize", onWindowResize);
+      window.addEventListener('resize', onWindowResize);
 
       window.addEventListener(
-        "mouseup",
+        'mouseup',
         (event: MouseEvent) => {
           const nodeName = (event.target as HTMLElement).nodeName;
-          const canStopDrag = nodeName === "#document" || nodeName === "HTML";
+          const canStopDrag = nodeName === '#document' || nodeName === 'HTML';
 
           if (canStopDrag) {
             dragStart.value = false;
@@ -284,13 +266,13 @@ export default defineComponent({
 
     // cleanup
     onUnmounted(() => {
-      window.removeEventListener("click", onCloseMenu);
-      window.removeEventListener("resize", onWindowResize);
+      window.removeEventListener('click', onCloseMenu);
+      window.removeEventListener('resize', onWindowResize);
       document.removeEventListener(moveEvent.value, handleMove);
     });
 
     // open/close the menu
-    const toggleMenu = (event: MouseEvent) => {
+    const toggleMenu = (event: MouseEvent | KeyboardEvent) => {
       if (dragActive.value) {
         return;
       }
@@ -300,7 +282,7 @@ export default defineComponent({
 
       const classes = Array.from((event.target as HTMLElement).classList);
 
-      if (classes.some((cls) => cls === "menu-list-item")) {
+      if (classes.some((cls) => cls === 'menu-list-item')) {
         return;
       }
 
@@ -320,7 +302,7 @@ export default defineComponent({
 
     // close the menu from child component (./menu.vue)
     const handleMenuClose = (keyCode?: string) => {
-      if (keyCode === "ArrowLeft" || keyCode === "ArrowRight") {
+      if (keyCode === 'ArrowLeft' || keyCode === 'ArrowRight') {
         return;
       }
       menuActive.value = false;
@@ -333,6 +315,12 @@ export default defineComponent({
       });
     };
 
+    // handle close button click
+    const handleCloseClick = (event: MouseEvent) => {
+      event.stopPropagation();
+      handleMenuClose();
+    };
+
     // handler for selection
     const handleMenuItemSelection = (name: string) => {
       menuActive.value = false;
@@ -343,10 +331,10 @@ export default defineComponent({
     };
 
     const getTheme = computed(() => ({
-      "--background": props.theme.primary,
+      '--background': props.theme.primary,
     }));
 
-    const handleDragStart = (event: MouseEvent) => {
+    const handleDragStart = (event: MouseEvent | TouchEvent) => {
       if (!isTouch.value) {
         event.preventDefault();
       }
@@ -360,8 +348,20 @@ export default defineComponent({
       }
     };
 
-    const handleDragEnd = (event: MouseEvent) => {
-      const { clientX, clientY } = event;
+    const handleDragEnd = (event: MouseEvent | TouchEvent) => {
+      let clientX: number, clientY: number;
+      
+      if ('touches' in event && event.touches.length > 0) {
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+      } else if ('changedTouches' in event && event.changedTouches.length > 0) {
+        clientX = event.changedTouches[0].clientX;
+        clientY = event.changedTouches[0].clientY;
+      } else {
+        clientX = (event as MouseEvent).clientX;
+        clientY = (event as MouseEvent).clientY;
+      }
+      
       if (dragActive.value) {
         previousPosition.value = {
           left: clientX - Math.round(props.dimension / 2),
@@ -383,6 +383,7 @@ export default defineComponent({
       getTheme,
       handleMenuClose,
       handleMenuItemSelection,
+      handleCloseClick,
       slotsEmpty,
       menuOrientation,
       menuActive,
