@@ -195,8 +195,10 @@ export default defineComponent({
 
           // If there are menu items, select the first one for keyboard navigation
           if (menuItems.value.length > 0) {
-            // Find first non-divider item
-            const firstItemIndex = menuItems.value.findIndex((item) => !item.divider);
+            // Find first non-divider, non-disabled item
+            const firstItemIndex = menuItems.value.findIndex(
+              (item) => !item.divider && !item.disabled
+            );
             if (firstItemIndex !== -1) {
               setActiveIndex(firstItemIndex);
             }
@@ -245,7 +247,14 @@ export default defineComponent({
           }
 
           setActiveIndex(index);
-          selectMenuItem(name, id, subMenu, false, props.onSelection);
+
+          // For mouse clicks, always select the item and don't toggle submenus
+          if (!subMenu) {
+            selectMenuItem(name, id, subMenu, false, props.onSelection);
+          } else {
+            // For submenu items, toggle the submenu
+            toggleMenu(id, false);
+          }
 
           // Direct style manipulation to remove any focus borders
           const target = event.currentTarget as HTMLElement;
@@ -293,29 +302,98 @@ export default defineComponent({
         switch (keyCode) {
           case 'ArrowDown':
             if (actvIndex < len - 1) {
-              const nextItemIsDivider = menuItems.value[actvIndex + 1]?.divider;
+              let nextIndex = actvIndex + 1;
 
-              if (nextItemIsDivider) {
-                setActiveIndex(actvIndex + 2 < len ? actvIndex + 2 : 0);
-              } else {
-                setActiveIndex(actvIndex + 1);
+              // Skip disabled items and dividers
+              while (
+                nextIndex < len &&
+                (menuItems.value[nextIndex]?.divider || menuItems.value[nextIndex]?.disabled)
+              ) {
+                nextIndex++;
               }
+
+              // If we reached the end, loop back to the start
+              if (nextIndex >= len) {
+                nextIndex = 0;
+                // Skip disabled items and dividers at the beginning
+                while (
+                  nextIndex < actvIndex &&
+                  (menuItems.value[nextIndex]?.divider || menuItems.value[nextIndex]?.disabled)
+                ) {
+                  nextIndex++;
+                }
+              }
+
+              setActiveIndex(nextIndex);
             } else if (actvIndex === len - 1) {
-              setActiveIndex(0);
+              // Find first non-disabled, non-divider item
+              let nextIndex = 0;
+              while (
+                nextIndex < len &&
+                (menuItems.value[nextIndex]?.divider || menuItems.value[nextIndex]?.disabled)
+              ) {
+                nextIndex++;
+              }
+
+              // If all items are disabled, keep current selection
+              if (nextIndex >= len) {
+                nextIndex = actvIndex;
+              }
+
+              setActiveIndex(nextIndex);
             }
             break;
 
           case 'ArrowUp':
-            const isDivider = menuItems.value[actvIndex - 1]?.divider;
-            const nextIndex = isDivider
-              ? actvIndex - 2
-              : actvIndex - 1 < 0
-              ? len - 1
-              : actvIndex - 1;
-            setActiveIndex(nextIndex);
+            if (actvIndex > 0) {
+              let prevIndex = actvIndex - 1;
+
+              // Skip disabled items and dividers
+              while (
+                prevIndex >= 0 &&
+                (menuItems.value[prevIndex]?.divider || menuItems.value[prevIndex]?.disabled)
+              ) {
+                prevIndex--;
+              }
+
+              // If we reached the beginning, loop to the end
+              if (prevIndex < 0) {
+                prevIndex = len - 1;
+                // Skip disabled items and dividers at the end
+                while (
+                  prevIndex > actvIndex &&
+                  (menuItems.value[prevIndex]?.divider || menuItems.value[prevIndex]?.disabled)
+                ) {
+                  prevIndex--;
+                }
+              }
+
+              setActiveIndex(prevIndex);
+            } else {
+              // Find last non-disabled, non-divider item
+              let prevIndex = len - 1;
+              while (
+                prevIndex >= 0 &&
+                (menuItems.value[prevIndex]?.divider || menuItems.value[prevIndex]?.disabled)
+              ) {
+                prevIndex--;
+              }
+
+              // If all items are disabled, keep current selection
+              if (prevIndex < 0) {
+                prevIndex = actvIndex;
+              }
+
+              setActiveIndex(prevIndex);
+            }
             break;
 
           case 'ArrowLeft':
+            // Skip disabled items
+            if (item?.disabled) {
+              break;
+            }
+
             if (!props.flip) {
               props.onClose('ArrowLeft');
             } else if (item.subMenu) {
@@ -324,6 +402,11 @@ export default defineComponent({
             break;
 
           case 'ArrowRight':
+            // Skip disabled items
+            if (item?.disabled) {
+              break;
+            }
+
             if (!props.flip && item?.subMenu) {
               toggleMenu(item.id || '', true);
               // Focus handling for keyboard navigation
@@ -334,28 +417,28 @@ export default defineComponent({
             break;
 
           case 'Enter':
-            if (item?.subMenu) {
-              toggleMenu(item.id || '', true);
-              // Focus handling for keyboard navigation
-              handleSubmenuOpen(item.id || '');
-            } else {
-              selectMenuItem(
-                item?.name,
-                item?.id || '',
-                Boolean(item?.subMenu),
-                false,
-                props.onSelection
-              );
+            // Skip disabled items for Enter key actions
+            if (item?.disabled) {
+              break;
+            }
 
-              // Announce selection for screen readers
-              if (item?.name) {
-                const announcement = document.createElement('div');
-                announcement.setAttribute('aria-live', 'polite');
-                announcement.className = 'sr-only';
-                announcement.textContent = `Selected ${item.name}`;
-                document.body.appendChild(announcement);
-                setTimeout(() => document.body.removeChild(announcement), 1000);
-              }
+            // Only select regular menu items with Enter, submenus should only use arrow keys
+            selectMenuItem(
+              item?.name,
+              item?.id || '',
+              Boolean(item?.subMenu),
+              false,
+              props.onSelection
+            );
+
+            // Announce selection for screen readers
+            if (item?.name) {
+              const announcement = document.createElement('div');
+              announcement.setAttribute('aria-live', 'polite');
+              announcement.className = 'sr-only';
+              announcement.textContent = `Selected ${item.name}`;
+              document.body.appendChild(announcement);
+              setTimeout(() => document.body.removeChild(announcement), 1000);
             }
             break;
 
@@ -407,9 +490,9 @@ export default defineComponent({
           // Find the submenu container
           const submenu = document.querySelector(`[data-submenu-id="${submenuId}"]`) as HTMLElement;
           if (submenu) {
-            // Find the first focusable item in the submenu
+            // Find the first non-disabled focusable item in the submenu
             const firstItem = submenu.querySelector(
-              '[role="menuitem"]:not([aria-disabled="true"])'
+              '[role="menuitem"]:not([aria-disabled="true"]):not(.divider)'
             ) as HTMLElement;
             if (firstItem) {
               firstItem.focus();
@@ -479,10 +562,10 @@ export default defineComponent({
 
     const handleAfterTransitionEnter = (el: Element) => {
       try {
-        // Focus the first item in the submenu
+        // Focus the first non-disabled item in the submenu
         nextTick(() => {
           const firstItem = el.querySelector(
-            '[role="menuitem"]:not([aria-disabled="true"])'
+            '[role="menuitem"]:not([aria-disabled="true"]):not(.divider)'
           ) as HTMLElement;
           if (firstItem) {
             firstItem.focus();
