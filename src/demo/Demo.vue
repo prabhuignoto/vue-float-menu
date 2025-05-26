@@ -36,9 +36,7 @@
             <span class="name">Support for nested menus.</span>
           </li>
           <li>
-            <span class="icon" role="img" aria-label="keyboard accessible"
-              >⌨</span
-            >
+            <span class="icon" role="img" aria-label="keyboard accessible">⌨</span>
             <span class="name">Keyboard Accessible.</span>
           </li>
           <li>
@@ -54,9 +52,7 @@
             <span class="name">Intuitive API with data driven behavior.</span>
           </li>
           <li>
-            <span class="icon" role="img" aria-label="built with Vue 3"
-              >🌠</span
-            >
+            <span class="icon" role="img" aria-label="built with Vue 3">🌠</span>
             <span class="name">Built with the all new Vue 3.</span>
           </li>
         </ul>
@@ -71,11 +67,11 @@
 </template>
 
 <script lang="ts">
-import Menus from "./Menus.vue";
-import { defineComponent } from "vue";
+import Menus from './Menus.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "HelloWorld",
+  name: 'HelloWorld',
   components: {
     Menus,
   },

@@ -3,11 +3,11 @@
 </template>
 
 <script lang="ts">
-import Demo from "./Demo.vue";
-import { defineComponent } from "vue";
+import Demo from './Demo.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "App",
+  name: 'App',
   components: {
     Demo,
   },

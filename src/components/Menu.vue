@@ -3,17 +3,7 @@
     <ul class="menu-list" :style="getTheme">
       <li
         v-for="(
-          {
-            id,
-            selected,
-            name,
-            subMenu,
-            showSubMenu,
-            disabled,
-            divider,
-            iconSlot,
-          },
-          index
+          { id, selected, name, subMenu, showSubMenu, disabled, divider, iconSlot }, index
         ) of menuItems"
         :key="id"
         :class="[
@@ -23,15 +13,7 @@
         ]"
         :style="getTheme"
         @mousedown="
-          handleMenuItemClick(
-            $event,
-            id,
-            name,
-            subMenu,
-            index,
-            disabled,
-            divider
-          )
+          handleMenuItemClick($event, id || '', name || '', !!subMenu, index, !!disabled, !!divider)
         "
       >
         <template v-if="!divider">
@@ -42,25 +24,17 @@
             <span :class="['name', { disabled }]">{{ name }}</span>
             <span
               v-if="subMenu"
-              :class="[
-                'chev-icon',
-                { disabled, 'show-submenu': showSubMenu },
-                menuStyle,
-              ]"
+              :class="['chev-icon', { disabled, 'show-submenu': showSubMenu }, menuStyle]"
             >
               <chev-right-icon v-if="!isAccordion" />
               <plus-icon v-if="subMenu && !showSubMenu && isAccordion" />
               <minus-icon v-if="subMenu && showSubMenu && isAccordion" />
             </span>
           </div>
-          <div
-            v-if="!disabled && showSubMenu"
-            :class="subMenuClass"
-            :style="getTheme"
-          >
+          <div v-if="!disabled && showSubMenu" :class="subMenuClass" :style="getTheme">
             <component
               :is="SubMenuComponent"
-              :data="subMenu.items"
+              :data="subMenu?.items || []"
               :on-selection="onSelection"
               :theme="theme"
               :on-close="handleSubmenuClose"
@@ -91,14 +65,14 @@ import {
   onMounted,
   watch,
   nextTick,
-} from "vue";
-import ChevRightIcon from "./icons/ChevRightIcon.vue";
-import PlusIcon from "./icons/PlusIcon.vue";
-import MinusIcon from "./icons/MinusIcon.vue";
-import { MenuItem, Theme, ThemeDefault } from "../types";
+} from 'vue';
+import ChevRightIcon from './icons/ChevRightIcon.vue';
+import PlusIcon from './icons/PlusIcon.vue';
+import MinusIcon from './icons/MinusIcon.vue';
+import { MenuItem, Theme, ThemeDefault } from '../types';
 
 export default defineComponent({
-  name: "FloatMenu",
+  name: 'FloatMenu',
   components: {
     ChevRightIcon,
     PlusIcon,
@@ -129,7 +103,7 @@ export default defineComponent({
     },
     menuStyle: {
       type: String,
-      default: "slided_out",
+      default: 'slided_out',
       required: false,
     },
   },
@@ -151,20 +125,7 @@ export default defineComponent({
     const menuRef = ref();
 
     // resolve this component for usage innested menus
-    const SubMenuComponent = resolveComponent("FloatMenu");
-
-    const selectMenuItem = (
-      name?: string,
-      id?: string,
-      subMenu?: boolean,
-      selectFirstItem?: boolean
-    ) => {
-      if (!subMenu) {
-        name && props?.onSelection(name);
-      } else {
-        toggleMenu(id, selectFirstItem);
-      }
-    };
+    const SubMenuComponent = resolveComponent('FloatMenu');
 
     // expands the submenu
     const toggleMenu = (id?: string, selectFirstItem?: boolean) => {
@@ -183,6 +144,19 @@ export default defineComponent({
               : item.subMenu,
         })
       );
+    };
+
+    const selectMenuItem = (
+      name?: string,
+      id?: string,
+      subMenu?: boolean,
+      selectFirstItem?: boolean
+    ) => {
+      if (!subMenu) {
+        name && props?.onSelection(name);
+      } else {
+        toggleMenu(id, selectFirstItem);
+      }
     };
 
     const handleMenuItemClick = (
@@ -208,11 +182,11 @@ export default defineComponent({
 
     // gets theme colors
     const getTheme = computed(() => ({
-      "--background": props.theme.primary,
-      "--menu-background": props.theme.menuBgColor,
-      "--menu-text-color": props.theme.textColor,
-      "--text-selected-color": props.theme.textSelectedColor,
-      "--hover-background": props.theme.hoverBackground,
+      '--background': props.theme.primary,
+      '--menu-background': props.theme.menuBgColor,
+      '--menu-text-color': props.theme.textColor,
+      '--text-selected-color': props.theme.textSelectedColor,
+      '--hover-background': props.theme.hoverBackground,
     }));
 
     // life cycle mount
@@ -243,7 +217,7 @@ export default defineComponent({
       const flip = props.flip;
 
       // handle down arrow
-      if (keyCode === "ArrowDown") {
+      if (keyCode === 'ArrowDown') {
         if (actvIndex < len - 1) {
           const nextItemIsDivider = menuItems.value[actvIndex + 1]?.divider;
           // check if the next item is a divider and move 2 steps forward.
@@ -259,40 +233,36 @@ export default defineComponent({
           activeIndex.value = 0;
         }
         // handle up arrow
-      } else if (keyCode === "ArrowUp") {
+      } else if (keyCode === 'ArrowUp') {
         const isDivider = menuItems.value[actvIndex - 1]?.divider;
 
         // check if the previous item is a divider and move 2 steps backward
-        const nextIndex = isDivider
-          ? actvIndex - 2
-          : actvIndex - 1 < 0
-          ? len - 1
-          : actvIndex - 1;
+        const nextIndex = isDivider ? actvIndex - 2 : actvIndex - 1 < 0 ? len - 1 : actvIndex - 1;
 
         activeIndex.value = nextIndex;
         // handle left arrow
-      } else if (keyCode === "ArrowLeft") {
+      } else if (keyCode === 'ArrowLeft') {
         if (!flip) {
-          props.onClose("ArrowLeft");
+          props.onClose('ArrowLeft');
         } else if (item.subMenu) {
           // if the menu is flipped this should toggle the menu
           toggleMenu(item.id, true);
         }
         // handle enter
-      } else if (keyCode === "Enter") {
+      } else if (keyCode === 'Enter') {
         if (item.subMenu) {
           toggleMenu(item.id, true);
         } else {
-          selectMenuItem(item.name, item.id, !!item.subMenu);
+          selectMenuItem(item.name, item.id, Boolean(item.subMenu));
         }
         // handle right arrow
-      } else if (keyCode === "ArrowRight") {
+      } else if (keyCode === 'ArrowRight') {
         if (!flip && item.subMenu) {
           toggleMenu(item.id, true);
         } else if (flip) {
-          props.onClose("ArrowRight");
+          props.onClose('ArrowRight');
         }
-      } else if (keyCode === "Escape") {
+      } else if (keyCode === 'Escape') {
         props.onClose();
       }
     };
@@ -316,11 +286,9 @@ export default defineComponent({
 
     const subMenuClass = computed(() => `sub-menu-wrapper ${props.menuStyle}`);
 
-    const menuItemClass = computed(
-      () => `menu-item-wrapper ${props.menuStyle}`
-    );
+    const menuItemClass = computed(() => `menu-item-wrapper ${props.menuStyle}`);
 
-    const isAccordion = computed(() => props.menuStyle === "accordion");
+    const isAccordion = computed(() => props.menuStyle === 'accordion');
 
     return {
       menuItems,

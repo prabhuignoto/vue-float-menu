@@ -1,12 +1,7 @@
-import { Position, UtilsType } from "../types/index";
+import { Position, UtilsType } from '../types/index';
 
 const utils: UtilsType = {
-  setupMenuOrientation: (
-    head,
-    content,
-    headDimension,
-    menuDimension
-  ) => {
+  setupMenuOrientation: (head, content, headDimension, menuDimension) => {
     const { top, bottom } = head.getBoundingClientRect();
     const left = Math.round((content.clientWidth - headDimension) / 2);
     const menuHeight = content.clientHeight;
@@ -20,23 +15,23 @@ const utils: UtilsType = {
         top: `${headDimension + MENU_SPACING}px`,
         left: `-${left}px`,
       };
-      newOrientation = "top";
+      newOrientation = 'top';
     } else if (window.innerHeight - bottom < menuHeight) {
       newMenuStyle = {
         bottom: `${headDimension + MENU_SPACING}px`,
         left: `-${left}px`,
       };
-      newOrientation = "bottom";
+      newOrientation = 'bottom';
     } else {
       newMenuStyle = {
         top: `${headDimension + MENU_SPACING}px`,
         left: `-${left}px`,
       };
-      newOrientation = "top";
+      newOrientation = 'top';
     }
 
     return Object.assign({}, newMenuStyle, {
-      "min-height": `${menuDimension.height}px`,
+      'min-height': `${menuDimension.height}px`,
       width: `${menuDimension.width}px`,
       newOrientation,
     });
@@ -98,8 +93,8 @@ const utils: UtilsType = {
     return {
       position: newPosition,
       flip: flipMenu,
-      reveal
-    }
+      reveal,
+    };
   },
   setupInitStyle: (position: string, dimension: number) => {
     const MENU_HEAD_SPACING = 15;
@@ -107,21 +102,21 @@ const utils: UtilsType = {
     let left = MENU_HEAD_SPACING,
       top = MENU_HEAD_SPACING;
     switch (position) {
-      case "top left":
+      case 'top left':
         left = MENU_HEAD_SPACING;
         top = MENU_HEAD_SPACING;
         break;
-      case "top right":
-        left = (window.innerWidth - dimension) - MENU_HEAD_SPACING;
+      case 'top right':
+        left = window.innerWidth - dimension - MENU_HEAD_SPACING;
         top = MENU_HEAD_SPACING;
         break;
-      case "bottom left":
+      case 'bottom left':
         left = MENU_HEAD_SPACING;
-        top = (window.innerHeight - dimension) - MENU_HEAD_SPACING;
+        top = window.innerHeight - dimension - MENU_HEAD_SPACING;
         break;
-      case "bottom right":
-        left = (window.innerWidth - dimension) - MENU_HEAD_SPACING;
-        top = (window.innerHeight - dimension) - MENU_HEAD_SPACING;
+      case 'bottom right':
+        left = window.innerWidth - dimension - MENU_HEAD_SPACING;
+        top = window.innerHeight - dimension - MENU_HEAD_SPACING;
     }
 
     return {
@@ -134,10 +129,10 @@ const utils: UtilsType = {
   detectDeviceType: () => {
     const screenWidth = screen.width;
     if (screenWidth <= 768) {
-      return "mobile"
+      return 'mobile';
     }
-    return "desktop"
-  }
-}
+    return 'desktop';
+  },
+};
 
 export default utils;

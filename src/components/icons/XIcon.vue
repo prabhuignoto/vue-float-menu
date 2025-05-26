@@ -18,6 +18,6 @@
 
 <script lang="ts">
 export default {
-  name: "XIcon",
+  name: 'XIcon',
 };
 </script>
