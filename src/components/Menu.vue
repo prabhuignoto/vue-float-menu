@@ -247,6 +247,22 @@ export default defineComponent({
           setActiveIndex(index);
           selectMenuItem(name, id, subMenu, false, props.onSelection);
 
+          // Direct style manipulation to remove any focus borders
+          const target = event.currentTarget as HTMLElement;
+          if (target) {
+            // Forcibly remove any focus indicators
+            target.style.outline = 'none';
+            target.style.border = 'none';
+
+            // Apply a setTimeout to ensure this persists after any CSS transitions
+            setTimeout(() => {
+              if (target && target.classList.contains('selected')) {
+                target.style.outline = 'none';
+                target.style.border = 'none';
+              }
+            }, 10);
+          }
+
           // Announce selection for screen readers
           if (!subMenu && name) {
             // Create announcement for screen reader
@@ -294,8 +310,8 @@ export default defineComponent({
             const nextIndex = isDivider
               ? actvIndex - 2
               : actvIndex - 1 < 0
-                ? len - 1
-                : actvIndex - 1;
+              ? len - 1
+              : actvIndex - 1;
             setActiveIndex(nextIndex);
             break;
 
@@ -543,4 +559,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use './Menu';
 @use './styles/accessibility';
+@use './styles/focused-items';
+
+/* Direct fix for the Edit menu item and other focused items */
+.menu-list-item {
+  &.selected,
+  &.highlight {
+    /* Remove all focus indicators when the item is already visually highlighted */
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    &:focus,
+    &:focus-visible {
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+  }
+}
 </style>

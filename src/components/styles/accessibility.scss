@@ -21,19 +21,27 @@
   border-radius: 50%;
 }
 
-/* Menu list items focus indicator */
-.menu-list-item:focus-visible {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* General menu item focus (fallback and specific targeting) */
+/* General menu item focus - the primary focus indicator for menu items */
 [role='menuitem']:focus-visible {
-  outline: 2px solid #007bff !important;
-  outline-offset: -2px !important;
-  position: relative;
-  z-index: 1;
+  /* Hide the outline when the menu item is selected or highlighted */
+  &.selected, &.highlight {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+  
+  /* Special case for selected submenu items to avoid double indicators */
+  &.sub-menu.selected .menu-item-wrapper {
+    background-color: var(--hover-background);
+  }
+  
+  /* Only show outline when using keyboard navigation and not selected */
+  &:not(.selected):not(.highlight) {
+    outline: 2px solid #007bff;
+    outline-offset: -2px;
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* Hide outline for mouse users (focus without focus-visible) */

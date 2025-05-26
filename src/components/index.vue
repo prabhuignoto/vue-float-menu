@@ -9,7 +9,6 @@
     @touchstart="handleEnhancedTouchStart"
     @touchend="handleEnhancedTouchEnd"
     @touchmove="handleEnhancedTouchMove"
-    @click="toggleMenu"
   >
     <div
       ref="menuHead"
@@ -20,6 +19,7 @@
       aria-haspopup="menu"
       :aria-expanded="menuActive"
       aria-label="Menu"
+      @click="toggleMenu"
       @keydown="handleKeyboardMenuActivation"
     >
       <span class="menu-head-icon">
@@ -288,7 +288,7 @@ export default defineComponent({
     });
 
     // open/close the menu
-    const toggleMenu = (event: MouseEvent | KeyboardEvent) => {
+    const toggleMenu = (event: MouseEvent | KeyboardEvent | TouchEvent) => {
       measurePerformance('toggleMenu', () => {
         markAsUsed('menuToggle');
 
@@ -521,11 +521,9 @@ export default defineComponent({
     const handleEnhancedTouchStart = (event: TouchEvent) => {
       handleTouchStart(event, (touchEvent) => {
         if (touchEvent.type === 'longpress') {
-          // Long press opens menu and provides haptic feedback
+          // Long press activates the menu (same as click/tap)
           triggerHapticFeedback('medium');
-          if (!menuActive.value) {
-            toggleMenu(event as any);
-          }
+          toggleMenu(event);
         }
       });
 
@@ -541,8 +539,9 @@ export default defineComponent({
     const handleEnhancedTouchEnd = (event: TouchEvent) => {
       handleTouchEnd(event, (touchEvent) => {
         if (touchEvent.type === 'tap') {
-          // Provide light haptic feedback for taps
+          // Tap activates the menu (same as click)
           triggerHapticFeedback('light');
+          toggleMenu(event);
         } else if (touchEvent.type === 'swipe') {
           // Handle swipe gestures
           const swipe = getSwipeDirection();
@@ -655,4 +654,24 @@ export default defineComponent({
 <style lang="scss">
 @use './index';
 @use './styles/accessibility';
+
+/* Fix for double focus indicators */
+.menu-list-item {
+  &.selected,
+  &.highlight {
+    outline: none !important;
+    border: none !important;
+
+    &:focus,
+    &:focus-visible {
+      outline: none !important;
+      border: none !important;
+    }
+  }
+
+  /* Only apply focus style on non-selected/non-highlighted items */
+  &:not(.selected):not(.highlight):focus-visible {
+    outline: 2px solid #007bff;
+  }
+}
 </style>
