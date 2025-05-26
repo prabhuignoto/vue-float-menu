@@ -43,6 +43,13 @@ export type MenuItem = {
   divider?: boolean;
 
   iconSlot?: string;
+
+  /**
+   * Optional click handler for the menu item
+   *
+   * @type {() => void}
+   */
+  click?: () => void;
 };
 
 export type Position = {

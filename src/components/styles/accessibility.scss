@@ -1,3 +1,4 @@
+// Screen reader only content
 .sr-only {
   position: absolute;
   width: 1px;
@@ -10,24 +11,34 @@
   border-width: 0;
 }
 
-/* Ensures focus indicator is visible for keyboard users */
-.menu-list-item:focus-visible {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
+/* Modern focus-visible styles for keyboard navigation */
+/* Use consistent blue color (#007bff) across all focus indicators */
 
-/* Make focus outline visible on the menu head when using keyboard */
+/* Menu head focus indicator */
 .menu-head:focus-visible {
   outline: 2px solid #007bff;
   outline-offset: 2px;
   border-radius: 50%;
 }
 
-/* Improve focus visibility on menu items */
+/* Menu list items focus indicator */
+.menu-list-item:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* General menu item focus (fallback and specific targeting) */
 [role='menuitem']:focus-visible {
   outline: 2px solid #007bff !important;
   outline-offset: -2px !important;
   position: relative;
   z-index: 1;
+}
+
+/* Hide outline for mouse users (focus without focus-visible) */
+.menu-head:focus:not(:focus-visible),
+.menu-list-item:focus:not(:focus-visible),
+[role='menuitem']:focus:not(:focus-visible) {
+  outline: none;
 }

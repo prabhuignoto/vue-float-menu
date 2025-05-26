@@ -6,10 +6,6 @@ $hover-shadow:
   0 20px 25px -5px rgba(0, 0, 0, 0.1),
   0 8px 10px -6px rgba(0, 0, 0, 0.1);
 
-.js-focus-visible :focus:not(.focus-visible) {
-  outline: none;
-}
-
 .menu-head-wrapper {
   position: fixed;
   z-index: 9999;
@@ -168,7 +164,7 @@ $hover-shadow:
   }
 }
 
-@keyframes slideIn {
+@keyframes slide-in {
   0% {
     opacity: 0;
     transform: scale(0.9) translateY(-8px);

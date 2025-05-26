@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      focus-visible:
-        specifier: ^5.2.1
-        version: 5.2.1
     devDependencies:
       '@babel/core':
         specifier: ^7.27.1

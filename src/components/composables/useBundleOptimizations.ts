@@ -48,16 +48,12 @@ export const useBundleOptimizations = () => {
       switch (componentName) {
         case 'TouchOptimizations':
           return await import('./useTouchOptimizations');
-        case 'Accessibility':
-          return await import('./useAccessibility');
         case 'Animations':
           return await import('./useAnimations');
         case 'Performance':
           return await import('./usePerformanceOptimizations');
         case 'ErrorHandling':
           return await import('./useErrorHandling');
-        case 'KeyboardNavigation':
-          return await import('./useKeyboardNavigation');
         default:
           throw new Error(`Unknown component: ${componentName}`);
       }

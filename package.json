@@ -59,9 +59,6 @@
       "prettier --write"
     ]
   },
-  "dependencies": {
-    "focus-visible": "^5.2.1"
-  },
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
