@@ -1,10 +1,8 @@
 import { readFileSync } from 'fs';
 import beep from '@rollup/plugin-beep';
-import babel from '@rollup/plugin-babel';
 import common from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import terser from '@rollup/plugin-terser';
-import typescript from '@rollup/plugin-typescript';
+import esbuild from 'rollup-plugin-esbuild';
 import postcss from 'rollup-plugin-postcss';
 import vue from 'rollup-plugin-vue';
 
@@ -85,40 +83,12 @@ export default {
       inject: false, // Don't inject CSS into JS
     }),
 
-    // Use Babel to handle TypeScript in Vue files
-    babel({
-      babelHelpers: 'bundled',
-      exclude: 'node_modules/**',
-      extensions: ['.js', '.ts', '.vue'],
-      presets: [
-        [
-          '@babel/preset-typescript',
-          {
-            allExtensions: true,
-            isTSX: false,
-          },
-        ],
-      ],
-    }),
-
-    // TypeScript processing for type declarations only
-    typescript({
+    // Use esbuild for TypeScript and JavaScript transpilation
+    esbuild({
+      include: /\.[jt]s$/,
+      minify: true,
+      target: 'esnext',
       tsconfig: './tsconfig.build.json',
-      declaration: true,
-      declarationDir: 'dist/types',
-      emitDeclarationOnly: true,
-      exclude: ['**/*.test.*', '**/*.spec.*', 'src/demo/**/*'],
-    }),
-
-    // Minification
-    terser({
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-      format: {
-        comments: /^!/,
-      },
     }),
 
     // Success notification
