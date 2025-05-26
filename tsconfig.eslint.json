@@ -4,6 +4,10 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/__tests__/**/*",
+    "touchHandlers.ts",
     ".eslintrc.cjs"
   ],
   "exclude": [

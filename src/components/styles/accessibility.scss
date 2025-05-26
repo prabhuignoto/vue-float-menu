@@ -1,0 +1,52 @@
+// Screen reader only content
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Modern focus-visible styles for keyboard navigation */
+/* Use consistent blue color (#007bff) across all focus indicators */
+
+/* Menu head focus indicator */
+.menu-head:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+/* General menu item focus - the primary focus indicator for menu items */
+[role='menuitem']:focus-visible {
+  /* Hide the outline when the menu item is selected or highlighted */
+  &.selected, &.highlight {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+  
+  /* Special case for selected submenu items to avoid double indicators */
+  &.sub-menu.selected .menu-item-wrapper {
+    background-color: var(--hover-background);
+  }
+  
+  /* Only show outline when using keyboard navigation and not selected */
+  &:not(.selected):not(.highlight) {
+    outline: 2px solid #007bff;
+    outline-offset: -2px;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Hide outline for mouse users (focus without focus-visible) */
+.menu-head:focus:not(:focus-visible),
+.menu-list-item:focus:not(:focus-visible),
+[role='menuitem']:focus:not(:focus-visible) {
+  outline: none;
+}

@@ -21,8 +21,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:lib": "vue-tsc --build tsconfig.build.json && vite build",
-    "rollup": "rm -rf ./dist && rollup -c",
+    "build:lib": "pnpm build:rollup",
+    "rollup": "rm -rf ./dist && rollup -c rollup.config.js",
+    "build:rollup": "rm -rf ./dist && rollup -c rollup.config.js",
+    "build:types": "vue-tsc --build tsconfig.build.json --emitDeclarationOnly",
     "type-check": "vue-tsc --noEmit",
     "type-check:watch": "vue-tsc --noEmit --watch",
     "lint": "eslint .",
@@ -57,9 +59,6 @@
       "prettier --write"
     ]
   },
-  "dependencies": {
-    "focus-visible": "^5.2.1"
-  },
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
@@ -72,6 +71,7 @@
     "@rollup/plugin-sucrase": "^5.0.2",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
+    "@types/node": "^22.15.21",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "@vitejs/plugin-vue": "^5.2.4",
@@ -115,9 +115,18 @@
     "@vue/compiler-sfc": "^3.0.4",
     "vue": "^3.0.4"
   },
-  "main": "dist/vue-float-menu.js",
+  "main": "dist/vue-float-menu.cjs",
   "module": "dist/vue-float-menu.js",
   "umd": "dist/vue-float-menu.umd.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-float-menu.js",
+      "require": "./dist/vue-float-menu.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/vue-float-menu.css"
+  },
   "files": [
     "dist"
   ]

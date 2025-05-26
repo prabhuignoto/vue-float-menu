@@ -41,8 +41,11 @@
     "src/**/*.test.*",
     "src/**/*.spec.*",
     "src/**/*.stories.*",
+    "src/main.js",
     "node_modules",
     "dist",
-    "**/*.md"
+    "**/*.md",
+    "index.html",
+    "vite.config.js"
   ]
 }
