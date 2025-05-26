@@ -1,4 +1,10 @@
 $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$modern-shadow:
+  0 8px 25px -5px rgba(0, 0, 0, 0.1),
+  0 8px 10px -6px rgba(0, 0, 0, 0.1);
+$hover-shadow:
+  0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  0 8px 10px -6px rgba(0, 0, 0, 0.1);
 
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
@@ -11,10 +17,10 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   &:not(.drag-active) {
     transition:
-      left 0.2s $cubic,
-      right 0.2s $cubic,
-      top 0.2s $cubic,
-      bottom 0.2s $cubic;
+      left 0.3s $cubic,
+      right 0.3s $cubic,
+      top 0.3s $cubic,
+      bottom 0.3s $cubic;
   }
 }
 
@@ -28,10 +34,32 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   justify-content: center;
   position: relative;
   width: 100%;
-  pointer-events: none;
+  pointer-events: auto;
+  box-shadow: $modern-shadow;
+  transition: all 0.3s $cubic;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: $hover-shadow;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 
   &.menu-active {
-    box-shadow: inset 0 0 12px 4px rgb(0 0 0 / 25%);
+    box-shadow:
+      inset 0 0 12px 4px rgba(0, 0, 0, 0.15),
+      $hover-shadow;
+    transform: scale(1.02);
+  }
+
+  &.drag-active {
+    cursor: grabbing;
+    transform: scale(1.1);
+    box-shadow: $hover-shadow;
   }
 }
 
@@ -39,39 +67,81 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   align-items: center;
   color: #fff;
   display: flex;
-  height: 100%;
+  height: 60%;
   justify-content: center;
-  width: 100%;
+  width: 60%;
+  transition: transform 0.2s $cubic;
 
   svg {
     height: 100%;
     width: 100%;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+  }
+
+  .menu-head.menu-active & {
+    transform: rotate(180deg);
   }
 }
 
 .menu-container {
   align-items: flex-start;
-  border-radius: 4px;
-  box-shadow: rgb(0 0 0 / 20%) 2px 2px 10px 2px;
+  border-radius: 12px;
+  box-shadow: $modern-shadow;
   display: flex;
   justify-content: flex-start;
   max-height: 600px;
-  min-height: 350px;
+  min-height: 300px;
   position: absolute;
   visibility: hidden;
-  width: 250px;
-  background: #fff;
+  width: 260px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: visible;
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 0.25s $cubic,
+    transform 0.25s $cubic,
+    visibility 0s linear 0.25s;
 
   &.menu-active {
-    animation: show 0.15s $cubic;
     visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+    transition:
+      opacity 0.25s $cubic,
+      transform 0.25s $cubic,
+      visibility 0s linear 0s;
   }
 }
 
 .close-btn {
   position: absolute;
-  right: 0;
-  top: -2rem;
+  right: 8px;
+  top: -3rem;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s $cubic;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: white;
+  }
 }
 
 @keyframes show {
@@ -83,5 +153,29 @@ $cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   100% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }

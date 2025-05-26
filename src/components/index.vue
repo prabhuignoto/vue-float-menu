@@ -1,14 +1,14 @@
 <template>
   <div
     ref="menuHeadContainer"
-    :class="[{ dragActive }, 'menu-head-wrapper']"
+    :class="[{ dragActive, 'touch-device': isTouchDevice }, 'menu-head-wrapper']"
     :style="style"
     @mousedown="handleDragStart"
     @mouseup="handleDragEnd"
     @mousemove="handleDragMove"
-    @touchstart="handleDragStart"
-    @touchend="handleDragEnd"
-    @touchmove="handleDragMove"
+    @touchstart="handleEnhancedTouchStart"
+    @touchend="handleEnhancedTouchEnd"
+    @touchmove="handleEnhancedTouchMove"
     @click="toggleMenu"
   >
     <div
@@ -17,7 +17,10 @@
       :class="[{ 'menu-active': menuActive, 'drag-active': dragActive }, 'menu-head']"
       :style="getTheme"
       draggable="false"
-      @keyup="$event.keyCode === 13 && toggleMenu($event)"
+      aria-haspopup="menu"
+      :aria-expanded="menuActive"
+      aria-label="Menu"
+      @keydown="handleKeyboardMenuActivation"
     >
       <span class="menu-head-icon">
         <slot name="icon" />
@@ -31,7 +34,7 @@
       :style="menuCSS"
       draggable="false"
     >
-      <span class="close-btn" @mousedown="handleCloseClick">
+      <span class="close-btn" @mousedown="handleCloseClick" @touchstart="handleCloseClick">
         <XIcon />
       </span>
       <MenuComponent
@@ -42,6 +45,7 @@
         :theme="theme"
         :on-close="handleMenuClose"
         :menu-style="computedMenuStyle"
+        :is-touch-device="isTouchDevice"
       >
         <template v-for="slot in Object.keys($slots)" #[slot]="scope">
           <slot :name="slot" v-bind="scope" />
@@ -59,11 +63,10 @@ import MenuIcon from './icons/MenuIcon.vue';
 import XIcon from './icons/XIcon.vue';
 import MenuComponent from './Menu.vue';
 import Props from './props';
+import { useTouchOptimizations } from './composables/useTouchOptimizations';
+import { useBundleOptimizations } from './composables/useBundleOptimizations';
+import type { Position } from '../types';
 
-interface Position {
-  left: number;
-  top: number;
-}
 export default defineComponent({
   name: 'FloatMenu',
   components: {
@@ -73,6 +76,20 @@ export default defineComponent({
   },
   props: Props,
   setup(props, { slots }) {
+    // Bundle optimizations for performance
+    const { measurePerformance, markAsUsed } = useBundleOptimizations();
+
+    // Touch optimizations
+    const {
+      isTouchDevice,
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
+      getSwipeDirection,
+      triggerHapticFeedback,
+      ensureTouchTarget,
+    } = useTouchOptimizations();
+
     // position of the circular menu head
     const position = ref<Position | null>(null);
 
@@ -112,9 +129,6 @@ export default defineComponent({
       unref(moveEvent) === 'touchmove' ? 'accordion' : props.menuStyle
     );
 
-    // sets the initial style
-    const getInitStyle = computed(() => utils.setupInitStyle(props.position, props.dimension));
-
     const isRevealing = ref(false);
 
     // compute the style
@@ -132,6 +146,9 @@ export default defineComponent({
         return {};
       }
     });
+
+    // Check if slots are empty
+    const slotsEmpty = computed(() => !Object.keys(slots).length);
 
     // manages the orientation of the menu (top or bottom)
     // when enough space is not available on either top or bottom, the menu is automatically flipped
@@ -222,8 +239,8 @@ export default defineComponent({
             top > 0 && top < window.innerHeight - props.dimension
               ? top
               : top < 0
-              ? 0
-              : top - props.dimension,
+                ? 0
+                : top - props.dimension,
         };
       }
     };
@@ -273,30 +290,67 @@ export default defineComponent({
 
     // open/close the menu
     const toggleMenu = (event: MouseEvent | KeyboardEvent) => {
-      if (dragActive.value) {
-        return;
-      }
+      measurePerformance('toggleMenu', () => {
+        markAsUsed('menuToggle');
 
-      event.stopPropagation();
-      event.preventDefault();
-
-      const classes = Array.from((event.target as HTMLElement).classList);
-
-      if (classes.some((cls) => cls === 'menu-list-item')) {
-        return;
-      }
-
-      if (!menuActive.value) {
-        setupMenuOrientation();
-        adjustFloatMenuPosition(menuHead.value as HTMLElement);
-      } else {
-        if (isRevealing.value) {
-          position.value = previousPosition.value;
+        if (dragActive.value) {
+          return;
         }
-      }
 
-      nextTick(() => {
-        menuActive.value = !menuActive.value;
+        event.stopPropagation();
+        event.preventDefault();
+
+        const classes = Array.from((event.target as HTMLElement).classList);
+
+        if (classes.some((cls) => cls === 'menu-list-item')) {
+          return;
+        }
+
+        if (!menuActive.value) {
+          // Clean up any existing state first
+          dragStart.value = false;
+          dragActive.value = false;
+
+          setupMenuOrientation();
+          adjustFloatMenuPosition(menuHead.value as HTMLElement);
+
+          const menuContainerEl = menuContainer.value;
+          if (menuContainerEl && menuContainerEl.getAnimations) {
+            // Cancel any lingering animations
+            menuContainerEl.getAnimations().forEach((anim: Animation) => anim.cancel());
+          }
+
+          // Set menu active
+          menuActive.value = true;
+
+          // Focus the menu container after it's been activated
+          nextTick(() => {
+            if (menuContainer.value) {
+              const menuElement = menuContainer.value.querySelector('.menu-wrapper');
+              if (menuElement) {
+                menuElement.focus();
+
+                // Announce menu opening to screen readers
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = 'Menu opened';
+                document.body.appendChild(announcement);
+                setTimeout(() => document.body.removeChild(announcement), 1000);
+              }
+            }
+          });
+        } else {
+          menuActive.value = false;
+          if (isRevealing.value) {
+            position.value = previousPosition.value;
+          }
+        }
+
+        // No longer needed as we're setting menuActive directly above
+        // nextTick(() => {
+        //   menuActive.value = !menuActive.value;
+        // });
       });
     };
 
@@ -305,29 +359,111 @@ export default defineComponent({
       if (keyCode === 'ArrowLeft' || keyCode === 'ArrowRight') {
         return;
       }
-      menuActive.value = false;
-      if (isRevealing.value) {
-        position.value = previousPosition.value;
-      }
 
-      nextTick(() => {
-        menuHead.value?.focus();
-      });
+      // Get the menu container element
+      const menuContainerEl = menuContainer.value;
+
+      if (menuContainerEl) {
+        // Apply closing animation with Web Animation API
+        const animation = menuContainerEl.animate(
+          [
+            { opacity: 1, transform: 'scale(1)' },
+            { opacity: 0, transform: 'scale(0.95)' },
+          ],
+          {
+            duration: 250,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            fill: 'forwards',
+          }
+        ); // Clean up any existing animations
+        if (menuContainerEl.getAnimations) {
+          const existingAnimations = menuContainerEl.getAnimations();
+          existingAnimations.forEach((anim: Animation) => {
+            if (anim !== animation) anim.cancel();
+          });
+        }
+
+        animation.onfinish = () => {
+          menuActive.value = false;
+          if (isRevealing.value) {
+            position.value = previousPosition.value;
+          }
+          // Reset menu state after animation
+          dragStart.value = false;
+          dragActive.value = false;
+
+          nextTick(() => {
+            if (menuHead.value) {
+              menuHead.value.focus();
+            }
+          });
+        };
+      } else {
+        // Fallback if container element isn't available
+        menuActive.value = false;
+        dragStart.value = false;
+        dragActive.value = false;
+        if (isRevealing.value) {
+          position.value = previousPosition.value;
+        }
+
+        nextTick(() => {
+          menuHead.value?.focus();
+        });
+      }
     };
 
     // handle close button click
-    const handleCloseClick = (event: MouseEvent) => {
+    const handleCloseClick = (event: MouseEvent | TouchEvent) => {
       event.stopPropagation();
+      event.preventDefault();
+
+      // Provide haptic feedback for touch devices
+      if (isTouchDevice.value) {
+        triggerHapticFeedback('light');
+      }
+
       handleMenuClose();
     };
 
     // handler for selection
     const handleMenuItemSelection = (name: string) => {
-      menuActive.value = false;
+      measurePerformance('menuItemSelection', () => {
+        markAsUsed('menuItemSelection');
 
-      if (props.onSelected) {
-        props.onSelected(name);
-      }
+        // Get the menu container element
+        const menuContainerEl = menuContainer.value;
+
+        if (menuContainerEl) {
+          // Apply closing animation with Web Animation API
+          const animation = menuContainerEl.animate(
+            [
+              { opacity: 1, transform: 'scale(1)' },
+              { opacity: 0, transform: 'scale(0.95)' },
+            ],
+            {
+              duration: 250,
+              easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              fill: 'forwards',
+            }
+          );
+
+          animation.onfinish = () => {
+            menuActive.value = false;
+
+            if (props.onSelected) {
+              props.onSelected(name);
+            }
+          };
+        } else {
+          // Fallback if container element isn't available
+          menuActive.value = false;
+
+          if (props.onSelected) {
+            props.onSelected(name);
+          }
+        }
+      });
     };
 
     const getTheme = computed(() => ({
@@ -374,32 +510,150 @@ export default defineComponent({
       dragStart.value = false;
     };
 
-    const slotsEmpty = computed(() => !Object.keys(slots).length);
+    // Handle keyboard activation of menu (Space and Enter keys)
+    const handleKeyboardMenuActivation = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' || event.key === ' ' || event.key === 'Space') {
+        event.preventDefault();
+        toggleMenu(event);
+      }
+    };
+
+    // Enhanced touch handlers
+    const handleEnhancedTouchStart = (event: TouchEvent) => {
+      handleTouchStart(event, (touchEvent) => {
+        if (touchEvent.type === 'longpress') {
+          // Long press opens menu and provides haptic feedback
+          triggerHapticFeedback('medium');
+          if (!menuActive.value) {
+            toggleMenu(event as any);
+          }
+        }
+      });
+
+      // Also handle normal drag functionality
+      handleDragStart(event);
+    };
+
+    const handleEnhancedTouchMove = (event: TouchEvent) => {
+      handleTouchMove(event);
+      handleDragMove();
+    };
+
+    const handleEnhancedTouchEnd = (event: TouchEvent) => {
+      handleTouchEnd(event, (touchEvent) => {
+        if (touchEvent.type === 'tap') {
+          // Provide light haptic feedback for taps
+          triggerHapticFeedback('light');
+        } else if (touchEvent.type === 'swipe') {
+          // Handle swipe gestures
+          const swipe = getSwipeDirection();
+          if (swipe && menuActive.value) {
+            // Use our enhanced swipe to close handler
+            handleSwipeToClose(swipe.direction);
+          }
+        }
+      });
+
+      // Also handle normal drag functionality
+      handleDragEnd(event);
+    };
+
+    // Enhanced swipe handling for menu closing
+    const handleSwipeToClose = (swipeDirection: string) => {
+      if (
+        menuActive.value &&
+        (swipeDirection === 'up' || swipeDirection === 'down' || swipeDirection === 'left')
+      ) {
+        const menuContainerEl = menuContainer.value;
+
+        if (menuContainerEl) {
+          // Determine animation based on swipe direction
+          const transformEnd =
+            swipeDirection === 'up'
+              ? 'translateY(-20px)'
+              : swipeDirection === 'down'
+                ? 'translateY(20px)'
+                : 'translateX(-20px)';
+
+          // Apply closing animation with Web Animation API
+          const animation = menuContainerEl.animate(
+            [
+              { opacity: 1, transform: 'scale(1)' },
+              { opacity: 0, transform: `scale(0.95) ${transformEnd}` },
+            ],
+            {
+              duration: 250,
+              easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              fill: 'forwards',
+            }
+          );
+
+          animation.onfinish = () => {
+            menuActive.value = false;
+            if (isRevealing.value) {
+              position.value = previousPosition.value;
+            }
+
+            nextTick(() => {
+              menuHead.value?.focus();
+            });
+          };
+
+          // Provide haptic feedback
+          if (isTouchDevice.value) {
+            triggerHapticFeedback('light');
+          }
+
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    // Enhanced accessibility for touch devices
+    nextTick(() => {
+      if (menuHeadContainer.value) {
+        ensureTouchTarget(menuHeadContainer.value);
+      }
+    });
 
     return {
+      // Expose refs
+      menuHead,
+      menuHeadContainer,
+      menuContainer,
+      position,
+      menuActive,
       dragActive,
-      flipMenu,
-      getInitStyle,
-      getTheme,
-      handleMenuClose,
-      handleMenuItemSelection,
-      handleCloseClick,
+      isTouchDevice,
       slotsEmpty,
       menuOrientation,
-      menuActive,
-      menuContainer,
-      menuHead,
       menuCSS,
+      flipMenu,
+      // Expose computed
       style,
+      computedMenuStyle,
+      getTheme,
+      // Expose methods
       toggleMenu,
-      menuHeadContainer,
+      handleMenuClose,
+      handleCloseClick,
+      handleMenuItemSelection,
       handleDragStart,
       handleDragMove,
       handleDragEnd,
-      computedMenuStyle,
+      handleEnhancedTouchStart,
+      handleEnhancedTouchMove,
+      handleEnhancedTouchEnd,
+      handleKeyboardMenuActivation,
+      handleSwipeToClose,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped src="./index.scss"></style>
+<style lang="scss">
+@use './index';
+@use './styles/accessibility';
+</style>

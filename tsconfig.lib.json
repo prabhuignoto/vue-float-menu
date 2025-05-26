@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/components/**/*",
+    "src/types/**/*",
+    "src/utils/**/*",
+    "src/index.ts",
+    "src/vue-float-menu.js"
+  ],
+  "exclude": [
+    "src/demo/**/*",
+    "src/**/*.test.*",
+    "src/**/*.spec.*",
+    "src/**/__tests__/**/*",
+    "src/main.js",
+    "node_modules",
+    "dist"
+  ]
+}

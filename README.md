@@ -22,6 +22,8 @@
 - 👓 The smart menu system detects the edges of the screen and flips the menu automatically.
 - 👍 Support for nested menus.
 - ⌨ Keyboard Accessible.
+- 📱 **Enhanced Touch Support** - [Touch Optimizations Guide](./TOUCH_FEATURES.md)
+- ⚡ **Bundle Optimizations** - [Bundle Optimization Guide](./BUNDLE_OPTIMIZATION.md)
 - 🌈 Support for custom [themes](#-theme).
 - 💪 Built with [Typescript](https://www.typescriptlang.org/).
 - 🧰 Intuitive [API](#props) with data driven behavior.

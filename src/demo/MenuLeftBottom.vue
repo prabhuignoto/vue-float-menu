@@ -5,11 +5,11 @@
     :on-selected="handleSelection"
     flip-on-edges
     :theme="{
-      primary: '#FF1493',
-      textColor: '#000',
-      menuBgColor: '#fff',
-      textSelectedColor: '#000',
-      hoverBackground: '#ffe7f4',
+      primary: '#10b981',
+      textColor: '#374151',
+      menuBgColor: 'rgba(255, 255, 255, 0.95)',
+      textSelectedColor: '#1f2937',
+      hoverBackground: 'rgba(16, 185, 129, 0.1)',
     }"
     menu-orientation="top"
   >

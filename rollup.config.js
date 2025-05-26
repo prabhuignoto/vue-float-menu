@@ -2,6 +2,7 @@ import { readFileSync } from 'fs';
 import beep from '@rollup/plugin-beep';
 import common from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
 import esbuild from 'rollup-plugin-esbuild';
 import postcss from 'rollup-plugin-postcss';
 import vue from 'rollup-plugin-vue';
@@ -17,88 +18,138 @@ const banner = `/*
  */
 `;
 
-export default {
-  input: 'src/vue-float-menu.js',
-  output: [
-    {
-      file: pkg.main,
+// Base plugins configuration (shared between builds)
+const createPlugins = (extractCSS = true) => [
+  // Resolve dependencies
+  resolve({
+    browser: true,
+    preferBuiltins: false,
+    extensions: ['.js', '.ts', '.vue'],
+  }),
+
+  // Handle CommonJS dependencies
+  common({
+    exclude: 'src/**',
+  }),
+
+  // Process Vue files
+  vue({
+    css: false, // Always let postcss handle CSS extraction
+    compileTemplate: true,
+    preprocessStyles: true,
+    template: {
+      isProduction: true,
+      compilerOptions: {
+        whitespace: 'condense',
+      },
+    },
+  }),
+
+  // Process CSS/SCSS files
+  postcss({
+    extract: extractCSS ? 'vue-float-menu.css' : false,
+    minimize: true,
+    use: [
+      [
+        'sass',
+        {
+          includePaths: ['node_modules', 'src'],
+        },
+      ],
+    ],
+    extensions: ['.css', '.scss', '.sass'],
+    inject: !extractCSS, // Inject CSS if not extracting
+  }),
+
+  // Use esbuild for TypeScript and JavaScript transpilation
+  esbuild({
+    include: /\.[jt]s$/,
+    minify: false, // Let terser handle minification for better control
+    target: 'es2020', // More compatible target
+    tsconfig: './tsconfig.build.json',
+  }),
+
+  // Minify JavaScript with terser for better compression
+  terser({
+    format: {
+      comments: /^!/,
+    },
+    compress: {
+      drop_console: true,
+      drop_debugger: true,
+    },
+  }),
+
+  // Success notification
+  beep(),
+];
+
+// Export configurations
+export default [
+  // ES Module build (for modern bundlers)
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/vue-float-menu.js',
       format: 'es',
       exports: 'named',
-      strict: true,
       banner,
       sourcemap: true,
+      inlineDynamicImports: true, // Added to prevent chunking
     },
-    {
-      file: pkg.umd,
+    plugins: createPlugins(true), // Extract CSS for ES build
+    external: ['vue'],
+    onwarn(warning, warn) {
+      // Suppress certain warnings
+      if (warning.code === 'THIS_IS_UNDEFINED') return;
+      if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+      warn(warning);
+    },
+  },
+
+  // UMD build (for direct browser usage)
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/vue-float-menu.umd.js',
       format: 'umd',
       exports: 'named',
-      strict: true,
       banner,
       name: 'VueFloatMenu',
       sourcemap: true,
+      inlineDynamicImports: true, // Fixed: moved to output config
       globals: {
         vue: 'Vue',
       },
     },
-  ],
-  plugins: [
-    // Resolve dependencies first
-    resolve({
-      browser: true,
-      preferBuiltins: false,
-      extensions: ['.js', '.ts', '.vue'],
-    }),
-
-    // Handle CommonJS dependencies
-    common({
-      exclude: 'src/**',
-    }),
-
-    // Process Vue files with CSS handling
-    vue({
-      css: true, // Let Vue handle CSS internally
-      compileTemplate: true,
-      preprocessStyles: true,
-      template: {
-        isProduction: true,
-        compilerOptions: {
-          whitespace: 'condense',
-        },
-      },
-    }),
-
-    // Process CSS/SCSS files (including those extracted by Vue)
-    postcss({
-      extract: 'vue-float-menu.css',
-      minimize: true,
-      use: [
-        [
-          'sass',
-          {
-            includePaths: ['node_modules', 'src'],
-          },
-        ],
-      ],
-      extensions: ['.css', '.scss', '.sass'],
-      inject: false, // Don't inject CSS into JS
-    }),
-
-    // Use esbuild for TypeScript and JavaScript transpilation
-    esbuild({
-      include: /\.[jt]s$/,
-      minify: true,
-      target: 'esnext',
-      tsconfig: './tsconfig.build.json',
-    }),
-
-    // Success notification
-    beep(),
-  ],
-  external: ['vue'],
-  onwarn(warning, warn) {
-    // Suppress certain warnings
-    if (warning.code === 'THIS_IS_UNDEFINED') return;
-    if (warning.code === 'CIRCULAR_DEPENDENCY') return;
-    warn(warning);
+    plugins: createPlugins(false), // Don't extract CSS for UMD (inject instead)
+    external: ['vue'],
+    onwarn(warning, warn) {
+      // Suppress certain warnings
+      if (warning.code === 'THIS_IS_UNDEFINED') return;
+      if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+      warn(warning);
+    },
   },
-};
+
+  // CommonJS build (for Node.js compatibility)
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/vue-float-menu.cjs',
+      format: 'cjs',
+      exports: 'named',
+      banner,
+      sourcemap: true,
+      inlineDynamicImports: true, // Added to prevent chunking
+    },
+    plugins: createPlugins(false), // Don't extract CSS for CJS
+    external: ['vue'],
+    onwarn(warning, warn) {
+      // Suppress certain warnings
+      if (warning.code === 'THIS_IS_UNDEFINED') return;
+      if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+      warn(warning);
+    },
+  },
+];

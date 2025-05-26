@@ -1,0 +1,33 @@
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Ensures focus indicator is visible for keyboard users */
+.menu-list-item:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Make focus outline visible on the menu head when using keyboard */
+.menu-head:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+/* Improve focus visibility on menu items */
+[role='menuitem']:focus-visible {
+  outline: 2px solid #007bff !important;
+  outline-offset: -2px !important;
+  position: relative;
+  z-index: 1;
+}
