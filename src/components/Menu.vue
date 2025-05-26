@@ -127,19 +127,6 @@ export default defineComponent({
     // resolve this component for usage innested menus
     const SubMenuComponent = resolveComponent('FloatMenu');
 
-    const selectMenuItem = (
-      name?: string,
-      id?: string,
-      subMenu?: boolean,
-      selectFirstItem?: boolean
-    ) => {
-      if (!subMenu) {
-        name && props?.onSelection(name);
-      } else {
-        toggleMenu(id, selectFirstItem);
-      }
-    };
-
     // expands the submenu
     const toggleMenu = (id?: string, selectFirstItem?: boolean) => {
       menuItems.value = menuItems.value.map((item) =>
@@ -157,6 +144,19 @@ export default defineComponent({
               : item.subMenu,
         })
       );
+    };
+
+    const selectMenuItem = (
+      name?: string,
+      id?: string,
+      subMenu?: boolean,
+      selectFirstItem?: boolean
+    ) => {
+      if (!subMenu) {
+        name && props?.onSelection(name);
+      } else {
+        toggleMenu(id, selectFirstItem);
+      }
     };
 
     const handleMenuItemClick = (
@@ -253,7 +253,7 @@ export default defineComponent({
         if (item.subMenu) {
           toggleMenu(item.id, true);
         } else {
-          selectMenuItem(item.name, item.id, !!item.subMenu);
+          selectMenuItem(item.name, item.id, Boolean(item.subMenu));
         }
         // handle right arrow
       } else if (keyCode === 'ArrowRight') {

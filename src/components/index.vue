@@ -196,8 +196,8 @@ export default defineComponent({
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
 
       position.value = {
-        left: +intialStyle.left.replace(/px/gi, ''),
-        top: +intialStyle.top.replace(/px/gi, ''),
+        left: Number(intialStyle.left.replace(/px/gi, '')),
+        top: Number(intialStyle.top.replace(/px/gi, '')),
       };
     };
 
@@ -232,8 +232,8 @@ export default defineComponent({
       // setup the initial style on load
       const intialStyle = utils.setupInitStyle(props.position, props.dimension);
       const initPosition = {
-        left: +intialStyle.left.replace(/px/gi, ''),
-        top: +intialStyle.top.replace(/px/gi, ''),
+        left: Number(intialStyle.left.replace(/px/gi, '')),
+        top: Number(intialStyle.top.replace(/px/gi, '')),
       };
       position.value = initPosition;
       previousPosition.value = initPosition;
