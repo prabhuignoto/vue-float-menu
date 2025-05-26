@@ -29,8 +29,8 @@
     "lint:fix": "eslint . --fix",
     "lint:js": "eslint --ext .js,.ts .",
     "lint:js:fix": "eslint --ext .js,.ts . --fix",
-    "lint:css": "stylelint \"src/**/*.{vue,scss}\" --custom-syntax postcss-scss",
-    "lint:css:fix": "stylelint \"src/**/*.{vue,scss}\" --custom-syntax postcss-scss --fix",
+    "lint:css": "stylelint \"src/**/*.{vue,scss,css}\"",
+    "lint:css:fix": "stylelint \"src/**/*.{vue,scss,css}\" --fix",
     "lint:all": "pnpm lint && pnpm lint:css && pnpm type-check",
     "lint:fix:all": "pnpm lint:fix && pnpm lint:css:fix",
     "prepare": "husky install",
@@ -49,11 +49,11 @@
     ],
     "*.vue": [
       "eslint --fix",
-      "stylelint --custom-syntax postcss-html --fix",
+      "stylelint --fix",
       "prettier --write"
     ],
-    "*.scss": [
-      "stylelint --custom-syntax postcss-scss --fix",
+    "*.{scss,css}": [
+      "stylelint --fix",
       "prettier --write"
     ]
   },
@@ -98,7 +98,10 @@
     "sass": "^1.89.0",
     "stylelint": "^16.19.1",
     "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-recommended-vue": "^1.6.0",
     "stylelint-config-standard": "^38.0.0",
+    "stylelint-config-standard-scss": "^15.0.1",
+    "stylelint-scss": "^6.12.0",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
