@@ -4,7 +4,7 @@
     <div class="hero">
       <div class="hero-header">
         <div class="logo-container">
-          <img src="/social-media-logo-small.png" alt="Vue Float Menu Logo" />
+          <!-- <img src="/social-media-logo-small.png" alt="Vue Float Menu Logo" /> -->
           <div class="hero-title">
             <h1>Vue Float Menu</h1>
             <p class="hero-subtitle">Smart floating menu for Vue 3 applications</p>
