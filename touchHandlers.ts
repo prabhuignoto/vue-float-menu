@@ -12,19 +12,19 @@ interface SwipeData {
 // Mock implementations - replace with actual imports/implementations
 const menuActive = ref(false);
 
-const handleTouchStart = (event: TouchEvent, callback: (touchEvent: TouchEventData) => void) => {
+const handleTouchStart = (_event: TouchEvent, _callback: (touchEvent: TouchEventData) => void) => {
   // Implementation needed
 };
 
-const handleTouchMove = (event: TouchEvent) => {
+const handleTouchMove = (_event: TouchEvent) => {
   // Implementation needed
 };
 
-const handleTouchEnd = (event: TouchEvent, callback: (touchEvent: TouchEventData) => void) => {
+const handleTouchEnd = (_event: TouchEvent, _callback: (touchEvent: TouchEventData) => void) => {
   // Implementation needed
 };
 
-const handleDragStart = (event: TouchEvent) => {
+const handleDragStart = (_event: TouchEvent) => {
   // Implementation needed
 };
 
@@ -32,15 +32,15 @@ const handleDragMove = () => {
   // Implementation needed
 };
 
-const handleDragEnd = (event: TouchEvent) => {
+const handleDragEnd = (_event: TouchEvent) => {
   // Implementation needed
 };
 
-const triggerHapticFeedback = (intensity: 'light' | 'medium' | 'heavy') => {
+const triggerHapticFeedback = (_intensity: 'light' | 'medium' | 'heavy') => {
   // Implementation needed
 };
 
-const toggleMenu = (event: TouchEvent) => {
+const toggleMenu = (_event: TouchEvent) => {
   // Implementation needed
 };
 
@@ -54,7 +54,7 @@ const handleMenuClose = () => {
 };
 
 // Enhanced touch handlers
-const handleEnhancedTouchStart = (event: TouchEvent) => {
+export const handleEnhancedTouchStart = (event: TouchEvent) => {
   handleTouchStart(event, (touchEvent: TouchEventData) => {
     if (touchEvent.type === 'longpress') {
       // Long press opens menu and provides haptic feedback
@@ -69,12 +69,12 @@ const handleEnhancedTouchStart = (event: TouchEvent) => {
   handleDragStart(event);
 };
 
-const handleEnhancedTouchMove = (event: TouchEvent) => {
+export const handleEnhancedTouchMove = (event: TouchEvent) => {
   handleTouchMove(event);
   handleDragMove();
 };
 
-const handleEnhancedTouchEnd = (event: TouchEvent) => {
+export const handleEnhancedTouchEnd = (event: TouchEvent) => {
   handleTouchEnd(event, (touchEvent: TouchEventData) => {
     if (touchEvent.type === 'tap') {
       // Provide light haptic feedback for taps

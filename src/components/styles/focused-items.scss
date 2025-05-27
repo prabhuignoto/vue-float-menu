@@ -19,30 +19,30 @@ li.menu-list-item[role="menuitem"]:focus-visible {
   border-color: transparent !important;
 }
 
-/* Ensure no borders on Edit button which has the specific highlight */
-.menu-list-item:has(.name:contains("Edit")):focus-visible {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
 /* Direct CSS override to remove the blue border completely */
 .menu-list-item {
   &:focus {
     outline: none !important;
     border-color: transparent !important;
   }
-  
+
   &:focus-visible {
     outline: none !important;
     border-color: transparent !important;
   }
   
-  /* Keep the focus style only for keyboard navigation on non-highlighted items */
-  &:not(.selected):not(.highlight):focus-visible {
+  /* Ensure proper order of selectors to avoid specificity issues */
+  &:not(.selected, .highlight):focus-visible {
     outline: 2px solid #007bff;
     outline-offset: -2px;
   }
+}
+
+/* Ensure no borders on Edit button which has the specific highlight */
+.menu-list-item:has(.name:contains("Edit")):focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* Completely eliminate all double borders */

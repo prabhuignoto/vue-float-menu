@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import FloatMenu from '../index.vue';
-import { nextTick } from 'vue';
 
 describe('Menu Close Animation', () => {
   let wrapper;

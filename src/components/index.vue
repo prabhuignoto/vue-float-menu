@@ -670,7 +670,7 @@ export default defineComponent({
   }
 
   /* Only apply focus style on non-selected/non-highlighted items */
-  &:not(.selected):not(.highlight):focus-visible {
+  &:not(.selected, .highlight):focus-visible {
     outline: 2px solid #007bff;
   }
 }

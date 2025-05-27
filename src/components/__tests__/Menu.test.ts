@@ -365,7 +365,7 @@ describe('Menu.vue', () => {
       const wrapper = mount(Menu, {
         props: {
           ...defaultProps,
-          data: null as any,
+          data: null as unknown,
         },
       });
 
@@ -384,7 +384,7 @@ describe('Menu.vue', () => {
       });
 
       // Trigger error by setting invalid state
-      wrapper.vm.menuItems = null as any;
+      wrapper.vm.menuItems = null as unknown;
 
       const menuWrapper = wrapper.find('.menu-wrapper');
       await menuWrapper.trigger('keyup', { key: 'ArrowDown' });
@@ -419,7 +419,7 @@ describe('Menu.vue', () => {
       });
 
       const menuItems = wrapper.findAll('.menu-list-item');
-      menuItems.forEach((item: any) => {
+      menuItems.forEach((item: ReturnType<typeof wrapper.find>) => {
         if (!item.classes().includes('divider')) {
           expect(item.classes()).toContain('flip');
         }

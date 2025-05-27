@@ -36,7 +36,7 @@
   }
   
   /* Only show outline when using keyboard navigation and not selected */
-  &:not(.selected):not(.highlight) {
+  &:not(.selected, .highlight) {
     outline: 2px solid #007bff;
     outline-offset: -2px;
     position: relative;
