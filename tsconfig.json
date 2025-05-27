@@ -72,7 +72,11 @@
     "dist",
     "rollup.config.js",
     "vite.config.js",
-    "eslint.config.js"
+    "eslint.config.js",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/__tests__/**/*",
+    "src/demo/**/*"
   ],
   "ts-node": {
     "esm": true

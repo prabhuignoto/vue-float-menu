@@ -43,6 +43,13 @@ export type MenuItem = {
   divider?: boolean;
 
   iconSlot?: string;
+
+  /**
+   * Optional click handler for the menu item
+   *
+   * @type {() => void}
+   */
+  click?: () => void;
 };
 
 export type Position = {
@@ -121,9 +128,44 @@ export interface Theme {
 }
 
 export const ThemeDefault = {
-  primary: '#0080ff',
-  textColor: '#000',
-  menuBgColor: '#fff',
-  textSelectedColor: '#fff',
-  hoverBackground: '#89c4ff',
+  primary: '#4f46e5', // Modern indigo
+  textColor: '#374151', // Professional gray
+  menuBgColor: 'rgba(255, 255, 255, 0.95)', // Semi-transparent white
+  textSelectedColor: '#1f2937', // Dark gray for selected text
+  hoverBackground: 'rgba(79, 70, 229, 0.1)', // Light indigo for hover
 };
+
+// Bundle optimization types
+export interface BundleOptimization {
+  memory?: {
+    used: number;
+    total: number;
+    limit: number;
+  };
+  isSlowNetwork?: boolean;
+  isDevelopment?: boolean;
+  isProduction?: boolean;
+}
+
+// Component instance type for Vue
+export interface FloatMenuInstance {
+  toggleMenu: () => void;
+  closeMenu: () => void;
+  openMenu: () => void;
+  isMenuActive: () => boolean;
+}
+
+// Props interface for the component
+export interface FloatMenuProps {
+  dimension?: number;
+  position?: string;
+  fixed?: boolean;
+  menuDimension?: { height: number; width: number };
+  menuData?: MenuItem[];
+  useCustomContent?: boolean;
+  onSelected?: (val: string) => void;
+  flipOnEdges?: boolean;
+  theme?: Theme;
+  preserveMenuPosition?: boolean;
+  menuStyle?: string;
+}

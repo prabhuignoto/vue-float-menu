@@ -1,0 +1,232 @@
+$shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+$hover-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+$transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+.menu-wrapper {
+  align-items: flex-start;
+  display: flex;
+  height: 100%;
+  justify-content: flex-start;
+  width: 100%;
+  outline: 0;
+  z-index: 9999;
+  padding: 8px;
+}
+
+.sub-menu-wrapper {
+  animation: show 0.2s ease-out;
+  min-width: 180px;
+
+  &.slide-out {
+    border-radius: 8px;
+    box-shadow: $shadow;
+    left: 102%;
+    position: absolute;
+    background: var(--menu-background);
+    top: 0;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  &.accordion {
+    width: 99%;
+    margin-left: auto;
+    max-height: 900px;
+    transition: max-height 0.3s ease;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+}
+
+.chev-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+  transition: $transition;
+  opacity: 0.7;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+  }
+
+  &.show-submenu {
+    transform: rotate(90deg);
+  }
+}
+
+.menu-list {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  width: 100%;
+  gap: 2px;
+
+  .name {
+    padding-left: 0.75rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: $transition;
+
+    &.disabled {
+      opacity: 0.4;
+    }
+  }
+}
+
+.menu-item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
+  border-radius: 6px;
+  transition: $transition;
+
+  &.slide-out {
+    .name {
+      order: 1;
+      flex: 1;
+    }
+
+    .chev-icon {
+      order: 2;
+      margin-left: auto;
+    }
+  }
+
+  &.accordion {
+    .name {
+      order: 2;
+      flex: 1;
+    }
+
+    .chev-icon {
+      order: 1;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  padding: 0 8px;
+  opacity: 0.8;
+  transition: $transition;
+}
+  width: 20px;
+  padding: 0 5px;
+}
+
+.menu-list-item {
+  align-items: center;
+  color: var(--menu-text-color);
+  cursor: pointer;
+  display: flex;
+  font-size: 0.9rem;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+
+  &.divider {
+    height: 1rem;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.accordion {
+    flex-direction: column;
+
+    &.selected:not(.divider) {
+      max-height: 900px;
+    }
+  }
+
+  &.slide-out:not(.divider) {
+    height: 2.5rem;
+
+    &:hover {
+      background-color: var(--hover-background);
+      color: var(--text-selected-color);
+    }
+  }
+
+  &:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  &.selected {
+    background-color: rgba(#cccc, 0.5);
+  }
+
+  &.highlight {
+    border: 1px solid red;
+  }
+
+  &.flip {
+    .name {
+      margin-left: auto;
+      order: 2;
+      padding-left: 0;
+      padding-right: 0.5rem;
+    }
+
+    .chev-icon {
+      margin-left: 0;
+      order: 1;
+      transform: rotate(-180deg);
+    }
+
+    .sub-menu-wrapper {
+      left: auto;
+      right: 102%;
+    }
+
+    .menu-item-icon {
+      order: 3;
+    }
+  }
+
+  &.disabled {
+    cursor: default;
+  }
+}
+
+.menu-item-divider {
+  width: 95%;
+  background: rgb(0 0 0 / 10%);
+  display: block;
+  height: 1px;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

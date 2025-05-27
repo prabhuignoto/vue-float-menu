@@ -1,9 +1,6 @@
-$shadow:
-  0 8px 25px -5px rgba(0, 0, 0, 0.1),
-  0 8px 10px -6px rgba(0, 0, 0, 0.1);
+$shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 $hover-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
 $transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-$submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .menu-wrapper {
   align-items: flex-start;
@@ -17,47 +14,33 @@ $submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .sub-menu-wrapper {
+  animation: show 0.2s ease-out;
   min-width: 180px;
+  position: absolute;
   background: var(--menu-background);
   border-radius: 8px;
   box-shadow: $shadow;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  z-index: 50000;
+  z-index: 10000;
 
   &.slide-out {
-    position: absolute;
     left: 102%;
     top: 0;
   }
 
   &.accordion {
-    position: relative;
-    width: 99%;
-    margin-left: auto;
-    max-height: 900px;
-    transition: max-height 0.3s ease;
-    border-radius: 6px;
+    left: 102%;
+    top: 0;
+    width: auto;
+    max-height: none;
+    transition: all 0.3s ease;
     overflow: visible;
-
-    &.accordion-submenu {
-      position: absolute !important;
-      left: 100% !important;
-      top: 0 !important;
-      z-index: 50001 !important;
-      width: auto !important;
-      min-width: 180px !important;
-      margin-left: 8px !important;
-      overflow: visible !important;
-      box-shadow: $shadow !important;
-      border-radius: 8px !important;
-      background: var(--menu-background) !important;
-    }
   }
 }
 
 .chev-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   display: block;
   transition: $transition;
   opacity: 0.7;
@@ -138,24 +121,11 @@ $submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
-  width: 32px;
+  height: 20px;
+  width: 20px;
   padding: 0 8px;
   opacity: 0.8;
   transition: $transition;
-
-  // Ensure SVGs scale properly
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  // Ensure images scale properly
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
 }
 
 .menu-list-item {
@@ -181,7 +151,6 @@ $submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   &.accordion {
     flex-direction: column;
-    position: relative;
 
     &.selected:not(.divider) {
       max-height: 900px;
@@ -213,9 +182,6 @@ $submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     background-color: var(--hover-background);
     color: var(--text-selected-color);
     box-shadow: $hover-shadow;
-    /* Enhanced selection styling that works better with focus states */
-    position: relative;
-    font-weight: 500;
 
     .menu-item-icon {
       opacity: 1;
@@ -241,17 +207,8 @@ $submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .sub-menu-wrapper {
-      &.slide-out {
-        left: auto !important;
-        right: 102% !important;
-      }
-
-      &.accordion.accordion-submenu {
-        left: auto !important;
-        right: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 8px !important;
-      }
+      left: auto;
+      right: 102%;
     }
 
     .menu-item-icon {
@@ -283,7 +240,7 @@ $submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 @keyframes show {
   0% {
     opacity: 0;
-    transform: scale(0.95) translateX(-10px);
+    transform: scale(0.95) translateX(-4px);
   }
 
   100% {
@@ -292,42 +249,50 @@ $submenu-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-/* Submenu transitions */
-.submenu-enter-active {
-  transition: $submenu-transition;
-  transition-delay: 0.05s;
-}
-
+// Vue transition classes for smooth animations
+.submenu-enter-active,
 .submenu-leave-active {
-  transition: $submenu-transition;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.submenu-enter-from,
-.submenu-leave-to {
+.submenu-enter-from {
   opacity: 0;
-  transform: scale(0.95) translateX(-8px);
+  transform: translateX(-8px) scale(0.95);
 }
 
-.submenu-enter-to,
+.submenu-enter-to {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
 .submenu-leave-from {
   opacity: 1;
-  transform: scale(1) translateX(0);
+  transform: translateX(0) scale(1);
 }
 
-/* Flipped submenu transitions */
-.flip .submenu-enter-from,
-.flip .submenu-leave-to {
+.submenu-leave-to {
   opacity: 0;
-  transform: scale(0.95) translateX(8px); /* Reverse the X translation for flipped menus */
+  transform: translateX(-8px) scale(0.95);
 }
 
-.flip .submenu-enter-to,
-.flip .submenu-leave-from {
-  opacity: 1;
-  transform: scale(1) translateX(0);
+.accordion-submenu {
+  position: absolute !important;
+  left: 102% !important;
+  top: 0 !important;
+  z-index: 10001 !important;
+}
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-/* Error display styles */
+// Error display for development
 .error-display {
   position: fixed;
   top: 20px;
