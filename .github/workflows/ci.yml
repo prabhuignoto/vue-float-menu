@@ -32,14 +32,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
           node-version: ${{ matrix.node-version }}
-          cache: pnpm
+          pnpm-version: 9.0.0
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

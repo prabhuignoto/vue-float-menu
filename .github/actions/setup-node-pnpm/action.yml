@@ -1,0 +1,31 @@
+name: 'Setup Node and pnpm'
+description: 'Sets up Node.js with pnpm and enables pnpm cache via setup-node.'
+inputs:
+  node-version:
+    description: 'Node.js version'
+    required: false
+    default: '22'
+  pnpm-version:
+    description: 'pnpm version'
+    required: false
+    default: '9.0.0'
+  registry-url:
+    description: 'Node registry URL'
+    required: false
+    default: ''
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+    
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+        registry-url: ${{ inputs.registry-url }}
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: ${{ inputs.pnpm-version }}
+
