@@ -3,52 +3,26 @@ import js from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import vuePlugin from 'eslint-plugin-vue';
+import vueParser from 'vue-eslint-parser';
+import tsParser from '@typescript-eslint/parser';
 import tseslint from 'typescript-eslint';
 
 export default [
-  // Apply recommended JS configurations
-  js.configs.recommended,
-
-  // Apply TypeScript configurations
-  ...tseslint.configs.recommended,
-
-  // Vue rules - disabled for now since there are parsing issues
-  // {
-  //   files: ['**/*.vue'],
-  //   plugins: {
-  //     vue: vuePlugin,
-  //   },
-  //   processor: vuePlugin.processors['.vue'],
-  //   languageOptions: {
-  //     parser: vuePlugin.parser,
-  //     parserOptions: {
-  //       ecmaVersion: 2025,
-  //       sourceType: 'module',
-  //       parser: tseslint.parser,
-  //       extraFileExtensions: ['.vue'],
-  //     },
-  //   },
-  //   rules: {
-  //     'vue/multi-word-component-names': 'warn',
-  //     'vue/component-name-in-template-casing': ['warn', 'PascalCase'],
-  //     'vue/no-v-html': 'warn',
-  //     'vue/require-default-prop': 'warn',
-  //     'vue/no-unused-vars': 'warn',
-  //     'vue/no-reserved-component-names': 'warn',
-  //     'vue/no-use-v-if-with-v-for': 'warn',
-  //     'vue/valid-v-slot': 'warn',
-  //   },
-  // },
-
-  // TypeScript rules
+  // JS base (scope to JS only so it doesn't override Vue parser)
   {
-    files: ['**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: {
-        project: './tsconfig.eslint.json',
-      },
-    },
+    ...js.configs.recommended,
+    files: ['**/*.{js,jsx,cjs,mjs}'],
+  },
+
+  // TS base (scope to TS only so it doesn't override Vue parser for .vue files)
+  ...tseslint.configs.recommended.map((cfg) => ({
+    ...cfg,
+    files: ['**/*.{ts,tsx}'],
+  })),
+
+  // TS tweaks
+  {
+    files: ['**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -56,47 +30,47 @@ export default [
     },
   },
 
-  // JavaScript rules
+  // Import ordering
   {
-    files: ['**/*.js', '**/*.jsx', '**/*.mjs', '**/*.cjs'],
-    languageOptions: {
-      ecmaVersion: 2025,
-      sourceType: 'module',
-    },
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'off', // Turn off in JS files
-    },
-  },
-
-  // Import plugin rules
-  {
-    plugins: {
-      import: importPlugin,
-    },
+    plugins: { import: importPlugin },
+    files: ['**/*.{js,jsx,ts,tsx,vue}'],
     settings: {
       'import/resolver': {
         typescript: {},
-        node: {
-          extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
-        },
+        node: { extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'] },
       },
     },
-    rules: {
-      'import/order': 'warn',
-    },
+    rules: { 'import/order': 'warn' },
   },
 
-  // Prettier integration
+  // Prettier
   {
-    plugins: {
-      prettier: prettierPlugin,
-    },
-    rules: {
-      'prettier/prettier': 'warn',
-    },
+    plugins: { prettier: prettierPlugin },
+    files: ['**/*.{js,jsx,ts,tsx,vue,scss,css}'],
+    rules: { 'prettier/prettier': 'warn' },
   },
 
-  // Ignore patterns (replaces .eslintignore)
+  // Vue flat config (includes parser and recommended rules for SFCs)
+  // Apply last so its parser settings win for .vue files
+  ...vuePlugin.configs['flat/recommended'].map((cfg) => ({
+    ...cfg,
+    files: ['src/components/**/*.vue'],
+    languageOptions: {
+      ...(cfg.languageOptions || {}),
+      parser: vueParser,
+      parserOptions: {
+        ...((cfg.languageOptions && cfg.languageOptions.parserOptions) || {}),
+        parser: {
+          ts: tsParser,
+        },
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        extraFileExtensions: ['.vue'],
+      },
+    },
+  })),
+
+  // Ignores
   {
     ignores: [
       'node_modules/**',
@@ -110,7 +84,9 @@ export default [
       '*.sublime-*',
       '.DS_Store',
       'Thumbs.db',
-      '**/*.vue', // Temporarily ignore Vue files until parsing issues are resolved
+      'vite.config.{js,ts,mjs,cjs}',
+      'src/demo/**',
+      '**/*.{scss,css}',
     ],
   },
 ];

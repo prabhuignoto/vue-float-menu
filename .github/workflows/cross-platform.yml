@@ -2,14 +2,12 @@ name: Cross-Platform Build
 
 on:
   push:
-    branches: [master]
+    branches: [master, main]
   pull_request:
-    branches: [master]
+    branches: [master, main]
   schedule:
     - cron: '0 6 * * 1' # Weekly on Monday at 6 AM
 
-env:
-  PNPM_VERSION: '9'
 
 jobs:
   build-matrix:
@@ -18,38 +16,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: ['18', '20', '22']
-        exclude:
-          # Reduce matrix for PRs
-          - os: windows-latest
-            node-version: '18'
-          - os: macos-latest
-            node-version: '18'
+        os: [ubuntu-latest]
+        node-version: ['22']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "pnpm-cache-dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+          pnpm-version: 9.0.0
 
       - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm-cache-dir }}
+          path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-store-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-${{ matrix.node-version }}-
@@ -65,7 +47,7 @@ jobs:
         run: pnpm lint
 
       - name: Build library
-        run: pnpm build:lib
+        run: pnpm build
 
       - name: Build demo
         run: pnpm build

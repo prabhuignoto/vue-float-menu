@@ -238,8 +238,8 @@ export default defineComponent({
             top > 0 && top < window.innerHeight - props.dimension
               ? top
               : top < 0
-              ? 0
-              : top - props.dimension,
+                ? 0
+                : top - props.dimension,
         };
       }
     };
@@ -570,8 +570,8 @@ export default defineComponent({
             swipeDirection === 'up'
               ? 'translateY(-20px)'
               : swipeDirection === 'down'
-              ? 'translateY(20px)'
-              : 'translateX(-20px)';
+                ? 'translateY(20px)'
+                : 'translateX(-20px)';
 
           // Apply closing animation with Web Animation API
           const animation = menuContainerEl.animate(

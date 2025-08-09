@@ -1,69 +1,48 @@
 name: Release
-
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [master, main]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish to npm (yes/no)'
+        required: false
+        default: 'yes'
 
-env:
-  NODE_VERSION: '20'
-  PNPM_VERSION: '9'
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  packages: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: write
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "pnpm-cache-dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm-cache-dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          node-version: 22
+          pnpm-version: 9.0.0
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run lint and type check
-        run: pnpm lint:all
-
       - name: Build library
-        run: pnpm build:lib
+        run: pnpm build
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Create version PR or publish
+        uses: changesets/action@v1
         with:
-          files: |
-            dist/*
-          generate_release_notes: true
+          publish: pnpm publish --access public --no-git-checks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to npm
-        run: pnpm publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
