@@ -3,7 +3,7 @@
 /* When the item is focused via keyboard and also selected, prioritize selection styling */
 .menu-list-item[role='menuitem']:focus-visible.selected {
   outline: none !important;
-  
+
   .menu-item-wrapper {
     /* Slightly enhance the background to indicate focus while selected */
     background-color: var(--hover-background);
@@ -14,7 +14,7 @@
 /* Fix for the Edit button in the image - which has both highlight and possibly focus visible */
 .menu-list-item.highlight:focus-visible,
 .menu-list-item:focus-visible,
-li.menu-list-item[role="menuitem"]:focus-visible {
+li.menu-list-item[role='menuitem']:focus-visible {
   outline: none !important;
   border-color: transparent !important;
 }
@@ -30,7 +30,7 @@ li.menu-list-item[role="menuitem"]:focus-visible {
     outline: none !important;
     border-color: transparent !important;
   }
-  
+
   /* Ensure proper order of selectors to avoid specificity issues */
   &:not(.selected, .highlight):focus-visible {
     outline: 2px solid #007bff;
@@ -39,15 +39,15 @@ li.menu-list-item[role="menuitem"]:focus-visible {
 }
 
 /* Ensure no borders on Edit button which has the specific highlight */
-.menu-list-item:has(.name:contains("Edit")):focus-visible {
+.menu-list-item:has(.name:contains('Edit')):focus-visible {
   outline: none !important;
   border: none !important;
   box-shadow: none !important;
 }
 
 /* Completely eliminate all double borders */
-.menu-wrapper [role="menuitem"].selected,
-.menu-wrapper [role="menuitem"].highlight {
+.menu-wrapper [role='menuitem'].selected,
+.menu-wrapper [role='menuitem'].highlight {
   border: none !important;
   outline: none !important;
 }

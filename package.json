@@ -26,7 +26,7 @@
     "type-check:watch": "vue-tsc --noEmit --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:js": "eslint --ext .js,.ts .",
+    "lint:js": "eslint --no-error-on-unmatched-pattern \"src/**/*.{js,ts,jsx,tsx,mjs,cjs}\"",
     "lint:js:fix": "eslint --ext .js,.ts . --fix",
     "lint:css": "stylelint \"src/**/*.{vue,scss,css}\"",
     "lint:css:fix": "stylelint \"src/**/*.{vue,scss,css}\" --fix",
@@ -121,6 +121,5 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
-  },
-  "packageManager": "pnpm@9.0.0"
+  }
 }

@@ -3,19 +3,22 @@ import js from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import vuePlugin from 'eslint-plugin-vue';
+import vueParser from 'vue-eslint-parser';
+import tsParser from '@typescript-eslint/parser';
 import tseslint from 'typescript-eslint';
 
 export default [
-  // Vue flat config (includes parser and recommended rules for SFCs)
-  // Restrict to src/components to avoid demo parsing issues for now
+  // JS base (scope to JS only so it doesn't override Vue parser)
   {
-    ...vuePlugin.configs['flat/recommended'][0],
-    files: ['src/components/**/*.vue'],
+    ...js.configs.recommended,
+    files: ['**/*.{js,jsx,cjs,mjs}'],
   },
 
-  // JS/TS base
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+  // TS base (scope to TS only so it doesn't override Vue parser for .vue files)
+  ...tseslint.configs.recommended.map((cfg) => ({
+    ...cfg,
+    files: ['**/*.{ts,tsx}'],
+  })),
 
   // TS tweaks
   {
@@ -30,6 +33,7 @@ export default [
   // Import ordering
   {
     plugins: { import: importPlugin },
+    files: ['**/*.{js,jsx,ts,tsx,vue}'],
     settings: {
       'import/resolver': {
         typescript: {},
@@ -40,7 +44,31 @@ export default [
   },
 
   // Prettier
-  { plugins: { prettier: prettierPlugin }, rules: { 'prettier/prettier': 'warn' } },
+  {
+    plugins: { prettier: prettierPlugin },
+    files: ['**/*.{js,jsx,ts,tsx,vue,scss,css}'],
+    rules: { 'prettier/prettier': 'warn' },
+  },
+
+  // Vue flat config (includes parser and recommended rules for SFCs)
+  // Apply last so its parser settings win for .vue files
+  ...vuePlugin.configs['flat/recommended'].map((cfg) => ({
+    ...cfg,
+    files: ['src/components/**/*.vue'],
+    languageOptions: {
+      ...(cfg.languageOptions || {}),
+      parser: vueParser,
+      parserOptions: {
+        ...((cfg.languageOptions && cfg.languageOptions.parserOptions) || {}),
+        parser: {
+          ts: tsParser,
+        },
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        extraFileExtensions: ['.vue'],
+      },
+    },
+  })),
 
   // Ignores
   {
@@ -56,6 +84,9 @@ export default [
       '*.sublime-*',
       '.DS_Store',
       'Thumbs.db',
+      'vite.config.{js,ts,mjs,cjs}',
+      'src/demo/**',
+      '**/*.{scss,css}',
     ],
   },
 ];

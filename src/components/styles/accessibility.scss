@@ -24,17 +24,18 @@
 /* General menu item focus - the primary focus indicator for menu items */
 [role='menuitem']:focus-visible {
   /* Hide the outline when the menu item is selected or highlighted */
-  &.selected, &.highlight {
+  &.selected,
+  &.highlight {
     outline: none !important;
     box-shadow: none !important;
     border-color: transparent !important;
   }
-  
+
   /* Special case for selected submenu items to avoid double indicators */
   &.sub-menu.selected .menu-item-wrapper {
     background-color: var(--hover-background);
   }
-  
+
   /* Only show outline when using keyboard navigation and not selected */
   &:not(.selected, .highlight) {
     outline: 2px solid #007bff;
