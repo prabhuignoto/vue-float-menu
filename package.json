@@ -54,6 +54,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.27.9",
     "@eslint/js": "^9.33.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/node": "^24.2.1",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
@@ -80,6 +81,7 @@
     "stylelint-config-standard": "^39.0.0",
     "stylelint-config-standard-scss": "^15.0.1",
     "stylelint-scss": "^6.12.1",
+    "terser": "^5.43.1",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
