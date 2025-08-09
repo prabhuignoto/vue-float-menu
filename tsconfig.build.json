@@ -1,40 +1,17 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    // Override for build - emit actual files
     "noEmit": false,
     "declaration": true,
-    "declarationMap": true,
-    "declarationDir": "dist/types",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    
-    // Build optimizations
-    "removeComments": true,
-    "importHelpers": true,
-    "preserveConstEnums": false,
-    "sourceMap": true,
-    
-    // Disable problematic options for rollup
-    "isolatedModules": false,
-    "allowImportingTsExtensions": false,
-    
-    // Ensure compatibility for library consumers
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    
-    // Better tree-shaking
-    "verbatimModuleSyntax": false,
-    
-    // Performance optimizations
-    "incremental": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "skipLibCheck": true,
     "composite": false
   },
   "include": [
-    "src/**/*",
-    "src/**/*.vue",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.vue"
   ],
   "exclude": [
     "src/demo/**/*",

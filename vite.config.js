@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url';
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
@@ -12,16 +11,21 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(fileURLToPath(new URL('.', import.meta.url)), 'src/vue-float-menu.js'),
+      entry: 'src/index.ts',
       name: 'VueFloatMenu',
-      fileName: 'vue-float-menu',
+      fileName: (format) => ({
+        es: 'vue-float-menu.js',
+        cjs: 'vue-float-menu.cjs',
+        umd: 'vue-float-menu.umd.js',
+      })[format],
+      formats: ['es', 'cjs', 'umd'],
     },
+    cssCodeSplit: false,
     rollupOptions: {
       external: ['vue'],
       output: {
-        globals: {
-          vue: 'Vue',
-        },
+        globals: { vue: 'Vue' },
+        exports: 'named',
       },
     },
   },
