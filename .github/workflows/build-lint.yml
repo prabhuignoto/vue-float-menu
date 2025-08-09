@@ -10,22 +10,9 @@ env:
   NODE_VERSION: '22'
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node and pnpm
-        uses: ./.github/actions/setup-node-pnpm
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          pnpm-version: 9.0.0
-
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: setup
     strategy:
       matrix:
         lint-type: [js, css, types]
@@ -64,7 +51,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: setup
     steps:
       - name: Checkout
         uses: actions/checkout@v4
