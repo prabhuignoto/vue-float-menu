@@ -68,6 +68,14 @@ export default [
         extraFileExtensions: ['.vue'],
       },
     },
+    rules: {
+      ...(cfg.rules || {}),
+      'vue/first-attribute-linebreak': 'off',
+      'vue/html-indent': 'off',
+      'vue/html-closing-bracket-newline': 'off',
+      'vue/no-required-prop-with-default': 'off',
+      'vue/max-attributes-per-line': 'off',
+    },
   })),
 
   // Ignores

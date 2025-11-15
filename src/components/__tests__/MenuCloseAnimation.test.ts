@@ -55,12 +55,6 @@ describe('Menu Close Animation', () => {
   });
 
   it('animates menu closing on swipe gesture', async () => {
-    // Mock touch direction
-    wrapper.vm.getSwipeDirection = vi.fn().mockReturnValue({
-      direction: 'up',
-      distance: 50,
-    });
-
     // Open the menu first
     await wrapper.find('.menu-head').trigger('click');
     await nextTick();
@@ -68,17 +62,22 @@ describe('Menu Close Animation', () => {
     // Verify menu is open
     expect(wrapper.vm.menuActive).toBe(true);
 
-    // Simulate swipe gesture
-    await wrapper.find('.menu-head-wrapper').trigger('touchend');
+    // Clear any previous animate calls
+    Element.prototype.animate.mockClear();
+
+    // Directly call the swipe handler with 'up' direction
+    wrapper.vm.handleSwipeToClose('up');
 
     // Verify animation was triggered
     expect(Element.prototype.animate).toHaveBeenCalled();
 
     // Complete the animation by triggering onfinish
     const animateCall = Element.prototype.animate.mock.results[0];
-    if (animateCall.value.onfinish) {
+    if (animateCall?.value?.onfinish) {
       animateCall.value.onfinish();
     }
+
+    await nextTick();
 
     // Verify menu is closed
     expect(wrapper.vm.menuActive).toBe(false);

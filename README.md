@@ -26,7 +26,7 @@
 - 🌳 **Nested Menus** - Support for complex menu hierarchies
 - ⌨️ **Keyboard Accessible** - Full keyboard navigation support
 - 📱 **Touch Optimized** - Enhanced mobile experience ([Touch Guide](./TOUCH_FEATURES.md))
-- ⚡ **Performance** - Optimized bundle size ([Bundle Guide](./BUNDLE_OPTIMIZATION.md))
+- ⚡ **Performance** - Optimized bundle size with tree-shaking support
 - 🎨 **Customizable** - Extensive theming options
 - 🛠 **TypeScript** - Built with type safety
 - 🎭 **Vue 3** - Leverages the latest Vue.js features
@@ -106,7 +106,7 @@ const handleSelection = (selectedItem) => {
 | `fixed`          | `boolean` | `false`                       | Disable dragging and fix position                                         |
 | `menu-dimension` | `object`  | `{ width: 200, height: 300 }` | Menu dimensions                                                           |
 | `menu-data`      | `array`   | `[]`                          | Menu structure data                                                       |
-| `menu-style`     | `string`  | `'slide-out'`                 | Menu style (`slide-out' or `accordion`)                                   |
+| `menu-style`     | `string`  | `'slide-out'`                 | Menu style (`'slide-out'` or `'accordion'`)                               |
 | `flip-on-edges`  | `boolean` | `false`                       | Auto-flip menu on screen edges                                            |
 | `theme`          | `object`  | `{}`                          | Custom theme configuration                                                |
 
@@ -173,7 +173,7 @@ pnpm run dev
 pnpm run lint:all
 
 # Build package
-pnpm run rollup
+pnpm run build
 ```
 
 ## 🤝 Contributing

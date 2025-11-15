@@ -20,13 +20,13 @@
           menuStyle,
         ]"
         :style="themeStyles"
-        role="menuitem"
-        :aria-setsize="menuItems.length"
-        :aria-posinset="index + 1"
-        :aria-haspopup="subMenu ? 'menu' : undefined"
-        :aria-expanded="subMenu ? !!showSubMenu : undefined"
-        :aria-disabled="!!disabled"
-        :tabindex="-1"
+        :role="!divider ? 'menuitem' : 'separator'"
+        :aria-setsize="!divider ? menuItems.length : undefined"
+        :aria-posinset="!divider ? index + 1 : undefined"
+        :aria-haspopup="!divider && subMenu ? 'menu' : undefined"
+        :aria-expanded="!divider && subMenu ? !!showSubMenu : undefined"
+        :aria-disabled="!divider ? !!disabled : undefined"
+        :tabindex="!divider ? -1 : undefined"
         @mousedown="
           handleMenuItemClickWithErrorHandling(
             $event,
@@ -105,10 +105,10 @@ import {
   watch,
   nextTick,
 } from 'vue';
+import { MenuItem, Theme, ThemeDefault } from '../types';
 import ChevRightIcon from './icons/ChevRightIcon.vue';
 import PlusIcon from './icons/PlusIcon.vue';
 import MinusIcon from './icons/MinusIcon.vue';
-import { MenuItem, Theme, ThemeDefault } from '../types';
 import { useMenuState } from './composables/useMenuState';
 import { useTouchOptimizations } from './composables/useTouchOptimizations';
 import { useBundleOptimizations } from './composables/useBundleOptimizations';
@@ -600,7 +600,7 @@ export default defineComponent({
 
         // Set active index if first item is pre-selected
         nextTick(() => {
-          const isFirstItemSelected = props.data[0]?.selected;
+          const isFirstItemSelected = props.data?.[0]?.selected;
           if (isFirstItemSelected) {
             setActiveIndex(0);
           }
