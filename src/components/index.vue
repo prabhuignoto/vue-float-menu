@@ -3,9 +3,7 @@
     ref="menuHeadContainer"
     :class="[{ dragActive, 'touch-device': isTouchDevice }, 'menu-head-wrapper']"
     :style="style"
-    @mousedown="handleDragStart"
-    @mouseup="handleDragEnd"
-    @mousemove="handleDragMove"
+    @mousedown="handlePointerDown"
     @touchstart="handleEnhancedTouchStart"
     @touchend="handleEnhancedTouchEnd"
     @touchmove="handleEnhancedTouchMove"
@@ -65,6 +63,7 @@ import MenuComponent from './Menu.vue';
 import Props from './props';
 import { useTouchOptimizations } from './composables/useTouchOptimizations';
 import { useBundleOptimizations } from './composables/useBundleOptimizations';
+import { useDrag } from './composables/useDrag';
 
 export default defineComponent({
   name: 'FloatMenu',
@@ -89,17 +88,10 @@ export default defineComponent({
       ensureTouchTarget,
     } = useTouchOptimizations();
 
-    // position of the circular menu head
-    const position = ref<Position | null>(null);
-
-    // tracks  the  last position of the menu head.
-    // this will be used when the menu head need to moved from the edges of the screen to a more optimal position
-    const previousPosition = ref<Position | null>(null);
-
     // // reference to the circular menu head
     const menuHead = ref();
 
-    const menuHeadContainer = ref();
+    const menuHeadContainer = ref<HTMLElement | null>(null);
 
     // enables/disables menu
     const menuActive = ref(false);
@@ -116,10 +108,6 @@ export default defineComponent({
     // flip menu content
     const flipMenu = ref(false);
 
-    // drag active
-    const dragActive = ref(false);
-    const dragStart = ref(false);
-
     const isTouch = ref(window.ontouchstart !== undefined);
 
     const moveEvent = computed(() => (unref(isTouch) ? 'touchmove' : 'mousemove'));
@@ -129,6 +117,38 @@ export default defineComponent({
     );
 
     const isRevealing = ref(false);
+
+    // tracks  the  last position of the menu head.
+    // this will be used when the menu head need to moved from the edges of the screen to a more optimal position
+    const previousPosition = ref<Position | null>(null);
+
+    // Modern drag system with smooth animations and momentum
+    const {
+      position,
+      isDragging: dragActive,
+      handlePointerDown,
+    } = useDrag({
+      element: menuHeadContainer,
+      dimension: props.dimension,
+      initialPosition: previousPosition.value,
+      dragThreshold: 5,
+      enableMomentum: true,
+      constrainToViewport: true,
+      onDragStart: () => {
+        // Close menu when dragging starts
+        if (menuActive.value) {
+          menuActive.value = false;
+        }
+      },
+      onDragMove: (newPosition: Position) => {
+        // Optional: track position changes during drag
+        previousPosition.value = newPosition;
+      },
+      onDragEnd: (finalPosition: Position) => {
+        // Save final position
+        previousPosition.value = finalPosition;
+      },
+    });
 
     // compute the style
     const style = computed(() => {
@@ -266,9 +286,8 @@ export default defineComponent({
           const nodeName = (event.target as HTMLElement).nodeName;
           const canStopDrag = nodeName === '#document' || nodeName === 'HTML';
 
-          if (canStopDrag) {
-            dragStart.value = false;
-            dragActive.value = false;
+          if (canStopDrag && dragActive.value) {
+            // Save position when drag ends
             previousPosition.value = position.value;
           }
         },
@@ -307,8 +326,7 @@ export default defineComponent({
 
         if (!menuActive.value) {
           // Clean up any existing state first
-          dragStart.value = false;
-          dragActive.value = false;
+          // Drag state is managed automatically by useDrag composable
 
           setupMenuOrientation();
           adjustFloatMenuPosition(menuHead.value as HTMLElement);
@@ -387,9 +405,7 @@ export default defineComponent({
           if (isRevealing.value) {
             position.value = previousPosition.value;
           }
-          // Reset menu state after animation
-          dragStart.value = false;
-          dragActive.value = false;
+          // Drag state is managed automatically by useDrag composable
 
           nextTick(() => {
             if (menuHead.value) {
@@ -400,8 +416,7 @@ export default defineComponent({
       } else {
         // Fallback if container element isn't available
         menuActive.value = false;
-        dragStart.value = false;
-        dragActive.value = false;
+        // Drag state is managed automatically by useDrag composable
         if (isRevealing.value) {
           position.value = previousPosition.value;
         }
@@ -469,46 +484,6 @@ export default defineComponent({
       '--background': props.theme.primary,
     }));
 
-    const handleDragStart = (event: MouseEvent | TouchEvent) => {
-      if (!isTouch.value) {
-        event.preventDefault();
-      }
-      dragStart.value = true;
-    };
-
-    const handleDragMove = () => {
-      if (dragStart.value) {
-        menuActive.value = false;
-        dragActive.value = true;
-      }
-    };
-
-    const handleDragEnd = (event: MouseEvent | TouchEvent) => {
-      let clientX: number, clientY: number;
-
-      if ('touches' in event && event.touches.length > 0) {
-        clientX = event.touches[0].clientX;
-        clientY = event.touches[0].clientY;
-      } else if ('changedTouches' in event && event.changedTouches.length > 0) {
-        clientX = event.changedTouches[0].clientX;
-        clientY = event.changedTouches[0].clientY;
-      } else {
-        clientX = (event as MouseEvent).clientX;
-        clientY = (event as MouseEvent).clientY;
-      }
-
-      if (dragActive.value) {
-        previousPosition.value = {
-          left: clientX - Math.round(props.dimension / 2),
-          top: clientY - Math.round(props.dimension / 2),
-        };
-        setTimeout(() => {
-          dragActive.value = false;
-        }, 100);
-      }
-      dragStart.value = false;
-    };
-
     // Handle keyboard activation of menu (Space and Enter keys)
     const handleKeyboardMenuActivation = (event: KeyboardEvent) => {
       if (event.key === 'Enter' || event.key === ' ' || event.key === 'Space') {
@@ -517,7 +492,7 @@ export default defineComponent({
       }
     };
 
-    // Enhanced touch handlers
+    // Enhanced touch handlers with new drag system
     const handleEnhancedTouchStart = (event: TouchEvent) => {
       handleTouchStart(event, (touchEvent) => {
         if (touchEvent.type === 'longpress') {
@@ -527,13 +502,13 @@ export default defineComponent({
         }
       });
 
-      // Also handle normal drag functionality
-      handleDragStart(event);
+      // Use modern drag handler
+      handlePointerDown(event);
     };
 
     const handleEnhancedTouchMove = (event: TouchEvent) => {
       handleTouchMove(event);
-      handleDragMove();
+      // Drag move is handled automatically by useDrag composable
     };
 
     const handleEnhancedTouchEnd = (event: TouchEvent) => {
@@ -552,8 +527,7 @@ export default defineComponent({
         }
       });
 
-      // Also handle normal drag functionality
-      handleDragEnd(event);
+      // Drag end is handled automatically by useDrag composable
     };
 
     // Enhanced swipe handling for menu closing
@@ -638,9 +612,7 @@ export default defineComponent({
       handleMenuClose,
       handleCloseClick,
       handleMenuItemSelection,
-      handleDragStart,
-      handleDragMove,
-      handleDragEnd,
+      handlePointerDown,
       handleEnhancedTouchStart,
       handleEnhancedTouchMove,
       handleEnhancedTouchEnd,
