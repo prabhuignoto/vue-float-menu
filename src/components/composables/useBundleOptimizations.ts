@@ -89,12 +89,8 @@ export const useBundleOptimizations = () => {
       loadPromises.push(loadComponent('Performance'));
     }
 
-    // Always load accessibility and error handling
-    loadPromises.push(
-      loadComponent('Accessibility'),
-      loadComponent('ErrorHandling'),
-      loadComponent('KeyboardNavigation')
-    );
+    // Always load error handling
+    loadPromises.push(loadComponent('ErrorHandling'));
 
     try {
       await Promise.all(loadPromises);

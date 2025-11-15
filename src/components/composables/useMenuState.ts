@@ -11,7 +11,7 @@ export function useMenuState(data: MenuItem[]) {
 
   // generate unique ids for the menu items
   const menuItems = ref<MenuItem[]>(
-    data.map((item) =>
+    (data || []).map((item) =>
       Object.assign({}, item, {
         id: `menu-item-${Math.random().toString(16)}`,
         showSubMenu: false,

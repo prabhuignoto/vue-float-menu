@@ -46,8 +46,8 @@ pnpm type-check          # Check types without emitting files
 pnpm type-check:watch    # Watch mode type checking
 
 # Building
-pnpm build:lib          # Build library with type checking
-pnpm build              # Standard Vite build
+pnpm build              # Build library with type checking
+pnpm build:types        # Build type declarations only
 
 # Linting (includes type checking)
 pnpm lint:all           # Run all lints including type check
@@ -55,7 +55,7 @@ pnpm lint:all           # Run all lints including type check
 
 ## Compatibility
 
-- **Vue**: 3.0.4+
-- **TypeScript**: 5.8+
-- **Node.js**: 16+
+- **Vue**: 3.3.0+
+- **TypeScript**: 5.9+
+- **Node.js**: 18.18.0+
 - **Bundlers**: Vite, Rollup, Webpack 5+
