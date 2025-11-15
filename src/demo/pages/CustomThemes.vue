@@ -74,32 +74,32 @@ const menuItems: MenuItem[] = [
 
 const themes: Record<string, Theme> = {
   Light: {
-    primary: '#6366f1',
-    textColor: '#374151',
+    primary: '#4f46e5', // Deeper indigo for better contrast with white text
+    textColor: '#1f2937',
     menuBgColor: '#ffffff',
     textSelectedColor: '#ffffff',
-    hoverBackground: 'rgba(99, 102, 241, 0.1)',
+    hoverBackground: 'rgba(79, 70, 229, 0.08)',
   },
   Dark: {
-    primary: '#8b5cf6',
-    textColor: '#e5e7eb',
-    menuBgColor: '#1f2937',
+    primary: '#7c3aed', // Deeper purple for better contrast
+    textColor: '#f3f4f6',
+    menuBgColor: '#111827',
     textSelectedColor: '#ffffff',
-    hoverBackground: 'rgba(139, 92, 246, 0.2)',
+    hoverBackground: 'rgba(124, 58, 237, 0.15)',
   },
   Ocean: {
-    primary: '#0ea5e9',
-    textColor: '#0f172a',
+    primary: '#0284c7', // Darker sky blue for better contrast with white text
+    textColor: '#0c4a6e',
     menuBgColor: '#f0f9ff',
     textSelectedColor: '#ffffff',
-    hoverBackground: 'rgba(14, 165, 233, 0.1)',
+    hoverBackground: 'rgba(2, 132, 199, 0.08)',
   },
   Sunset: {
-    primary: '#f59e0b',
-    textColor: '#78350f',
-    menuBgColor: '#fffbeb',
+    primary: '#ea580c', // Deeper orange for better contrast with white text
+    textColor: '#7c2d12',
+    menuBgColor: '#fff7ed',
     textSelectedColor: '#ffffff',
-    hoverBackground: 'rgba(245, 158, 11, 0.1)',
+    hoverBackground: 'rgba(234, 88, 12, 0.08)',
   },
 };
 
@@ -108,11 +108,11 @@ const handleSelection = (name: string) => {
 };
 
 const codeExample = `const customTheme = {
-  primary: '#6366f1',
-  textColor: '#374151',
+  primary: '#4f46e5',
+  textColor: '#1f2937',
   menuBgColor: '#ffffff',
   textSelectedColor: '#ffffff',
-  hoverBackground: 'rgba(99, 102, 241, 0.1)',
+  hoverBackground: 'rgba(79, 70, 229, 0.08)',
 };
 
 <float-menu
