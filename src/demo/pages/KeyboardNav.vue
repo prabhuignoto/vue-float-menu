@@ -80,7 +80,6 @@ const menuItems: MenuItem[] = [
   {
     name: 'Projects',
     subMenu: {
-      name: 'projects',
       items: [
         { name: 'Active Projects' },
         { name: 'Archived' },
@@ -92,7 +91,6 @@ const menuItems: MenuItem[] = [
   {
     name: 'Settings',
     subMenu: {
-      name: 'settings',
       items: [
         { name: 'Profile' },
         { name: 'Preferences' },

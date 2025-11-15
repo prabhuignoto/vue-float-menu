@@ -58,13 +58,13 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, unref } from 'vue';
 import utils from '../utils';
+import type { Position } from '../types';
 import MenuIcon from './icons/MenuIcon.vue';
 import XIcon from './icons/XIcon.vue';
 import MenuComponent from './Menu.vue';
 import Props from './props';
 import { useTouchOptimizations } from './composables/useTouchOptimizations';
 import { useBundleOptimizations } from './composables/useBundleOptimizations';
-import type { Position } from '../types';
 
 export default defineComponent({
   name: 'FloatMenu',

@@ -42,12 +42,10 @@ describe('utils', () => {
       Object.defineProperty(contentElement, 'clientWidth', { value: 200, writable: true });
       Object.defineProperty(contentElement, 'clientHeight', { value: 400, writable: true });
 
-      const result = utils.setupMenuOrientation(
-        headElement,
-        contentElement,
-        50,
-        { width: 200, height: 300 }
-      );
+      const result = utils.setupMenuOrientation(headElement, contentElement, 50, {
+        width: 200,
+        height: 300,
+      });
 
       expect(result.newOrientation).toBe('top');
       expect(result.top).toBe('65px'); // 50 (dimension) + 15 (spacing)
@@ -70,12 +68,10 @@ describe('utils', () => {
       Object.defineProperty(contentElement, 'clientWidth', { value: 200, writable: true });
       Object.defineProperty(contentElement, 'clientHeight', { value: 400, writable: true });
 
-      const result = utils.setupMenuOrientation(
-        headElement,
-        contentElement,
-        50,
-        { width: 200, height: 300 }
-      );
+      const result = utils.setupMenuOrientation(headElement, contentElement, 50, {
+        width: 200,
+        height: 300,
+      });
 
       expect(result.newOrientation).toBe('bottom');
       expect(result.bottom).toBe('65px'); // 50 + 15
@@ -98,12 +94,10 @@ describe('utils', () => {
       Object.defineProperty(contentElement, 'clientWidth', { value: 200, writable: true });
       Object.defineProperty(contentElement, 'clientHeight', { value: 200, writable: true });
 
-      const result = utils.setupMenuOrientation(
-        headElement,
-        contentElement,
-        50,
-        { width: 200, height: 300 }
-      );
+      const result = utils.setupMenuOrientation(headElement, contentElement, 50, {
+        width: 200,
+        height: 300,
+      });
 
       expect(result.newOrientation).toBe('top');
       expect(result.top).toBe('65px');
@@ -125,12 +119,10 @@ describe('utils', () => {
       Object.defineProperty(contentElement, 'clientWidth', { value: 250, writable: true });
       Object.defineProperty(contentElement, 'clientHeight', { value: 350, writable: true });
 
-      const result = utils.setupMenuOrientation(
-        headElement,
-        contentElement,
-        50,
-        { width: 250, height: 350 }
-      );
+      const result = utils.setupMenuOrientation(headElement, contentElement, 50, {
+        width: 250,
+        height: 350,
+      });
 
       expect(result['min-height']).toBe('350px');
       expect(result.width).toBe('250px');
@@ -152,12 +144,10 @@ describe('utils', () => {
       Object.defineProperty(contentElement, 'clientWidth', { value: 200, writable: true });
       Object.defineProperty(contentElement, 'clientHeight', { value: 300, writable: true });
 
-      const result = utils.setupMenuOrientation(
-        headElement,
-        contentElement,
-        50,
-        { width: 200, height: 300 }
-      );
+      const result = utils.setupMenuOrientation(headElement, contentElement, 50, {
+        width: 200,
+        height: 300,
+      });
 
       // left should be -((200 - 50) / 2) = -75
       expect(result.left).toBe('-75px');
@@ -433,6 +423,7 @@ describe('utils', () => {
     });
 
     it('should default to top left for unknown position', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const style = utils.setupInitStyle('unknown position' as any, 50);
 
       expect(style.left).toBe('15px');
@@ -552,12 +543,10 @@ describe('utils', () => {
       Object.defineProperty(contentElement, 'clientWidth', { value: 200, writable: true });
       Object.defineProperty(contentElement, 'clientHeight', { value: 300, writable: true });
 
-      const orientation = utils.setupMenuOrientation(
-        headElement,
-        contentElement,
-        50,
-        { width: 200, height: 300 }
-      );
+      const orientation = utils.setupMenuOrientation(headElement, contentElement, 50, {
+        width: 200,
+        height: 300,
+      });
 
       expect(orientation.newOrientation).toBe('top');
 

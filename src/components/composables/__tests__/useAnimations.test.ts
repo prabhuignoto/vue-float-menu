@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent } from 'vue';
 import { useAnimations } from '../useAnimations';
 
 // Helper component to test the composable
@@ -52,7 +52,10 @@ describe('useAnimations', () => {
     it('should clean up event listener on unmount', () => {
       const wrapper2 = mount(TestComponent);
       wrapper2.unmount();
-      expect(mockMediaQuery.removeEventListener).toHaveBeenCalledWith('change', expect.any(Function));
+      expect(mockMediaQuery.removeEventListener).toHaveBeenCalledWith(
+        'change',
+        expect.any(Function)
+      );
     });
   });
 

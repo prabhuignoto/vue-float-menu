@@ -398,16 +398,18 @@ describe('Menu.vue', () => {
       });
 
       // Mock the activeIndex and menuItems to trigger an error condition
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const vm = wrapper.vm as any;
 
       // Save original
       const originalHandleKeyUp = vm.handleKeyUpWithErrorHandling;
 
       // Replace with a version that throws
-      vm.handleKeyUpWithErrorHandling = (event: KeyboardEvent) => {
+      vm.handleKeyUpWithErrorHandling = (_event: KeyboardEvent) => {
         try {
-          // Force an error by accessing undefined
-          const _test = (null as any).somethingUndefined;
+          // Force an error by accessing undefined - intentionally unused to trigger error
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const _test = (null as unknown).somethingUndefined;
         } catch (error) {
           console.error('Keyboard navigation failed:', error);
         }

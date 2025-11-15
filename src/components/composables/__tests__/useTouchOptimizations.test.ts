@@ -108,6 +108,7 @@ describe('useTouchOptimizations', () => {
 
     it('should handle missing vibrate API gracefully', () => {
       const navigatorWithoutVibrate = { ...window.navigator };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (navigatorWithoutVibrate as any).vibrate;
 
       Object.defineProperty(window, 'navigator', {

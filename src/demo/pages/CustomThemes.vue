@@ -7,7 +7,7 @@
 
     <div class="theme-selector">
       <button
-        v-for="(theme, name) in themes"
+        v-for="(_, name) in themes"
         :key="name"
         @click="currentTheme = name"
         :class="{ active: currentTheme === name }"

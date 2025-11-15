@@ -46,7 +46,6 @@ const menuItems: MenuItem[] = [
   {
     name: 'Open Recent',
     subMenu: {
-      name: 'recent',
       items: [
         { name: 'project-1.vue' },
         { name: 'project-2.vue' },
@@ -58,12 +57,10 @@ const menuItems: MenuItem[] = [
   {
     name: 'Settings',
     subMenu: {
-      name: 'settings',
       items: [
         {
           name: 'Appearance',
           subMenu: {
-            name: 'appearance',
             items: [
               { name: 'Light Theme' },
               { name: 'Dark Theme' },
@@ -74,7 +71,6 @@ const menuItems: MenuItem[] = [
         {
           name: 'Editor',
           subMenu: {
-            name: 'editor',
             items: [
               { name: 'Font Size' },
               { name: 'Tab Size' },

@@ -243,11 +243,7 @@ describe('useErrorHandling', () => {
 
   describe('validateMenuData', () => {
     it('should validate correct menu data', () => {
-      const menuData: MenuItem[] = [
-        { name: 'Item 1' },
-        { name: 'Item 2' },
-        { divider: true },
-      ];
+      const menuData: MenuItem[] = [{ name: 'Item 1' }, { name: 'Item 2' }, { divider: true }];
 
       const isValid = wrapper.vm.validateMenuData(menuData);
       expect(isValid).toBe(true);

@@ -105,10 +105,10 @@ import {
   watch,
   nextTick,
 } from 'vue';
+import { MenuItem, Theme, ThemeDefault } from '../types';
 import ChevRightIcon from './icons/ChevRightIcon.vue';
 import PlusIcon from './icons/PlusIcon.vue';
 import MinusIcon from './icons/MinusIcon.vue';
-import { MenuItem, Theme, ThemeDefault } from '../types';
 import { useMenuState } from './composables/useMenuState';
 import { useTouchOptimizations } from './composables/useTouchOptimizations';
 import { useBundleOptimizations } from './composables/useBundleOptimizations';

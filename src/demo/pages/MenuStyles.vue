@@ -66,7 +66,6 @@ const menuItems: MenuItem[] = [
   {
     name: 'Edit',
     subMenu: {
-      name: 'edit',
       items: [
         { name: 'Undo' },
         { name: 'Redo' },
@@ -80,7 +79,6 @@ const menuItems: MenuItem[] = [
   {
     name: 'View',
     subMenu: {
-      name: 'view',
       items: [
         { name: 'Zoom In' },
         { name: 'Zoom Out' },

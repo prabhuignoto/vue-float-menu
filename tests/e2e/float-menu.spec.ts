@@ -107,7 +107,10 @@ test.describe('FloatMenu Component', () => {
       await menuButton.click();
 
       // Find and click an item with submenu (e.g., "Edit" or "Settings")
-      const editItem = page.locator('.menu-list-item').filter({ hasText: /Edit|Settings/ }).first();
+      const editItem = page
+        .locator('.menu-list-item')
+        .filter({ hasText: /Edit|Settings/ })
+        .first();
 
       if ((await editItem.count()) > 0) {
         await editItem.click();
@@ -321,7 +324,9 @@ test.describe('FloatMenu Component', () => {
       const menuButton = page.locator('.float-menu-head').first();
       await menuButton.click();
 
-      const disabledItem = page.locator('.menu-list-item[disabled], .menu-list-item.disabled').first();
+      const disabledItem = page
+        .locator('.menu-list-item[disabled], .menu-list-item.disabled')
+        .first();
 
       if ((await disabledItem.count()) > 0) {
         const isDisabled =

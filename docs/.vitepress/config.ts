@@ -73,9 +73,7 @@ export default defineConfig({
       ],
     },
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/prabhuignoto/vue-float-menu' },
-    ],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/prabhuignoto/vue-float-menu' }],
 
     footer: {
       message: 'Released under the MIT License.',
@@ -97,7 +95,10 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#667eea' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Vue Float Menu' }],
-    ['meta', { name: 'og:description', content: 'A modern, draggable floating menu component for Vue 3' }],
+    [
+      'meta',
+      { name: 'og:description', content: 'A modern, draggable floating menu component for Vue 3' },
+    ],
   ],
 
   markdown: {
