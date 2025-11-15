@@ -140,7 +140,7 @@ const codeExample = `const menuItems = [
     line-height: 1.6;
 
     code {
-      font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+      font-family: Monaco, Menlo, 'Courier New', monospace;
     }
   }
 }

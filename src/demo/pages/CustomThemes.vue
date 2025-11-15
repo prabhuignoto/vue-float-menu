@@ -122,7 +122,7 @@ const codeExample = `const customTheme = {
 </script>
 
 <style lang="scss" scoped>
-@import './page-styles.scss';
+@import './page-styles';
 
 .theme-selector {
   display: flex;

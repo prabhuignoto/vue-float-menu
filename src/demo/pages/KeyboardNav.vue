@@ -111,7 +111,7 @@ const handleSelection = (name: string) => {
 </script>
 
 <style lang="scss" scoped>
-@import './page-styles.scss';
+@import './page-styles';
 
 .keyboard-guide {
   background: rgba(255, 255, 255, 0.95);

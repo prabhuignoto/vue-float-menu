@@ -69,7 +69,7 @@ const codeExample = `<float-menu
 </script>
 
 <style lang="scss" scoped>
-@import './page-styles.scss';
+@import './page-styles';
 
 .instructions {
   margin-top: 1rem;

@@ -126,5 +126,5 @@ const codeExample = `const menuItems = [
 </script>
 
 <style lang="scss" scoped>
-@import './page-styles.scss';
+@import './page-styles';
 </style>
